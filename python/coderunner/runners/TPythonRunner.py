@@ -11,28 +11,32 @@ class TPythonRunner(IRunner):
     VENV_NODES: typing.Final[tuple[str, ...]] = (".venv/bin/python3", "venv/bin/python3", "virtualenv/bin/python3")
 
     @classmethod
-    def findPythonPathInCache(cls, filepath: str) -> typing.Optional[str]:
+    def find_python_path_in_cache(cls, filepath: str) -> typing.Optional[str]:
         return cls.FILENAME_TO_PYTHON3.get(filepath, None)
 
     @classmethod
-    def findPythonPathInFilesystem(cls, source_directory_path: str) -> str:
+    def find_python_path_in_filesystem(cls, source_directory_path: str) -> str:
         for node in cls.VENV_NODES:
-            path: typing.Optional[str] = cls.findNodeUpwards(source_directory_path, node)
+            path: typing.Optional[str] = cls.find_node_upwards(source_directory_path, node)
             if path is not None:
                 return path
         return cls.DEFAULT_PYTHON3
 
     @classmethod
-    def getPythonPath(cls, filepath: str) -> str:
-        cache_path: typing.Optional[str] = cls.findPythonPathInCache(filepath)
+    def get_python_path(cls, filepath: str) -> str:
+        cache_path: typing.Optional[str] = cls.find_python_path_in_cache(filepath)
         if cache_path is not None and (os.path.exists(cache_path) or cache_path == cls.DEFAULT_PYTHON3):
             return cache_path
 
-        new_path: str = cls.findPythonPathInFilesystem(os.path.dirname(filepath))
+        new_path: str = cls.find_python_path_in_filesystem(os.path.dirname(filepath))
         cls.FILENAME_TO_PYTHON3[filepath] = new_path
 
         return new_path
 
     @classmethod
-    def run(cls, filepath: str):
-        return f'ter "{cls.getPythonPath(filepath)}" "{filepath}"'
+    def run(cls, filepath: str) -> str:
+        return f'ter "{cls.get_python_path(filepath)}" "{filepath}"'
+
+    @classmethod
+    def clear(cls):
+        cls.FILENAME_TO_PYTHON3.clear()

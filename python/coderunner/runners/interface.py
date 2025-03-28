@@ -12,11 +12,11 @@ class IRunner(abc.ABC):
         raise NotImplementedError()
 
     @staticmethod
-    def findNodeUpwards(source_dir_path: str, node: str) -> typing.Optional[str]:
+    def find_node_upwards(source_dir_path: str, node: str) -> typing.Optional[str]:
         """Searches for the desired node in the source directory and all ancestors"""
 
         current_dir, next_dir = source_dir_path, os.path.dirname(source_dir_path)
-        while current_dir != next_dir:  # until we reach the root
+        while current_dir != next_dir:  # stop when we reach the root directory
             path_to_node = os.path.join(current_dir, node)
             if os.path.exists(path_to_node):
                 return path_to_node
@@ -30,22 +30,24 @@ class ICompilingRunner(IRunner, abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def getBinaryFileName(cls) -> str:
+    def get_binary_filename(cls) -> str:
         raise NotImplementedError()
 
     @classmethod
     @abc.abstractmethod
-    def getExtensions(cls) -> typing.FrozenSet[str]:
+    def get_extensions(cls) -> typing.FrozenSet[str]:
         raise NotImplementedError()
 
     @classmethod
-    def needsRecompile(cls, source_dir_path: str) -> bool:
-        binary_file_path: str = os.path.join(source_dir_path, cls.getBinaryFileName())
+    def needs_recompile(cls, source_dir_path: str) -> bool:
+        """Check if recompilation is needed by comparing modification times"""
+
+        binary_file_path: str = os.path.join(source_dir_path, cls.get_binary_filename())
         if not os.path.exists(binary_file_path):
             return True
 
         binary_file_modification_time: float = os.path.getmtime(binary_file_path)
-        extensions: typing.FrozenSet[str] = cls.getExtensions()
+        extensions: typing.FrozenSet[str] = cls.get_extensions()
 
         with os.scandir(source_dir_path) as nodes:
             for node in nodes:

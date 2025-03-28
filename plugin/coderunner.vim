@@ -26,14 +26,16 @@ elseif &encoding !~? 'utf-\?8'
 endif
 
 let g:loaded_coderunner = 1
+let g:coderunner_save_file_before_run = get(g:, 'coderunner_save_file_before_run', 0)
+let g:coderunner_save_all_files_before_run = get(g:, 'coderunner_save_all_files_before_run', 0)
 
 if has("vim_starting")
   augroup coderunnerStart
     autocmd!
-    autocmd VimEnter * call coderunner#Enable()
+    autocmd VimEnter * call coderunner#Load()
   augroup END
 else
-  call coderunner#Enable()
+  call coderunner#Load()
 endif
 
 call s:restore_cpo()
