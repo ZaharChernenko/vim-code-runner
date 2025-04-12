@@ -41,8 +41,8 @@ try:
 except Exception as error:
     vim.command("redraw | echohl WarningMsg")
     for line in traceback.format_exc().splitlines():
-        vim.command(f"echom '{line.replace("'", "''")}'")
-    vim.command(f"echo 'Code Runner unavailable: {str(error).replace("'", "''")}'")
+        vim.command("echom '{0}'".format(line.replace("'", "''")))
+    vim.command("echom 'CodeRunner unavailable: {0}'".format(str(error).replace("'", "''")))
     vim.command("echohl None")
     vim.command("return 0")
 else:
