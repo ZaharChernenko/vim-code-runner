@@ -34,6 +34,13 @@ def test_get_file_name_without_ext(extractor):
     assert extractor.get_file_name_without_ext("/home/user/project/.zig.zon") == ""
 
 
+def test_get_file_ext(extractor):
+    assert extractor.get_file_ext("/home/user/project/.zig.zon") == ".zig.zon"
+    assert extractor.get_file_ext("/home/user/project/file") == ""
+    assert extractor.get_file_ext("/home/user/project/file.py") == ".py"
+    assert extractor.get_file_ext("/home/user/project/file.cPp") == ".cpp"
+
+
 def test_get_file_type(extractor):
     assert extractor.get_file_type("/home/user/project/file.py") == "Python"
     assert extractor.get_file_type("/home/user/project/file.rs") == "Rust"
