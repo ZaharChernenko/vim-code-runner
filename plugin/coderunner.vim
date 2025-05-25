@@ -7,19 +7,12 @@ endfunction
 let s:save_cpo = &cpo
 set cpo&vim
 
-if exists("g:loaded_coderunner")
+if exists('g:loaded_coderunner')
   call s:restore_cpo()
   finish
-elseif !has("python3")
+elseif !has('python3')
   echohl WarningMsg |
-        \ echomsg "Code Runner unavailable: unable to load python3." |
-        \ echohl None
-  call s:restore_cpo()
-  finish
-elseif &encoding !~? 'utf-\?8'
-    echohl WarningMsg |
-        \ echomsg "Code Runner unavailable: requires UTF-8 encoding. " .
-        \ "Put the line 'set encoding=utf-8' in your vimrc." |
+        \ echomsg 'Code Runner unavailable: unable to load python3.' |
         \ echohl None
   call s:restore_cpo()
   finish
