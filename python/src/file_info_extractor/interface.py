@@ -29,7 +29,15 @@ class IFileInfoExtractor(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
+    def get_file_ext(self, file_path_abs: str) -> str:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def get_file_type(self, file_path_abs: str) -> typing.Optional[str]:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_full_file_name(self, file_path_abs: str) -> typing.Optional[str]:
         raise NotImplementedError
 
     @abc.abstractmethod
