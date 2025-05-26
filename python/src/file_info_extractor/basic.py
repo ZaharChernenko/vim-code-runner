@@ -10,7 +10,10 @@ class TBasicFileInfoExtractor(IFileInfoExtractor):
         return os.path.dirname(file_path_abs)
 
     def get_dir(self, file_path_abs: str) -> str:
-        return os.path.dirname(file_path_abs)
+        dir_path: str = os.path.dirname(file_path_abs)
+        if dir_path and not dir_path.endswith(os.sep):
+            dir_path += os.sep
+        return dir_path
 
     def get_dir_without_trailing_slash(self, file_path_abs: str) -> str:
         return os.path.dirname(file_path_abs).rstrip(os.sep)
@@ -30,6 +33,9 @@ class TBasicFileInfoExtractor(IFileInfoExtractor):
 
     def get_file_type(self, file_path_abs: str) -> typing.Optional[str]:
         return self.EXT_TO_LANG.get(self.get_file_ext(file_path_abs))
+
+    def get_full_file_name(self, file_path_abs: str) -> typing.Optional[str]:
+        return file_path_abs
 
     def get_drive_letter(self, file_path_abs: str) -> str:
         drive, _ = os.path.splitdrive(file_path_abs)
