@@ -1,2 +1,0 @@
-from src.config_manager.interface import ERunnersTypes, IConfigManager
-from src.config_manager.vim_config_manager import TVimConfigManager

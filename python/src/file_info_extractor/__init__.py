@@ -1,2 +1,0 @@
-from src.file_info_extractor.basic import TBasicFileInfoExtractor
-from src.file_info_extractor.interface import IFileInfoExtractor
