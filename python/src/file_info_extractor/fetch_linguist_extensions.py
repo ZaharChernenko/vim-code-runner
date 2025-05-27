@@ -17,16 +17,16 @@ import typing
 import requests
 import yaml
 
-URL = "https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml"
-response = requests.get(URL)
-languages_data = yaml.safe_load(response.text)
+if __name__ == "__main__":
+    URL = "https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml"
+    response = requests.get(URL, timeout=10)
+    languages_data = yaml.safe_load(response.text)
 
-ext_to_lang: typing.Dict[str, str] = {}
-for lang, data in languages_data.items():
-    if data.get("type") == "programming":
-        for ext in data.get("extensions", []):
-            ext_to_lang[ext.lower()] = lang
+    ext_to_lang: typing.Dict[str, str] = {}
+    for lang, data in languages_data.items():
+        if data.get("type") == "programming":
+            for ext in data.get("extensions", []):
+                ext_to_lang[ext.lower()] = lang
 
-
-with open("ext_to_lang.json", encoding="utf-8", mode="w") as fout:
-    json.dump(ext_to_lang, fout, indent=4, sort_keys=True)
+    with open("ext_to_lang.json", encoding="utf-8", mode="w") as fout:
+        json.dump(ext_to_lang, fout, indent=4, sort_keys=True)
