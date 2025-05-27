@@ -7,6 +7,13 @@ repos:
         language: system
         types: [python]
 
+      - id: ruff_format
+        name: ruff_format
+        # not in args, because entry is bash
+        entry: bash -c "cd python && ruff format --quiet"
+        language: system
+        types: [python]  
+
       - id: isort
         name: isort
         entry: bash -c "cd python && isort src/ tests/"
