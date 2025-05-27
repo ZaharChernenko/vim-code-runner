@@ -5,7 +5,9 @@ requires-python = ">=3.5"
 dependencies = [
     "isort>=4.3.21",
     "mypy>=0.910",
+    "pre-commit>=1.21.0",
     "pylint>=2.6.2",
+    "pylint-pytest>=0.3.0",
     "pytest>=6.1.2",
     "pyyaml>=5.4.1",
     "requests>=2.27.1",
@@ -15,8 +17,9 @@ dependencies = [
 profile = "black"
 
 [tool.mypy]
-ignore_missing_imports = true
 check_untyped_defs = true
+explicit_package_bases = true # without this, mypy complains about duplicate packages.
+ignore_missing_imports = true
 disable_error_code = [
     "attr-defined",
     "import-untyped",
@@ -25,10 +28,41 @@ disable_error_code = [
 
 [tool.ruff]
 line-length = 120
-ignore = [
-    "E501", # ignore line length
-]
 [tool.ruff.format]
 quote-style = "double"
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"] # ignore unused imports
+"__init__.py" = [
+    "F401", # ignore unused imports
+]
+"conftest.py" = ["F401"]
+
+[tool.pylint]
+[tool.pylint.main]
+init-hook = """
+import os, sys
+cur_dir = os.getcwd()
+sys.path.append(cur_dir)
+"""
+load-plugins = "pylint_pytest"
+[tool.pylint.format]
+max-line-length = 120
+[tool.pylint.messages_control]
+disable = [
+    "missing-module-docstring",    # C0114
+    "missing-function-docstring",  # C0116
+    "missing-class-docstring",     # C0115
+    "trailing-newlines",          # C0304
+    "too-few-public-methods",     # R0903
+]
+ignored-modules = ["vim"]
+[tool.pylint.VARIABLES]
+argument-naming-style = "snake_case"
+attr-naming-style = "snake_case"
+class-attribute-naming-style = "any"
+class-const-naming-style = "UPPER_CASE"
+class-naming-style = "PascalCase"
+const-naming-style= "any"
+function-naming-style = "snake_case"
+variable-naming-style = "snake_case"
+module-naming-style = "snake_case"
+inlinevar-naming-style = "any"
