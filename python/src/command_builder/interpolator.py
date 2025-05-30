@@ -3,6 +3,7 @@ from typing import ClassVar
 
 from src.command_builder.interface import ICommandBuilder
 from src.file_info_extractor import IFileInfoExtractor
+from src.project_info_extractor import IProjectInfoExtractor
 
 
 class TInterpolatorCommandBuilder(ICommandBuilder):
@@ -15,8 +16,14 @@ class TInterpolatorCommandBuilder(ICommandBuilder):
     DIR_WITHOUT_TRAILING_SLASH_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$dirWithoutTrailingSlash")
     DIR_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$dir")
 
-    def __init__(self, template_string: str, file_info_extractor: IFileInfoExtractor):
+    def __init__(
+        self,
+        template_string: str,
+        project_info_extractor: IProjectInfoExtractor,
+        file_info_extractor: IFileInfoExtractor,
+    ):
         self._template_string: str = template_string
+        self._project_info_extractor: IProjectInfoExtractor = project_info_extractor
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
 
     def build(self, file_path_abs: str) -> str:
@@ -28,7 +35,7 @@ class TInterpolatorCommandBuilder(ICommandBuilder):
         i.e. $dirWithoutTrailingSlash must be before $dir.
         """
         interpolated_str: str = self.WORKSPACE_ROOT_PATTERN.sub(
-            self._file_info_extractor.get_workspace_root(file_path_abs), self._template_string
+            self._project_info_extractor.get_workspace_root(), self._template_string
         )
         interpolated_str = self.FULL_FILE_NAME_PATTERN.sub(
             self._file_info_extractor.get_full_file_name(file_path_abs), interpolated_str
