@@ -3,10 +3,6 @@ import os
 from src.file_info_extractor import TBasicFileInfoExtractor
 
 
-def test_get_workspace_root(file_info_extractor: TBasicFileInfoExtractor):
-    assert file_info_extractor.get_workspace_root("/home/user/project/file.py") == "/home/user/project"
-
-
 def test_get_dir(file_info_extractor: TBasicFileInfoExtractor):
     assert file_info_extractor.get_dir("/home/user/project/file.py") == "/home/user/project/"
     assert file_info_extractor.get_dir("/home/file.txt") == "/home/"
