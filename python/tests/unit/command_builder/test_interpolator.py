@@ -16,9 +16,9 @@ class THelper:
 
 
 def test_interpolator_file_info_extractor(
-    project_info_extractor: IProjectInfoExtractor, file_info_extractor: IFileInfoExtractor
+    fixture_project_info_extractor: IProjectInfoExtractor, fixture_file_info_extractor: IFileInfoExtractor
 ):
-    helper: THelper = THelper(project_info_extractor, file_info_extractor)
+    helper: THelper = THelper(fixture_project_info_extractor, fixture_file_info_extractor)
     helper("$dir", "/home/user/file.txt", "/home/user/")
     helper("$dirWithoutTrailingSlash", "/home/user/file.txt", "/home/user")
     helper("$dirWithoutTrailingSlash$dir", "/home/user/file.txt", "/home/user/home/user/")
@@ -32,10 +32,10 @@ def test_interpolator_file_info_extractor(
 
 
 def test_interpolator_project_info_extractor(
-    project_info_extractor: IProjectInfoExtractor, file_info_extractor: IFileInfoExtractor
+    fixture_project_info_extractor: IProjectInfoExtractor, fixture_file_info_extractor: IFileInfoExtractor
 ):
-    helper: THelper = THelper(project_info_extractor, file_info_extractor)
-    workspace_root: str = project_info_extractor.get_workspace_root()
+    helper: THelper = THelper(fixture_project_info_extractor, fixture_file_info_extractor)
+    workspace_root: str = fixture_project_info_extractor.get_workspace_root()
 
     helper("$workspaceRoot", "/home/user/file", workspace_root)
     helper("$workspaceRoot/$fileName", "/home/user/file.txt", f"{workspace_root}/file.txt")

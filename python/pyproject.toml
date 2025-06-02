@@ -13,12 +13,16 @@ dependencies = [
     "requests>=2.27.1",
 ]
 
+[tool.pytest.ini_options]
+pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
+testpaths = ["tests"]
+
 [tool.isort]
 profile = "black"
 
 [tool.mypy]
 check_untyped_defs = true
-explicit_package_bases = true # without this, mypy complains about duplicate packages.
+explicit_package_bases = true  # without this, mypy complains about duplicate packages.
 ignore_missing_imports = true
 disable_error_code = [
     "attr-defined",
