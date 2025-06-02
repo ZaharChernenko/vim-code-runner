@@ -5,10 +5,6 @@ from src.file_info_extractor.interface import IFileInfoExtractor
 
 
 class TBasicFileInfoExtractor(IFileInfoExtractor):
-    def get_workspace_root(self, file_path_abs: str) -> str:
-        """Dummy implementation: returns the directory of the current file."""
-        return os.path.dirname(file_path_abs)
-
     def get_dir(self, file_path_abs: str) -> str:
         dir_path: str = os.path.dirname(file_path_abs)
         if dir_path and not dir_path.endswith(os.sep):

@@ -9,10 +9,6 @@ class IFileInfoExtractor(abc.ABC):
     """
 
     @abc.abstractmethod
-    def get_workspace_root(self, file_path_abs: str) -> str:
-        raise NotImplementedError
-
-    @abc.abstractmethod
     def get_dir(self, file_path_abs: str) -> str:
         raise NotImplementedError
 

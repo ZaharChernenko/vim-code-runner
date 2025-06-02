@@ -7,18 +7,22 @@ dependencies = [
     "mypy>=0.910",
     "pre-commit>=1.21.0",
     "pylint>=2.6.2",
-    "pylint-pytest>=0.3.0",
     "pytest>=6.1.2",
+    "pytest-mock>=3.5.1",
     "pyyaml>=5.4.1",
     "requests>=2.27.1",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
+testpaths = ["tests"]
 
 [tool.isort]
 profile = "black"
 
 [tool.mypy]
 check_untyped_defs = true
-explicit_package_bases = true # without this, mypy complains about duplicate packages.
+explicit_package_bases = true  # without this, mypy complains about duplicate packages.
 ignore_missing_imports = true
 disable_error_code = [
     "attr-defined",
@@ -34,16 +38,19 @@ quote-style = "double"
 "__init__.py" = [
     "F401", # ignore unused imports
 ]
-"conftest.py" = ["F401"]
+"conftest.py" = [
+    "F401",
+    "F811",
+]
 
 [tool.pylint]
 [tool.pylint.main]
+ignore-paths = ["^tests/unit/",]
 init-hook = """
 import os, sys
 cur_dir = os.getcwd()
 sys.path.append(cur_dir)
 """
-load-plugins = "pylint_pytest"
 [tool.pylint.format]
 max-line-length = 120
 [tool.pylint.messages_control]

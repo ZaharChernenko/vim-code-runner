@@ -1759,51 +1759,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pylint-pytest"
-version = "0.3.0"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version < '3.6'",
-]
-dependencies = [
-    { name = "pylint", version = "2.6.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
-    { name = "pytest", version = "6.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
-]
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/17/b9b0fae159607c6e77a05b9930e272d8825aad9210f332bac2736df3e8c9/pylint_pytest-0.3.0-py2.py3-none-any.whl", hash = "sha256:87045fda0987bd3624049b70c42638dfa52944cd77d03c372a3ea9612e5757bc", size = 7672, upload_time = "2020-08-11T04:05:19.316Z" },
-]
-
-[[package]]
-name = "pylint-pytest"
-version = "1.1.8"
-source = { registry = "https://pypi.org/simple" }
-resolution-markers = [
-    "python_full_version >= '3.12'",
-    "python_full_version == '3.11.*'",
-    "python_full_version >= '3.9' and python_full_version < '3.11'",
-    "python_full_version == '3.8.*'",
-    "python_full_version >= '3.7.2' and python_full_version < '3.8'",
-    "python_full_version >= '3.7' and python_full_version < '3.7.2'",
-    "python_full_version >= '3.6.8' and python_full_version < '3.7'",
-    "python_full_version >= '3.6.2' and python_full_version < '3.6.8'",
-    "python_full_version >= '3.6.1' and python_full_version < '3.6.2'",
-    "python_full_version >= '3.6' and python_full_version < '3.6.1'",
-]
-dependencies = [
-    { name = "pylint", version = "2.12.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.6' and python_full_version < '3.6.2'" },
-    { name = "pylint", version = "2.13.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.6.2' and python_full_version < '3.7.2'" },
-    { name = "pylint", version = "2.17.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.7.2' and python_full_version < '3.8'" },
-    { name = "pylint", version = "3.2.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.8.*'" },
-    { name = "pylint", version = "3.3.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
-    { name = "pytest", version = "7.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.6.*'" },
-    { name = "pytest", version = "7.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.7'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/13/b2/5d39125fedd30bfa50f755bdb30f1d5ee2ebde5f54ca7f7bc4cc4e9d51ef/pylint_pytest-1.1.8.tar.gz", hash = "sha256:5c862c88870aa8eb1b376df48ab9e820b5bdadfe37d965aa9ac567a6305955ca", size = 12793, upload_time = "2024-05-23T08:26:38.292Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/fb/34/e5ef1ee982cc211d5feda95032a7f48d96542cd8985eb722f539e7b9e877/pylint_pytest-1.1.8-py3-none-any.whl", hash = "sha256:8a532c1709c161406b8459bfc414c57a32a4ab488efd4bc97a22a21cb235331f", size = 10761, upload_time = "2024-05-23T08:26:36.629Z" },
-]
-
-[[package]]
 name = "pyparsing"
 version = "2.4.7"
 source = { registry = "https://pypi.org/simple" }
@@ -1920,6 +1875,73 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/80/1f/9d8e98e4133ffb16c90f3b405c43e38d3abb715bb5d7a63a5a684f7e46a3/pytest-7.4.4.tar.gz", hash = "sha256:2cf0005922c6ace4a3e2ec8b4080eb0d9753fdc93107415332f50ce9e7994280", size = 1357116, upload_time = "2023-12-31T12:00:18.035Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/51/ff/f6e8b8f39e08547faece4bd80f89d5a8de68a38b2d179cc1c4490ffa3286/pytest-7.4.4-py3-none-any.whl", hash = "sha256:b090cdf5ed60bf4c45261be03239c2c1c22df034fbffe691abe93cd80cea01d8", size = 325287, upload_time = "2023-12-31T12:00:13.963Z" },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.5.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.6'",
+]
+dependencies = [
+    { name = "pytest", version = "6.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/24/1b/ddad49c762bddfe3cb61c8ba61349701afd584b84ff4189721bcba624598/pytest-mock-3.5.1.tar.gz", hash = "sha256:a1e2aba6af9560d313c642dae7e00a2a12b022b80301d9d7fc8ec6858e1dd9fc", size = 29135, upload_time = "2021-01-10T22:17:11.335Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1d/ba/8bf763e2f300c1eba8f07506efd87a3c1c346e751d4dc618c444924b7c22/pytest_mock-3.5.1-py3-none-any.whl", hash = "sha256:379b391cfad22422ea2e252bdfc008edd08509029bcde3c25b2c0bd741e0424e", size = 12324, upload_time = "2021-01-10T22:17:10.007Z" },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.6.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.6.8' and python_full_version < '3.7'",
+    "python_full_version >= '3.6.2' and python_full_version < '3.6.8'",
+    "python_full_version >= '3.6.1' and python_full_version < '3.6.2'",
+    "python_full_version >= '3.6' and python_full_version < '3.6.1'",
+]
+dependencies = [
+    { name = "pytest", version = "7.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.6.*'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b3/08/b131e1b5c628a7d46c9b8d676a86a8d235bced79b9d90845500e39df81b9/pytest-mock-3.6.1.tar.gz", hash = "sha256:40217a058c52a63f1042f0784f62009e976ba824c418cced42e88d5f40ab0e62", size = 29933, upload_time = "2021-05-06T19:21:21.898Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fd/be/ce7e79a7bf68ff6630f662f58a8dc68e2a602d8649a1c0e05c8e6b9a2177/pytest_mock-3.6.1-py3-none-any.whl", hash = "sha256:30c2f2cc9759e76eee674b81ea28c9f0b94f8f0445a1b87762cadf774f0df7e3", size = 12648, upload_time = "2021-05-06T19:21:18.274Z" },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.11.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.7.2' and python_full_version < '3.8'",
+    "python_full_version >= '3.7' and python_full_version < '3.7.2'",
+]
+dependencies = [
+    { name = "pytest", version = "7.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.7.*'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d8/2d/b3a811ec4fa24190a9ec5013e23c89421a7916167c6240c31fdc445f850c/pytest-mock-3.11.1.tar.gz", hash = "sha256:7f6b125602ac6d743e523ae0bfa71e1a697a2f5534064528c6ff84c2f7c2fc7f", size = 31251, upload_time = "2023-06-15T23:58:07.082Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/da/85/80ae98e019a429445bfb74e153d4cb47c3695e3e908515e95e95c18237e5/pytest_mock-3.11.1-py3-none-any.whl", hash = "sha256:21c279fff83d70763b05f8874cc9cfb3fcacd6d354247a976f9529d19f9acf39", size = 9590, upload_time = "2023-06-15T23:58:05.502Z" },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.14.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version == '3.11.*'",
+    "python_full_version >= '3.9' and python_full_version < '3.11'",
+    "python_full_version == '3.8.*'",
+]
+dependencies = [
+    { name = "pytest", version = "7.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/71/28/67172c96ba684058a4d24ffe144d64783d2a270d0af0d9e792737bddc75c/pytest_mock-3.14.1.tar.gz", hash = "sha256:159e9edac4c451ce77a5cdb9fc5d1100708d2dd4ba3c3df572f14097351af80e", size = 33241, upload_time = "2025-05-26T13:58:45.167Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b2/05/77b60e520511c53d1c1ca75f1930c7dd8e971d0c4379b7f4b3f9644685ba/pytest_mock-3.14.1-py3-none-any.whl", hash = "sha256:178aefcd11307d874b4cd3100344e7e2d888d9791a6a1d9bfe90fbc1b74fd1d0", size = 9923, upload_time = "2025-05-26T13:58:43.487Z" },
 ]
 
 [[package]]
@@ -2531,11 +2553,13 @@ dependencies = [
     { name = "pylint", version = "2.17.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.7.2' and python_full_version < '3.8'" },
     { name = "pylint", version = "3.2.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.8.*'" },
     { name = "pylint", version = "3.3.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
-    { name = "pylint-pytest", version = "0.3.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
-    { name = "pylint-pytest", version = "1.1.8", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.6'" },
     { name = "pytest", version = "6.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
     { name = "pytest", version = "7.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.6.*'" },
     { name = "pytest", version = "7.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.7'" },
+    { name = "pytest-mock", version = "3.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
+    { name = "pytest-mock", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.6.*'" },
+    { name = "pytest-mock", version = "3.11.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.7.*'" },
+    { name = "pytest-mock", version = "3.14.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
     { name = "pyyaml", version = "5.4.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.6'" },
     { name = "pyyaml", version = "6.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.6' and python_full_version < '3.8'" },
     { name = "pyyaml", version = "6.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.8'" },
@@ -2550,8 +2574,8 @@ requires-dist = [
     { name = "mypy", specifier = ">=0.910" },
     { name = "pre-commit", specifier = ">=1.21.0" },
     { name = "pylint", specifier = ">=2.6.2" },
-    { name = "pylint-pytest", specifier = ">=0.3.0" },
     { name = "pytest", specifier = ">=6.1.2" },
+    { name = "pytest-mock", specifier = ">=3.5.1" },
     { name = "pyyaml", specifier = ">=5.4.1" },
     { name = "requests", specifier = ">=2.27.1" },
 ]

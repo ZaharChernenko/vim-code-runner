@@ -1,13 +1,14 @@
+from typing import Callable, Sequence
+
 import pytest
 
 from src.file_info_extractor import IFileInfoExtractor, TBasicFileInfoExtractor
 
 
-@pytest.fixture
-def basic_file_info_extractor() -> TBasicFileInfoExtractor:
-    return TBasicFileInfoExtractor()
+def get_all_file_info_extractors_factories() -> Sequence[Callable[[], IFileInfoExtractor]]:
+    return (lambda: TBasicFileInfoExtractor(),)
 
 
-@pytest.fixture(params=[pytest.param("basic_file_info_extractor")])
-def file_info_extractor(request: pytest.FixtureRequest) -> IFileInfoExtractor:
-    return request.getfixturevalue(request.param)
+@pytest.fixture(params=get_all_file_info_extractors_factories())
+def fixture_file_info_extractor(request: pytest.FixtureRequest) -> IFileInfoExtractor:
+    return request.param()
