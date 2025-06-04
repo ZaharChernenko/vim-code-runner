@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: ruff
         name: ruff
-        entry: bash -c "cd python && ruff check src/ tests/"
+        entry: bash -c "cd python && ruff check src/ test/"
         language: system
         types: [python]
 
@@ -12,22 +12,22 @@ repos:
         # not in args, because entry is bash
         entry: bash -c "cd python && ruff format --quiet"
         language: system
-        types: [python]  
+        types: [python]
 
       - id: isort
         name: isort
-        entry: bash -c "cd python && isort src/ tests/"
+        entry: bash -c "cd python && isort src/ test/"
         language: system
         types: [python]
 
       - id: mypy
         name: mypy
-        entry: bash -c "cd python && mypy src/ tests/"
+        entry: bash -c "cd python && mypy src/ test/"
         language: system
         types: [python]
 
       - id: pylint
         name: pylint
-        entry: bash -c "cd python && pylint src/ tests/"
+        entry: bash -c "cd python && pylint src/ test/"
         language: system
         types: [python]

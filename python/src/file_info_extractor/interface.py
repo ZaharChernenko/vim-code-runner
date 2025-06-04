@@ -1,5 +1,5 @@
 import abc
-import typing
+from typing import Optional
 
 
 class IFileInfoExtractor(abc.ABC):
@@ -29,13 +29,17 @@ class IFileInfoExtractor(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_file_type(self, file_path_abs: str) -> typing.Optional[str]:
+    def get_file_type(self, file_path_abs: str) -> Optional[str]:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get_full_file_name(self, file_path_abs: str) -> typing.Optional[str]:
+    def get_full_file_name(self, file_path_abs: str) -> Optional[str]:
         raise NotImplementedError
 
     @abc.abstractmethod
     def get_drive_letter(self, file_path_abs: str) -> str:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def get_shebang(self, file_path_abs: str) -> Optional[str]:
         raise NotImplementedError

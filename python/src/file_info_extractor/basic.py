@@ -1,5 +1,5 @@
 import os
-import typing
+from typing import Dict, Final, Optional
 
 from src.file_info_extractor.interface import IFileInfoExtractor
 
@@ -27,17 +27,28 @@ class TBasicFileInfoExtractor(IFileInfoExtractor):
         dot_pos: int = base.find(".")
         return (base[dot_pos : len(base)] if dot_pos != -1 else "").lower()
 
-    def get_file_type(self, file_path_abs: str) -> typing.Optional[str]:
+    def get_file_type(self, file_path_abs: str) -> Optional[str]:
         return self.EXT_TO_LANG.get(self.get_file_ext(file_path_abs))
 
-    def get_full_file_name(self, file_path_abs: str) -> typing.Optional[str]:
+    def get_full_file_name(self, file_path_abs: str) -> Optional[str]:
         return file_path_abs
 
     def get_drive_letter(self, file_path_abs: str) -> str:
         drive, _ = os.path.splitdrive(file_path_abs)
         return drive
 
-    EXT_TO_LANG: typing.Final[typing.Dict[str, str]] = {
+    def get_shebang(self, file_path_abs: str) -> Optional[str]:
+        if not os.path.exists(file_path_abs):
+            return None
+
+        try:
+            with open(file_path_abs, "r", encoding="utf-8") as fin:
+                first_line: str = fin.readline().strip()
+                return first_line[2:] if first_line.startswith("#!") and not first_line.startswith("#![") else None
+        except (IOError, UnicodeDecodeError):
+            return None
+
+    EXT_TO_LANG: Final[Dict[str, str]] = {
         ".4dm": "4D",
         ".4gl": "Genero 4gl",
         ".4th": "Forth",
