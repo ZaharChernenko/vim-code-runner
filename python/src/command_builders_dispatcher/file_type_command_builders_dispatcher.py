@@ -11,7 +11,7 @@ class TFileTypeCommandBuildersDispatcher(ICommandBuildersDispatcher):
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
 
     def dispatch(self, file_path_abs: str) -> Optional[ICommandBuilder]:
-        file_type = self._file_info_extractor.get_file_type(file_path_abs)
+        file_type: Optional[str] = self._file_info_extractor.get_file_type(file_path_abs)
         if file_type is None:
             return None
         return self._file_type_to_builder.get(file_type)

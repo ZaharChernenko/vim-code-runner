@@ -22,12 +22,12 @@ from src.command_builders_dispatcher import TFileTypeCommandBuildersDispatcher
         ("unknown.xyz", None),
     ],
 )
-def test_file_type_command_builders_dispatcher_empty(
-    fixture_file_type_dispatcher: TFileTypeCommandBuildersDispatcher,
+def test_file_type_command_builders_dispatcher(
+    fixture_file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     file_path: str,
     expected_build_result: Optional[str],
 ):
-    dispatch_result: Optional[ICommandBuilder] = fixture_file_type_dispatcher.dispatch(file_path)
+    dispatch_result: Optional[ICommandBuilder] = fixture_file_type_command_builders_dispatcher.dispatch(file_path)
 
     if expected_build_result is not None:
         assert dispatch_result is not None

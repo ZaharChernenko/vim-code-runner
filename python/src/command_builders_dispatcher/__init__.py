@@ -1,3 +1,6 @@
+from src.command_builders_dispatcher.file_ext_command_builders_dispatcher import (
+    TFileExtCommandBuildersDispatcher,
+)
 from src.command_builders_dispatcher.file_type_command_builders_dispatcher import (
     TFileTypeCommandBuildersDispatcher,
 )
