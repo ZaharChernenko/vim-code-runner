@@ -1,13 +1,17 @@
 import sys
 import tempfile
 import unittest
-from typing import Callable, Generator, Sequence
+from typing import Callable, Dict, Generator, Sequence
 from unittest.mock import MagicMock
 
 import pytest
 
 sys.modules["vim"] = MagicMock()
-from src.command_builders_dispatcher import TShebangCommandBuildersDispatcher
+from src.command_builder import ICommandBuilder
+from src.command_builders_dispatcher import (
+    TFileTypeCommandBuildersDispatcher,
+    TShebangCommandBuildersDispatcher,
+)
 from src.file_info_extractor import IFileInfoExtractor, TBasicFileInfoExtractor
 from src.project_info_extractor import IProjectInfoExtractor, TVimProjectInfoExtractor
 
@@ -51,6 +55,21 @@ def fixture_shebang_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TShebangCommandBuildersDispatcher:
     return TShebangCommandBuildersDispatcher(fixture_file_info_extractor)
+
+
+@pytest.fixture
+def fixture_file_type_dispatcher(fixture_file_info_extractor: IFileInfoExtractor) -> TFileTypeCommandBuildersDispatcher:
+    languages = ["Python", "JavaScript", "TypeScript", "Java", "C++", "C", "Go", "Ruby", "PHP", "Shell"]
+    file_type_to_builder: Dict[str, ICommandBuilder] = {}
+
+    for lang in languages:
+        mock_builder: ICommandBuilder = MagicMock(spec=ICommandBuilder)
+        mock_builder.build.return_value = lang
+        file_type_to_builder[lang] = mock_builder
+
+    return TFileTypeCommandBuildersDispatcher(
+        file_type_to_builder=file_type_to_builder, file_info_extractor=fixture_file_info_extractor
+    )
 
 
 @pytest.fixture(params=get_all_project_info_extractors_factories(get_all_file_info_extractors_factories()))
