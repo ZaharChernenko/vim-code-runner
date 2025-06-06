@@ -61,6 +61,8 @@ disable = [
     "missing-class-docstring",     # C0115
     "trailing-newlines",          # C0304
     "too-few-public-methods",     # R0903
+    "too-many-arguments",
+    "too-many-positional-arguments",
 ]
 ignored-modules = ["vim"]
 [tool.pylint.VARIABLES]

@@ -1,6 +1,6 @@
 import vim
 
-from src.config_manager.interface import ERunnersTypes, IConfigManager
+from src.config_manager.interface import EDispatchersTypes, IConfigManager
 
 
 class TVimConfigManager(IConfigManager):
@@ -10,5 +10,5 @@ class TVimConfigManager(IConfigManager):
     def get_save_all_files(self) -> bool:
         return vim.eval("g:coderunner_save_all_files_before_run")
 
-    def get_runners_order(self) -> list[ERunnersTypes]:
+    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
         return vim.eval("g:coderunner_runners_order")
