@@ -1,7 +1,9 @@
+import glob
+import re
 import sys
 import tempfile
 import unittest
-from typing import Callable, Dict, Generator, List, Sequence
+from typing import Callable, Dict, Generator, List, Sequence, Tuple
 from unittest.mock import MagicMock
 
 import pytest
@@ -11,6 +13,7 @@ from src.command_builder import ICommandBuilder
 from src.command_builders_dispatcher import (
     TFileExtCommandBuildersDispatcher,
     TFileTypeCommandBuildersDispatcher,
+    TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
 from src.file_info_extractor import IFileInfoExtractor, TBasicFileInfoExtractor
@@ -59,16 +62,27 @@ def fixture_shebang_command_builders_dispatcher(
 
 
 @pytest.fixture
+def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher:
+    glob_patterns = ("**/*.py", "*.js", "*.java", "*.cpp", "*.8xp.txt", "*.*.*", "**/*.log", "**/*.*.*")
+    glob_to_builder: Tuple[Tuple[re.Pattern, ICommandBuilder], ...] = tuple(
+        (
+            re.compile(glob.translate(pattern, recursive=True, include_hidden=True)),
+            MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=pattern)),
+        )
+        for pattern in glob_patterns
+    )
+
+    return TGlobCommandBuildersDispatcher(glob_to_builder)
+
+
+@pytest.fixture
 def fixture_file_ext_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileExtCommandBuildersDispatcher:
     extensions: List[str] = [".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rb", ".8xp.txt", ".x.y.z"]
-    file_ext_to_builder: Dict[str, ICommandBuilder] = {}
-
-    for ext in extensions:
-        mock_builder: ICommandBuilder = MagicMock(spec=ICommandBuilder)
-        mock_builder.build.return_value = ext
-        file_ext_to_builder[ext] = mock_builder
+    file_ext_to_builder: Dict[str, ICommandBuilder] = {
+        ext: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=ext)) for ext in extensions
+    }
 
     return TFileExtCommandBuildersDispatcher(
         file_ext_to_builder=file_ext_to_builder, file_info_extractor=fixture_file_info_extractor
@@ -80,12 +94,9 @@ def fixture_file_type_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileTypeCommandBuildersDispatcher:
     languages: List[str] = ["Python", "JavaScript", "TypeScript", "Java", "C++", "C", "Go", "Ruby", "PHP", "Shell"]
-    file_type_to_builder: Dict[str, ICommandBuilder] = {}
-
-    for lang in languages:
-        mock_builder: ICommandBuilder = MagicMock(spec=ICommandBuilder)
-        mock_builder.build.return_value = lang
-        file_type_to_builder[lang] = mock_builder
+    file_type_to_builder: Dict[str, ICommandBuilder] = {
+        lang: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=lang)) for lang in languages
+    }
 
     return TFileTypeCommandBuildersDispatcher(
         file_type_to_builder=file_type_to_builder, file_info_extractor=fixture_file_info_extractor

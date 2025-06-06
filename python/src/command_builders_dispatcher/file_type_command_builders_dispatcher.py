@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Final, Optional
 
 from src.command_builder import ICommandBuilder
 from src.command_builders_dispatcher.interface import ICommandBuildersDispatcher
@@ -7,7 +7,7 @@ from src.file_info_extractor import IFileInfoExtractor
 
 class TFileTypeCommandBuildersDispatcher(ICommandBuildersDispatcher):
     def __init__(self, file_type_to_builder: Dict[str, ICommandBuilder], file_info_extractor: IFileInfoExtractor):
-        self._file_type_to_builder: Dict[str, ICommandBuilder] = file_type_to_builder
+        self._file_type_to_builder: Final[Dict[str, ICommandBuilder]] = file_type_to_builder
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
 
     def dispatch(self, file_path_abs: str) -> Optional[ICommandBuilder]:
