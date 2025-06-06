@@ -1,4 +1,8 @@
 import os
+import tempfile
+from unittest.mock import patch
+
+import pytest
 
 from src.file_info_extractor import TBasicFileInfoExtractor
 
@@ -65,3 +69,43 @@ def test_get_drive_letter_windows(fixture_file_info_extractor: TBasicFileInfoExt
 def test_get_drive_letter_unix(fixture_file_info_extractor: TBasicFileInfoExtractor):
     path = "/home/user/file.py"
     assert fixture_file_info_extractor.get_drive_letter(path) == ""
+
+
+@pytest.mark.parametrize(
+    ("content", "expected"),
+    [
+        pytest.param(None, None, id="nonexistent file"),
+        pytest.param("print('Hello')", None, id="no shebang"),
+        pytest.param("\n\ncode", None, id="empty first line"),
+        pytest.param("#!/bin/bash", "/bin/bash", id="basic shebang"),
+        pytest.param("#!/usr/bin/env python", "/usr/bin/env python", id="env shebang"),
+        pytest.param("  #!/bin/sh  ", "/bin/sh", id="whitespace around shebang"),
+        pytest.param("#![feature(test)]", None, id="Rust attribute"),
+        pytest.param("#!", "", id="empty shebang"),
+        pytest.param("#!\ncode", "", id="shebang with no path"),
+        pytest.param("#!/usr/bin/python", "/usr/bin/python", id="shebang without newline"),
+        pytest.param("#!/bin/bash -x\ndef f():\n\treturn0", "/bin/bash -x", id="shebang with multiple lines"),
+    ],
+)
+def test_get_shebang(fixture_file_info_extractor, content, expected):
+    if content is None:
+        assert fixture_file_info_extractor.get_shebang("/bad/path") is expected
+        return
+
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write(content)
+        file_path = temp_file.name
+    try:
+        assert fixture_file_info_extractor.get_shebang(file_path) == expected
+    finally:
+        os.unlink(file_path)
+
+
+def test_get_shebang_io_error_handling(fixture_file_info_extractor: TBasicFileInfoExtractor):
+    with patch("builtins.open", side_effect=IOError("Permission denied")):
+        assert fixture_file_info_extractor.get_shebang("/some/file") is None
+
+
+def test_get_shebang_unicode_decode_error_handling(fixture_file_info_extractor: TBasicFileInfoExtractor):
+    with patch("builtins.open", side_effect=UnicodeDecodeError("utf-8", b"", 0, 1, "Invalid byte")):
+        assert fixture_file_info_extractor.get_shebang("/some/file") is None

@@ -15,7 +15,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
-testpaths = ["tests"]
+testpaths = ["test"]
 
 [tool.isort]
 profile = "black"
@@ -39,13 +39,14 @@ quote-style = "double"
     "F401", # ignore unused imports
 ]
 "conftest.py" = [
+    "E402",
     "F401",
     "F811",
 ]
 
 [tool.pylint]
 [tool.pylint.main]
-ignore-paths = ["^tests/unit/",]
+ignore-paths = ["^test/unit/",]
 init-hook = """
 import os, sys
 cur_dir = os.getcwd()
@@ -60,6 +61,8 @@ disable = [
     "missing-class-docstring",     # C0115
     "trailing-newlines",          # C0304
     "too-few-public-methods",     # R0903
+    "too-many-arguments",
+    "too-many-positional-arguments",
 ]
 ignored-modules = ["vim"]
 [tool.pylint.VARIABLES]
