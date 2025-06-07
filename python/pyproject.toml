@@ -15,7 +15,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
-testpaths = ["test"]
+testpaths = ["tests"]
 
 [tool.isort]
 profile = "black"
@@ -46,7 +46,7 @@ quote-style = "double"
 
 [tool.pylint]
 [tool.pylint.main]
-ignore-paths = ["^test/unit/",]
+ignore-paths = ["^tests/unit/",]
 init-hook = """
 import os, sys
 cur_dir = os.getcwd()
