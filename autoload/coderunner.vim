@@ -14,32 +14,45 @@ import typing
 
 import vim
 
+
+def safe_coderunner_call(func):
+    def wrapper(*args, **kwargs):
+        if "coderunner" in globals() and coderunner is not None:
+            return func(*args, **kwargs)
+        vim.command("redraw | echohl WarningMsg")
+        vim.command("echom 'CodeRunner unavailable, please look at messages.'")
+        vim.command("echohl None")
+    return wrapper
+
+
+@safe_coderunner_call
+def coderunner_run():
+    coderunner.run()
+
+
+@safe_coderunner_call
+def coderunner_run_by_glob():
+    coderunner.run_by_glob()
+
+
+@safe_coderunner_call
+def coderunner_run_by_file_ext():
+    coderunner.run_by_file_ext()
+
+
+@safe_coderunner_call
+def coderunner_run_by_file_type():
+    coderunner.run_by_file_type()
+
+
 root_folder_path: str = os.path.dirname(vim.eval("s:script_folder_path"))
-sys.path.insert(0, os.path.join(root_folder_path, "python"))
+sys.path[0:0] = [os.path.join(root_folder_path, "python_coderunner")]
 try:
-    from coderunner import decorators, metaclasses, runners
-
-    class TRunnerContext(metaclass=metaclasses.ContextMeta):
-        LANG_TO_RUNNER: typing.Final[typing.Dict[str, typing.Type[runners.IRunner]]] = {
-            "python": runners.TPythonRunner,
-            "cpp": runners.TCppRunner,
-        }
-
-        @classmethod
-        @decorators.save_file_if(vim.eval("g:coderunner_save_file_before_run"))
-        @decorators.save_all_files_if(vim.eval("g:coderunner_save_all_files_before_run"))
-        def run(cls, filetype: str, filepath: str):
-            runner: typing.Optional[typing.Type[runners.IRunner]] = cls.LANG_TO_RUNNER.get(filetype)
-            if runner is None:
-                return
-            vim.command(cls.LANG_TO_RUNNER[filetype].run(filepath))
-
-        @classmethod
-        def clear(cls):
-            runners.TPythonRunner.clear()
-
+    from src.coderunner import TCodeRunner
+    from src.coderunner_builder import TVimCodeRunnerBuilder
+    coderunner: TCodeRunner = TVimCodeRunnerBuilder().build()
 except Exception as error:
-    vim.command("redraw | echohl WarningMsg")
+    vim.command("redraw | echohl ErrorMsg")
     for line in traceback.format_exc().splitlines():
         vim.command("echom '{0}'".format(line.replace("'", "''")))
     vim.command("echom 'CodeRunner unavailable: {0}'".format(str(error).replace("'", "''")))
@@ -53,15 +66,51 @@ endfunction
 
 function coderunner#Run() abort
 python3 << EOF
-TRunnerContext.run(vim.eval("&filetype"), vim.eval("expand('%:p')"))
+coderunner_run()
 EOF
 endfunction
 
 
-function coderunner#Clear() abort
+function coderunner#RunByGlob() abort
 python3 << EOF
-TRunnerContext.clear()
+coderunner_run_by_glob()
 EOF
+endfunction
+
+
+function coderunner#RunByFileExt() abort
+python3 << EOF
+coderunner_run_by_file_ext()
+EOF
+endfunction
+
+
+function coderunner#RunByFileType() abort
+python3 << EOF
+coderunner_run_by_file_type()
+EOF
+endfunction
+
+
+function coderunner#GetSelectedText()
+    if mode() !~# '[vV]'
+        return v:null
+    end
+
+    execute "normal! \<Esc>"
+
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+
+    if len(lines) == 0
+        return ''
+    endif
+
+    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+
+    return join(lines, "\n")
 endfunction
 
 

@@ -1,0 +1,82 @@
+[project]
+name = "vim-code-runner"
+version = "0.1.0"
+requires-python = ">=3.5"
+dependencies = [
+    "isort>=4.3.21",
+    "mypy>=0.910",
+    "pre-commit>=1.21.0",
+    "pylint>=2.6.2",
+    "pytest>=6.1.2",
+    "pytest-mock>=3.5.1",
+    "pyyaml>=5.4.1",
+    "requests>=2.27.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
+testpaths = ["tests"]
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+check_untyped_defs = true
+explicit_package_bases = true  # without this, mypy complains about duplicate packages.
+ignore_missing_imports = true
+disable_error_code = [
+    "attr-defined",
+    "import-untyped",
+    "union-attr",
+]
+
+[tool.ruff]
+line-length = 120
+[tool.ruff.format]
+quote-style = "double"
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401", # ignore unused imports
+]
+"conftest.py" = [
+    "E402",
+    "F401",
+    "F811",
+]
+
+[tool.pylint]
+[tool.pylint.main]
+ignore-paths = ["^tests/unit/",]
+init-hook = """
+import os, sys
+cur_dir = os.getcwd()
+sys.path.append(cur_dir)
+"""
+[tool.pylint.format]
+max-line-length = 120
+[tool.pylint.messages_control]
+disable = [
+    "duplicate-code",
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "trailing-newlines",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-positional-arguments",
+    "raise-missing-from",
+    "line-too-long",
+]
+ignored-modules = ["vim"]
+[tool.pylint.VARIABLES]
+argument-naming-style = "snake_case"
+attr-naming-style = "snake_case"
+class-attribute-naming-style = "any"
+class-const-naming-style = "UPPER_CASE"
+class-rgx="^(((I|T|E|Supports)[A-Z][a-zA-Z0-9]*)|[A-Z][a-zA-Z0-9]*Error)$"
+const-naming-style= "any"
+function-naming-style = "snake_case"
+typevar="^(Template)[A-Z][a-zA-Z0-9]*$"
+variable-naming-style = "snake_case"
+module-naming-style = "snake_case"
+inlinevar-naming-style = "any"
