@@ -56,6 +56,7 @@ sys.path.append(cur_dir)
 max-line-length = 120
 [tool.pylint.messages_control]
 disable = [
+    "duplicate-code",
     "missing-module-docstring",    # C0114
     "missing-function-docstring",  # C0116
     "missing-class-docstring",     # C0115
@@ -63,6 +64,8 @@ disable = [
     "too-few-public-methods",     # R0903
     "too-many-arguments",
     "too-many-positional-arguments",
+    "raise-missing-from",
+    "line-too-long"
 ]
 ignored-modules = ["vim"]
 [tool.pylint.VARIABLES]

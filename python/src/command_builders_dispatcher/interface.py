@@ -1,11 +1,11 @@
-import abc
+from abc import ABC, abstractmethod
 from typing import Optional
 
 from src.command_builder import ICommandBuilder
 
 
-class ICommandBuildersDispatcher(abc.ABC):
-    @abc.abstractmethod
+class ICommandBuildersDispatcher(ABC):
+    @abstractmethod
     def dispatch(self, file_path_abs: str) -> Optional[ICommandBuilder]:
         """
         Dispatch is optional for fallback strategy.

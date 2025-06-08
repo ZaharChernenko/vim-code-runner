@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import StrEnum
+from typing import Any, List
 
 
 class EDispatchersTypes(StrEnum):
@@ -9,18 +10,54 @@ class EDispatchersTypes(StrEnum):
 
 
 class IConfigManager(ABC):
-    @abstractmethod
+    def get_executor(self) -> str:
+        return self._get_executor_impl()
+
     def get_save_file(self) -> bool:
-        raise NotImplementedError
+        return self._validate_bool(self._get_save_file_impl())
 
-    @abstractmethod
     def get_save_all_files(self) -> bool:
-        raise NotImplementedError
+        return self._validate_bool(self._get_save_all_files_impl())
 
-    @abstractmethod
     def get_respect_shebang(self) -> bool:
+        return self._validate_bool(self._get_respect_shebang_impl())
+
+    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
+        return self._validate_dispatchers(self._get_dispatchers_order_impl())
+
+    @abstractmethod
+    def _get_executor_impl(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
-    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
+    def _get_save_file_impl(self) -> Any:
         raise NotImplementedError
+
+    @abstractmethod
+    def _get_save_all_files_impl(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def _get_respect_shebang_impl(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def _get_dispatchers_order_impl(self) -> Any:
+        raise NotImplementedError
+
+    def _validate_bool(self, value: Any) -> bool:
+        if isinstance(value, bool):
+            return value
+        if str(value).strip() in ("0", "1"):
+            return bool(int(value))
+        raise ValueError(f"Expected 0 or 1, got: {value}")
+
+    def _validate_dispatchers(self, value: Any) -> List[EDispatchersTypes]:
+        if not isinstance(value, list):
+            raise ValueError(f"Expected list, got: {type(value)}")
+
+        if invalid_items := [v for v in value if v not in EDispatchersTypes]:
+            raise ValueError(
+                f"Invalid dispatcher types: {invalid_items}. Allowed: {[dispatcher_type.value for dispatcher_type in EDispatchersTypes]}"
+            )
+        return value

@@ -1,15 +1,15 @@
-import abc
 import os
+from abc import ABC, abstractmethod
 from typing import Iterable, Set
 
 from src.file_info_extractor import IFileInfoExtractor
 
 
-class IProjectInfoExtractor(abc.ABC):
+class IProjectInfoExtractor(ABC):
     def __init__(self, file_info_extractor: IFileInfoExtractor):
         self._file_info_extractor = file_info_extractor
 
-    @abc.abstractmethod
+    @abstractmethod
     def get_workspace_root(self) -> str:
         raise NotImplementedError
 
