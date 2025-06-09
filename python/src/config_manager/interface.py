@@ -10,31 +10,34 @@ class EDispatchersTypes(StrEnum):
 
 
 class IConfigManager(ABC):
+    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
+        return self._validate_dispatchers(self._get_dispatchers_order_impl())
+
     def get_executor(self) -> str:
         return self._get_executor_impl()
 
-    def get_save_file(self) -> bool:
-        return self._validate_bool(self._get_save_file_impl())
-
-    def get_save_all_files(self) -> bool:
-        return self._validate_bool(self._get_save_all_files_impl())
+    def get_ignore_selection(self) -> bool:
+        return self._validate_bool(self._get_ignore_selection_impl())
 
     def get_respect_shebang(self) -> bool:
         return self._validate_bool(self._get_respect_shebang_impl())
 
-    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
-        return self._validate_dispatchers(self._get_dispatchers_order_impl())
+    def get_save_all_files(self) -> bool:
+        return self._validate_bool(self._get_save_all_files_impl())
+
+    def get_save_file(self) -> bool:
+        return self._validate_bool(self._get_save_file_impl())
+
+    @abstractmethod
+    def _get_dispatchers_order_impl(self) -> Any:
+        raise NotImplementedError
 
     @abstractmethod
     def _get_executor_impl(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
-    def _get_save_file_impl(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def _get_save_all_files_impl(self) -> Any:
+    def _get_ignore_selection_impl(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
@@ -42,7 +45,11 @@ class IConfigManager(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _get_dispatchers_order_impl(self) -> Any:
+    def _get_save_all_files_impl(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def _get_save_file_impl(self) -> Any:
         raise NotImplementedError
 
     def _validate_bool(self, value: Any) -> bool:

@@ -7,6 +7,7 @@ from typing import Callable, Dict, Generator, List, Sequence, Tuple
 from unittest.mock import MagicMock
 
 import pytest
+import pytest_mock
 
 sys.modules["vim"] = MagicMock()
 from src.command_builder import ICommandBuilder
@@ -16,20 +17,33 @@ from src.command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
+from src.config_manager import IConfigManager, TVimConfigManager
 from src.file_info_extractor import IFileInfoExtractor, TBasicFileInfoExtractor
 from src.project_info_extractor import IProjectInfoExtractor, TVimProjectInfoExtractor
+
+
+def vim_config_manager_extractor_factory() -> Generator[IConfigManager]:
+    yield TVimConfigManager()
+
+
+def get_all_config_managers_factories() -> Sequence[Callable[..., Generator[IConfigManager]]]:
+    return (vim_config_manager_extractor_factory,)
+
+
+@pytest.fixture(params=get_all_config_managers_factories())
+def fixture_config_manager(request: pytest.FixtureRequest) -> Generator[IConfigManager]:
+    yield from request.param()
 
 
 def vim_project_info_extractor_factory(file_info_extractor: IFileInfoExtractor) -> Generator[IProjectInfoExtractor]:
     with tempfile.TemporaryDirectory() as temp_dir:
         extractor = TVimProjectInfoExtractor(file_info_extractor)
-        unittest.mock.patch.object(
+        with unittest.mock.patch.object(
             extractor,
             "get_workspace_root",
             return_value=temp_dir,
-        ).start()
-
-        yield extractor
+        ):
+            yield extractor
 
 
 def get_all_project_info_extractors_factories(
