@@ -13,7 +13,7 @@ class TVimEditor(IEditor):
         # use echo py3eval to debug
         return vim.eval("coderunner#GetSelectedText()")
 
-    def save_all_file(self) -> None:
+    def save_all_files(self) -> None:
         vim.command("wa")
 
     def save_file(self) -> None:

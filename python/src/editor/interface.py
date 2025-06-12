@@ -12,7 +12,7 @@ class IEditor(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def save_all_file(self) -> None:
+    def save_all_files(self) -> None:
         raise NotImplementedError
 
     @abstractmethod
