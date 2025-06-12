@@ -37,9 +37,7 @@ class TInterpolatorCommandBuilder(ICommandBuilder):
         interpolated_str: str = self.WORKSPACE_ROOT_PATTERN.sub(
             self._project_info_extractor.get_workspace_root(), self._template_string
         )
-        interpolated_str = self.FULL_FILE_NAME_PATTERN.sub(
-            self._file_info_extractor.get_full_file_name(file_path_abs), interpolated_str
-        )
+        interpolated_str = self.FULL_FILE_NAME_PATTERN.sub(file_path_abs, interpolated_str)
         interpolated_str = self.FILE_NAME_WITHOUT_EXT_PATTERN.sub(
             self._file_info_extractor.get_file_name_without_ext(file_path_abs), interpolated_str
         )

@@ -51,14 +51,6 @@ def test_get_file_type(fixture_file_info_extractor: TBasicFileInfoExtractor):
     assert fixture_file_info_extractor.get_file_type("/home/user/project/.zig.zon") == "Zig"
 
 
-def test_get_full_file_name(fixture_file_info_extractor: TBasicFileInfoExtractor):
-    assert fixture_file_info_extractor.get_full_file_name("/home/user/project/file.py") == "/home/user/project/file.py"
-    assert fixture_file_info_extractor.get_full_file_name("/home/user/file.unknown") == "/home/user/file.unknown"
-    assert (
-        fixture_file_info_extractor.get_full_file_name("/home/user/project/.zig.zon") == "/home/user/project/.zig.zon"
-    )
-
-
 def test_get_drive_letter_windows(fixture_file_info_extractor: TBasicFileInfoExtractor):
     # On Unix, drive will be '', on Windows, 'C:'
     path = "C:\\Users\\user\\file.py"

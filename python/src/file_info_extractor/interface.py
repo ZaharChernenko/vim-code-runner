@@ -33,10 +33,6 @@ class IFileInfoExtractor(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_full_file_name(self, file_path_abs: str) -> Optional[str]:
-        raise NotImplementedError
-
-    @abstractmethod
     def get_drive_letter(self, file_path_abs: str) -> str:
         raise NotImplementedError
 
