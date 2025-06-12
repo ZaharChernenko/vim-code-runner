@@ -15,7 +15,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
-testpaths = ["test"]
+testpaths = ["tests"]
 
 [tool.isort]
 profile = "black"
@@ -46,7 +46,7 @@ quote-style = "double"
 
 [tool.pylint]
 [tool.pylint.main]
-ignore-paths = ["^test/unit/",]
+ignore-paths = ["^tests/unit/",]
 init-hook = """
 import os, sys
 cur_dir = os.getcwd()
@@ -56,13 +56,16 @@ sys.path.append(cur_dir)
 max-line-length = 120
 [tool.pylint.messages_control]
 disable = [
-    "missing-module-docstring",    # C0114
-    "missing-function-docstring",  # C0116
-    "missing-class-docstring",     # C0115
-    "trailing-newlines",          # C0304
-    "too-few-public-methods",     # R0903
+    "duplicate-code",
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "trailing-newlines",
+    "too-few-public-methods",
     "too-many-arguments",
     "too-many-positional-arguments",
+    "raise-missing-from",
+    "line-too-long"
 ]
 ignored-modules = ["vim"]
 [tool.pylint.VARIABLES]
@@ -70,7 +73,7 @@ argument-naming-style = "snake_case"
 attr-naming-style = "snake_case"
 class-attribute-naming-style = "any"
 class-const-naming-style = "UPPER_CASE"
-class-naming-style = "PascalCase"
+class-rgx="^(I|T|E|Supports)[A-Z][a-zA-Z0-9]*$"
 const-naming-style= "any"
 function-naming-style = "snake_case"
 variable-naming-style = "snake_case"

@@ -30,9 +30,6 @@ class TBasicFileInfoExtractor(IFileInfoExtractor):
     def get_file_type(self, file_path_abs: str) -> Optional[str]:
         return self.EXT_TO_LANG.get(self.get_file_ext(file_path_abs))
 
-    def get_full_file_name(self, file_path_abs: str) -> Optional[str]:
-        return file_path_abs
-
     def get_drive_letter(self, file_path_abs: str) -> str:
         drive, _ = os.path.splitdrive(file_path_abs)
         return drive
