@@ -5,7 +5,7 @@ from src.message_printer.interface import IMessagePrinter
 
 class TVimMessagePrinter(IMessagePrinter):
     def error(self, text: str) -> None:
-        vim.command("echohl WarningMsg")
+        vim.command("echohl ErrorMsg")
         for line in text.split("\n"):
             vim.command(f'echo "{self._escape_string(line)}"')
         vim.command("echohl None")
