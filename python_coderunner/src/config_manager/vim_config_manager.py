@@ -6,6 +6,15 @@ from src.config_manager.interface import EDispatchersTypes, IConfigManager
 
 
 class TVimConfigManager(IConfigManager):
+    def _get_glob_to_command_impl(self) -> Any:
+        return self._get_vim_var("g:coderunner_by_glob")
+
+    def _get_file_ext_to_command_impl(self) -> Any:
+        return self._get_vim_var("g:coderunner_by_file_ext")
+
+    def _get_file_type_to_command_impl(self) -> Any:
+        return self._get_vim_var("g:coderunner_by_file_type")
+
     def _get_dispatchers_order_impl(self) -> list[EDispatchersTypes]:
         return self._get_vim_var("g:coderunner_runners_order")
 

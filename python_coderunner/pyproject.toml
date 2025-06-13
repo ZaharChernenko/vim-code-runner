@@ -65,7 +65,7 @@ disable = [
     "too-many-arguments",
     "too-many-positional-arguments",
     "raise-missing-from",
-    "line-too-long"
+    "line-too-long",
 ]
 ignored-modules = ["vim"]
 [tool.pylint.VARIABLES]
@@ -76,6 +76,7 @@ class-const-naming-style = "UPPER_CASE"
 class-rgx="^(I|T|E|Supports)[A-Z][a-zA-Z0-9]*$"
 const-naming-style= "any"
 function-naming-style = "snake_case"
+typevar="^(Template)[A-Z][a-zA-Z0-9]*$"
 variable-naming-style = "snake_case"
 module-naming-style = "snake_case"
 inlinevar-naming-style = "any"

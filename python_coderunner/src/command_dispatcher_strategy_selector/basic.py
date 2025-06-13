@@ -14,12 +14,13 @@ class TBasicCommandDispatcherStrategySelector:
     def __init__(
         self,
         *,
+        config_manager: IConfigManager,
         shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
         glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher,
         file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher,
         file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
-        config_manager: IConfigManager,
     ):
+        self._config_manager: IConfigManager = config_manager
         self._shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher = (
             shebang_command_builders_dispatcher
         )
@@ -30,7 +31,6 @@ class TBasicCommandDispatcherStrategySelector:
         self._file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher = (
             file_type_command_builders_dispatcher
         )
-        self._config_manager: IConfigManager = config_manager
 
     def dispatch_by_shebang(self, file_path_abs: str) -> Optional[ICommandBuilder]:
         return self._shebang_command_builders_dispatcher.dispatch(file_path_abs)
