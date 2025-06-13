@@ -82,7 +82,7 @@ class IConfigManager(ABC):
 
     def _validate_dispatcher(self, value: Any) -> Dict[str, str]:
         if not isinstance(value, dict):
-            raise ValueError(f"Expected dict, got: {type(value)}")
+            raise ValueError(f"Invalid dispatcher: expected dict, got: {type(value)}")
         for key, val in value.items():
             if not (isinstance(key, str) and isinstance(val, str)):
                 raise ValueError(f"Expected str, got: {type(value)}")

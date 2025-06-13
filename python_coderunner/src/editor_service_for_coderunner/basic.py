@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 from typing import Generator
@@ -26,11 +27,15 @@ class TBasicEditorServiceForCodeRunner:
                 encoding="utf-8",
                 dir=self._file_info_extractor.get_dir(file_path_abs),
                 suffix=self._file_info_extractor.get_file_ext(file_path_abs),
-                delete=True,
+                delete=False,
             ) as temp_file:
                 temp_file.write(selected_text)
                 temp_file.flush()
                 yield temp_file.name
+                try:
+                    os.unlink(temp_file.name)
+                except OSError:
+                    pass
         else:
             yield file_path_abs
 
