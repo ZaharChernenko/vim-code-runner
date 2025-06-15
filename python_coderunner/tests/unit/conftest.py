@@ -7,7 +7,6 @@ from typing import Callable, Dict, Generator, List, Sequence, Tuple
 from unittest.mock import MagicMock
 
 import pytest
-import pytest_mock
 
 sys.modules["vim"] = MagicMock()
 from src.command_builder import ICommandBuilder
@@ -17,21 +16,52 @@ from src.command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from src.config_manager import IConfigManager, TVimConfigManager
+from src.config_manager import (
+    IConfigGetter,
+    TBasicConfigManager,
+    TBasicConfigValidator,
+    TVimConfigGetter,
+    TVimConfigManager,
+)
 from src.file_info_extractor import IFileInfoExtractor, TBasicFileInfoExtractor
 from src.project_info_extractor import IProjectInfoExtractor, TVimProjectInfoExtractor
 
 
-def vim_config_manager_extractor_factory() -> Generator[IConfigManager]:
-    yield TVimConfigManager()
+def get_all_config_getters_factories() -> Sequence[Callable[[], IConfigGetter]]:
+    return (TVimConfigGetter,)
 
 
-def get_all_config_managers_factories() -> Sequence[Callable[..., Generator[IConfigManager]]]:
-    return (vim_config_manager_extractor_factory,)
+def get_all_config_validators_factory() -> Sequence[Callable[[], TBasicConfigValidator]]:
+    return (TBasicConfigValidator,)
 
 
-@pytest.fixture(params=get_all_config_managers_factories())
-def fixture_config_manager(request: pytest.FixtureRequest) -> Generator[IConfigManager]:
+def vim_config_manager_factory(
+    config_getter: IConfigGetter, config_validator: TBasicConfigValidator
+) -> Generator[TBasicConfigManager]:
+    yield TVimConfigManager(config_getter, config_validator)
+
+
+def get_all_config_managers_factories(
+    config_getters_factories: Sequence[Callable[[], IConfigGetter]],
+    config_validators_factories: Sequence[Callable[[], TBasicConfigValidator]],
+) -> Sequence[Callable[..., Generator[TBasicConfigManager]]]:
+    config_managers_factories: Sequence[Callable[..., Generator[TBasicConfigManager]]] = []
+    for config_getter_factory in config_getters_factories:
+        for config_validator_factory in config_validators_factories:
+            config_managers_factories.append(
+                lambda config_getter_factory=config_getter_factory,
+                config_validator_factory=config_validator_factory: vim_config_manager_factory(
+                    config_getter_factory(), config_validator_factory()
+                )
+            )
+
+    return config_managers_factories
+
+
+@pytest.fixture(
+    params=get_all_config_managers_factories(get_all_config_getters_factories(), get_all_config_validators_factory())
+)
+def fixture_config_manager(request: pytest.FixtureRequest) -> Generator[TBasicConfigManager]:
     yield from request.param()
 
 

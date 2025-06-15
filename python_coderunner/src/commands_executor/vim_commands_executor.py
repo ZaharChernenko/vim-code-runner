@@ -1,12 +1,12 @@
 import vim
 
 from src.commands_executor.inteface import ICommandsExecutor
-from src.config_manager import IConfigManager
+from src.config_manager import TBasicConfigManager
 
 
 class TVimCommandsExecutor(ICommandsExecutor):
-    def __init__(self, config_manager: IConfigManager):
-        self._config_manager: IConfigManager = config_manager
+    def __init__(self, config_manager: TBasicConfigManager):
+        self._config_manager: TBasicConfigManager = config_manager
 
     def execute(self, command: str) -> None:
         executor_command: str = self._config_manager.get_executor()

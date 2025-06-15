@@ -15,7 +15,11 @@ from src.command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
 from src.commands_executor import TVimCommandsExecutor
-from src.config_manager import TVimConfigManager
+from src.config_manager import (
+    TBasicConfigValidator,
+    TVimConfigGetter,
+    TVimConfigManager,
+)
 from src.editor import TVimEditor
 from src.editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
 from src.file_info_extractor import TBasicFileInfoExtractor
@@ -25,7 +29,7 @@ from src.project_info_extractor import TVimProjectInfoExtractor
 
 class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
     def build(self) -> Optional[TCodeRunner]:
-        config_manager: TVimConfigManager = TVimConfigManager()
+        config_manager: TVimConfigManager = TVimConfigManager(TVimConfigGetter(), TBasicConfigValidator())
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
         try:
@@ -93,7 +97,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
         file_info_extractor: TBasicFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TGlobCommandBuildersDispatcher:
-        dict_with_commands: Dict[str, str] = config_manager.get_glob_to_command()
+        dict_with_commands: Dict[str, str] = config_manager.get_by_glob()
         return TGlobCommandBuildersDispatcher(
             tuple(
                 (
@@ -113,7 +117,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
         return TFileExtCommandBuildersDispatcher(
             {
                 key: TInterpolatorCommandBuilder(val, project_info_extractor, file_info_extractor)
-                for key, val in config_manager.get_file_ext_to_command().items()
+                for key, val in config_manager.get_by_file_ext().items()
             },
             file_info_extractor,
         )
@@ -127,7 +131,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
         return TFileTypeCommandBuildersDispatcher(
             {
                 key: TInterpolatorCommandBuilder(val, project_info_extractor, file_info_extractor)
-                for key, val in config_manager.get_file_type_to_command().items()
+                for key, val in config_manager.get_by_file_type().items()
             },
             file_info_extractor,
         )

@@ -13,7 +13,7 @@ from src.command_builders_dispatcher import (
 from src.command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
-from src.config_manager import EDispatchersTypes, IConfigManager
+from src.config_manager import EDispatchersTypes, TBasicConfigManager
 
 
 @pytest.mark.parametrize(
@@ -77,7 +77,7 @@ def test_basic_command_dispatcher_strategy_selector(
 ):
     file_path_abs = tmp_path / file_path
     file_path_abs.write_bytes(content)
-    config_manager: IConfigManager = MagicMock(
+    config_manager: TBasicConfigManager = MagicMock(
         get_dispatchers_order=MagicMock(return_value=order), get_respect_shebang=MagicMock(return_value=respect_shebang)
     )
     selector = TBasicCommandDispatcherStrategySelector(
@@ -94,6 +94,6 @@ def test_basic_command_dispatcher_strategy_selector(
     else:
         assert dispatch_result is not None
         if respect_shebang:
-            assert dispatch_result.build(str(file_path_abs)) == f"{expected} '{str(file_path_abs)}'"
+            assert dispatch_result.build(str(file_path_abs)) == f'{expected} "{str(file_path_abs)}"'
         else:
             assert dispatch_result.build(str(file_path_abs)) == expected

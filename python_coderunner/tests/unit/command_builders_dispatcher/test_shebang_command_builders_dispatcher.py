@@ -39,4 +39,4 @@ def test_shebang_command_builders_dispatcher(
         assert dispatch_result is None
     else:
         assert dispatch_result is not None
-        assert dispatch_result.build(str(file_path_abs)) == f"{expected_result} '{file_path_abs}'"
+        assert dispatch_result.build(str(file_path_abs)) == f'{expected_result} "{file_path_abs}"'
