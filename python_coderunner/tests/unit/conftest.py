@@ -35,6 +35,11 @@ def get_all_config_validators_factory() -> Sequence[Callable[[], TBasicConfigVal
     return (TBasicConfigValidator,)
 
 
+@pytest.fixture(params=get_all_config_validators_factory())
+def fixture_config_validator(request: pytest.FixtureRequest) -> TBasicConfigValidator:
+    return request.param()
+
+
 def vim_config_manager_factory(
     config_getter: IConfigGetter, config_validator: TBasicConfigValidator
 ) -> Generator[TBasicConfigManager]:

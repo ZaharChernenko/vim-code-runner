@@ -5,6 +5,7 @@ import vim
 from src.config_manager.basic import (
     IConfigGetter,
     TBasicConfigManager,
+    UndefinedValueError,
 )
 
 
@@ -40,7 +41,7 @@ class TVimConfigGetter(IConfigGetter):
         try:
             return vim.eval(var_name)
         except vim.error:
-            raise ValueError(f"Vim variable {var_name} is not defined. Please set it in your vimrc.")
+            raise UndefinedValueError(f"Vim variable {var_name} is not defined. Please set it in your vimrc.")
 
 
 class TVimConfigManager(TBasicConfigManager):
