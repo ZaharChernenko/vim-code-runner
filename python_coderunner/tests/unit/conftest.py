@@ -112,13 +112,23 @@ def fixture_shebang_command_builders_dispatcher(
 
 @pytest.fixture
 def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher:
-    glob_patterns = ("**/*.py", "*.js", "*.java", "*.cpp", "*.8xp.txt", "*.*.*", "**/*.log", "**/*.*.*")
+    glob_patterns: Tuple[str, ...] = (
+        "**/*.py",
+        "**/test.py",
+        "*.js",
+        "*.java",
+        "*.cpp",
+        "*.8xp.txt",
+        "*.*.*",
+        "**/*.log",
+        "**/*.*.*",
+    )
     glob_to_builder: Tuple[Tuple[re.Pattern, ICommandBuilder], ...] = tuple(
         (
             re.compile(glob.translate(pattern, recursive=True, include_hidden=True)),
             MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=pattern)),
         )
-        for pattern in glob_patterns
+        for pattern in sorted(glob_patterns, reverse=True)
     )
 
     return TGlobCommandBuildersDispatcher(glob_to_builder)
@@ -128,7 +138,7 @@ def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher
 def fixture_file_ext_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileExtCommandBuildersDispatcher:
-    extensions: List[str] = [".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rb", ".8xp.txt", ".x.y.z"]
+    extensions: Tuple[str, ...] = (".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rb", ".8xp.txt", ".x.y.z")
     file_ext_to_builder: Dict[str, ICommandBuilder] = {
         ext: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=ext)) for ext in extensions
     }
@@ -142,7 +152,18 @@ def fixture_file_ext_command_builders_dispatcher(
 def fixture_file_type_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileTypeCommandBuildersDispatcher:
-    languages: List[str] = ["Python", "JavaScript", "TypeScript", "Java", "C++", "C", "Go", "Ruby", "PHP", "Shell"]
+    languages: Tuple[str, ...] = (
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Java",
+        "C++",
+        "C",
+        "Go",
+        "Ruby",
+        "PHP",
+        "Shell",
+    )
     file_type_to_builder: Dict[str, ICommandBuilder] = {
         lang: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=lang)) for lang in languages
     }

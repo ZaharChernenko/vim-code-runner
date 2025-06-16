@@ -9,9 +9,10 @@ from src.command_builders_dispatcher import TFileTypeCommandBuildersDispatcher
 @pytest.mark.parametrize(
     ("file_path", "expected_build_result"),
     [
+        ("/home/test.py", "**/test.py"),
         ("/home/script.py", "**/*.py"),
         ("/home/.ycm.py", "**/*.py"),
-        (".ycm.py", "**/*.py"),
+        (".ycm.py", "*.*.*"),
         ("file.js", "*.js"),
         ("file.8xp.txt", "*.8xp.txt"),
         ("x.y.z", "*.*.*"),

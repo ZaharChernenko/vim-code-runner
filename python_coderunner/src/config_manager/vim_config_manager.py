@@ -10,14 +10,17 @@ from src.config_manager.basic import (
 
 
 class TVimConfigGetter(IConfigGetter):
-    def get_by_glob(self) -> Any:
-        return self._get_vim_var("g:coderunner_by_glob")
-
     def get_by_file_ext(self) -> Any:
         return self._get_vim_var("g:coderunner_by_file_ext")
 
     def get_by_file_type(self) -> Any:
         return self._get_vim_var("g:coderunner_by_file_type")
+
+    def get_by_glob(self) -> Any:
+        return self._get_vim_var("g:coderunner_by_glob")
+
+    def get_coderunner_tempfile_prefix(self) -> Any:
+        return self._get_vim_var("g:coderunner_tempfile_prefix")
 
     def get_dispatchers_order(self) -> Any:
         return self._get_vim_var("g:coderunner_runners_order")
@@ -30,6 +33,9 @@ class TVimConfigGetter(IConfigGetter):
 
     def get_respect_shebang(self) -> Any:
         return self._get_vim_var("g:coderunner_respect_shebang")
+
+    def get_remove_coderunner_tempfiles_on_exit(self) -> Any:
+        return self._get_vim_var("g:coderunner_remove_coderunner_tempfiles_on_exit")
 
     def get_save_all_files_before_run(self) -> Any:
         return self._get_vim_var("g:coderunner_save_all_files_before_run")
@@ -45,15 +51,17 @@ class TVimConfigGetter(IConfigGetter):
 
 
 class TVimConfigManager(TBasicConfigManager):
-    by_glob_alias: ClassVar[str] = "g:coderunner_by_glob"
     by_file_ext_alias: ClassVar[str] = "g:coderunner_by_file_ext"
     by_file_type_alias: ClassVar[str] = "g:coderunner_by_file_type"
+    by_glob_alias: ClassVar[str] = "g:coderunner_by_glob"
 
     dispatchers_order_alias: ClassVar[str] = "g:coderunner_runners_order"
 
+    coderunner_tempfile_prefix_alias: ClassVar[str] = "g:coderunner_tempfile_prefix"
     executor_alias: ClassVar[str] = "g:coderunner_executor"
 
     ignore_selection_alias: ClassVar[str] = "g:coderunner_ignore_selection"
     respect_shebang_alias: ClassVar[str] = "g:coderunner_respect_shebang"
+    remove_coderunner_tempfiles_on_exit_alias: ClassVar[str] = "g:coderunner_remove_coderunner_tempfiles_on_exit"
     save_all_files_before_run_alias: ClassVar[str] = "g:coderunner_save_all_files_before_run"
     save_file_before_run_alias: ClassVar[str] = "g:coderunner_save_file_before_run"
