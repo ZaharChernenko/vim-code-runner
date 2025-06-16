@@ -15,7 +15,7 @@ import typing
 import vim
 
 
-def safe_coderunner_call(func):
+def safe_coderunner_access(func):
     def wrapper(*args, **kwargs):
         if "coderunner" in globals() and coderunner is not None:
             return func(*args, **kwargs)
@@ -25,24 +25,34 @@ def safe_coderunner_call(func):
     return wrapper
 
 
-@safe_coderunner_call
+@safe_coderunner_access
 def coderunner_run():
     coderunner.run()
 
 
-@safe_coderunner_call
+@safe_coderunner_access
 def coderunner_run_by_glob():
     coderunner.run_by_glob()
 
 
-@safe_coderunner_call
+@safe_coderunner_access
 def coderunner_run_by_file_ext():
     coderunner.run_by_file_ext()
 
 
-@safe_coderunner_call
+@safe_coderunner_access
 def coderunner_run_by_file_type():
     coderunner.run_by_file_type()
+
+
+@safe_coderunner_access
+def coderunner_remove_coderunner_tempfiles():
+    coderunner.remove_coderunner_tempfiles()
+
+
+@safe_coderunner_access
+def coderunner_on_exit():
+    coderunner.on_exit()
 
 
 root_folder_path: str = os.path.dirname(vim.eval("s:script_folder_path"))
@@ -88,6 +98,20 @@ endfunction
 function coderunner#RunByFileType() abort
 python3 << EOF
 coderunner_run_by_file_type()
+EOF
+endfunction
+
+
+function coderunner#RemoveCoderunnerTempfiles() abort
+python3 << EOF
+coderunner_remove_coderunner_tempfiles()
+EOF
+endfunction
+
+
+function coderunner#OnExit() abort
+python3 << EOF
+coderunner_on_exit()
 EOF
 endfunction
 

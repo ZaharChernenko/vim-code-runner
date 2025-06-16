@@ -49,6 +49,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             commands_executor: TVimCommandsExecutor = TVimCommandsExecutor(config_manager)
 
             return TCodeRunner(
+                config_manager=config_manager,
                 editor_service=editor_service_for_coderunner,
                 command_dispatcher_strategy_selector=command_dispatcher_strategy_selector,
                 commands_executor=commands_executor,
@@ -69,9 +70,6 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
         shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher = TShebangCommandBuildersDispatcher(
             file_info_extractor
         )
-        glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher = self._build_glob_command_builders_dispatcher(
-            config_manager, file_info_extractor, project_info_extractor
-        )
         file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher = (
             self._build_file_ext_command_builders_dispatcher(
                 config_manager, file_info_extractor, project_info_extractor
@@ -82,6 +80,9 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
                 config_manager, file_info_extractor, project_info_extractor
             )
         )
+        glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher = self._build_glob_command_builders_dispatcher(
+            config_manager, file_info_extractor, project_info_extractor
+        )
 
         return TBasicCommandDispatcherStrategySelector(
             shebang_command_builders_dispatcher=shebang_command_builders_dispatcher,
@@ -89,23 +90,6 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             file_ext_command_builders_dispatcher=file_ext_command_builders_dispatcher,
             file_type_command_builders_dispatcher=file_type_command_builders_dispatcher,
             config_manager=config_manager,
-        )
-
-    def _build_glob_command_builders_dispatcher(
-        self,
-        config_manager: TVimConfigManager,
-        file_info_extractor: TBasicFileInfoExtractor,
-        project_info_extractor: TVimProjectInfoExtractor,
-    ) -> TGlobCommandBuildersDispatcher:
-        dict_with_commands: Dict[str, str] = config_manager.get_by_glob()
-        return TGlobCommandBuildersDispatcher(
-            tuple(
-                (
-                    re.compile(glob.translate(key, recursive=True, include_hidden=True)),
-                    TInterpolatorCommandBuilder(dict_with_commands[key], project_info_extractor, file_info_extractor),
-                )
-                for key in sorted(dict_with_commands)
-            )
         )
 
     def _build_file_ext_command_builders_dispatcher(
@@ -134,4 +118,21 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
                 for key, val in config_manager.get_by_file_type().items()
             },
             file_info_extractor,
+        )
+
+    def _build_glob_command_builders_dispatcher(
+        self,
+        config_manager: TVimConfigManager,
+        file_info_extractor: TBasicFileInfoExtractor,
+        project_info_extractor: TVimProjectInfoExtractor,
+    ) -> TGlobCommandBuildersDispatcher:
+        dict_with_commands: Dict[str, str] = config_manager.get_by_glob()
+        return TGlobCommandBuildersDispatcher(
+            tuple(
+                (
+                    re.compile(glob.translate(key, recursive=True, include_hidden=True)),
+                    TInterpolatorCommandBuilder(dict_with_commands[key], project_info_extractor, file_info_extractor),
+                )
+                for key in sorted(dict_with_commands, reverse=True)
+            )
         )

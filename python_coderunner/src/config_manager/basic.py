@@ -15,15 +15,19 @@ class UndefinedValueError(ValueError):
 
 class IConfigGetter(ABC):
     @abstractmethod
-    def get_by_glob(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
     def get_by_file_ext(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
     def get_by_file_type(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_by_glob(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_coderunner_tempfile_prefix(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
@@ -40,6 +44,10 @@ class IConfigGetter(ABC):
 
     @abstractmethod
     def get_respect_shebang(self) -> Any:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_remove_coderunner_tempfiles_on_exit(self) -> Any:
         raise NotImplementedError
 
     @abstractmethod
@@ -88,18 +96,20 @@ class TBasicConfigValidator:
 
 
 class TBasicConfigManager:
-    by_glob_alias: ClassVar[str] = "by_glob"
-    by_glob_allowed_values: ClassVar[str] = "Dict[str, str] value"
     by_file_ext_alias: ClassVar[str] = "by_file_ext"
     by_file_ext_allowed_values: ClassVar[str] = "Dict[str, str] value"
     by_file_type_alias: ClassVar[str] = "by_file_type"
     by_file_type_allowed_values: ClassVar[str] = "Dict[str, str] value"
+    by_glob_alias: ClassVar[str] = "by_glob"
+    by_glob_allowed_values: ClassVar[str] = "Dict[str, str] value"
 
     dispatchers_order_alias: ClassVar[str] = "runners_order"
     dispatchers_order_allowed_values: ClassVar[str] = ", ".join(
         dispatcher_type.value for dispatcher_type in EDispatchersTypes
     )
 
+    coderunner_tempfile_prefix_alias: ClassVar[str] = "coderunner_tempfile_prefix"
+    coderunner_tempfile_prefix_allowed_values: ClassVar[str] = "str value"
     executor_alias: ClassVar[str] = "executor"
     executor_allowed_values: ClassVar[str] = "str value"
 
@@ -108,6 +118,8 @@ class TBasicConfigManager:
     ignore_selection_allowed_values: ClassVar[str] = bool_allowed_values
     respect_shebang_alias: ClassVar[str] = "respect_shebang"
     respect_shebang_allowed_values: ClassVar[str] = bool_allowed_values
+    remove_coderunner_tempfiles_on_exit_alias: ClassVar[str] = "coderunner_remove_coderunner_tempfiles_on_exit"
+    remove_coderunner_tempfiles_on_exit_allowed_values: ClassVar[str] = bool_allowed_values
     save_all_files_before_run_alias: ClassVar[str] = "save_all_files_before_run"
     save_all_files_before_run_allowed_values: ClassVar[str] = bool_allowed_values
     save_file_before_run_alias: ClassVar[str] = "save_file_before_run"
@@ -116,16 +128,6 @@ class TBasicConfigManager:
     def __init__(self, config_getter: IConfigGetter, config_validator: TBasicConfigValidator):
         self._config_getter: IConfigGetter = config_getter
         self._config_validator: TBasicConfigValidator = config_validator
-
-    def get_by_glob(self) -> Dict[str, str]:
-        try:
-            raw_value: Any = self._config_getter.get_by_glob()
-            validated_value: Dict[str, str] = self._config_validator.validate_dispatcher(raw_value)
-            return validated_value
-        except UndefinedValueError as e:
-            raise ValueError(self._format_undefined_value_error_message(e, self.by_glob_allowed_values))
-        except ValidationError as e:
-            raise ValueError(self._format_validation_error_message(e, self.by_glob_alias, self.by_glob_allowed_values))
 
     def get_by_file_ext(self) -> Dict[str, str]:
         try:
@@ -151,6 +153,16 @@ class TBasicConfigManager:
                 self._format_validation_error_message(e, self.by_file_type_alias, self.by_file_type_allowed_values)
             )
 
+    def get_by_glob(self) -> Dict[str, str]:
+        try:
+            raw_value: Any = self._config_getter.get_by_glob()
+            validated_value: Dict[str, str] = self._config_validator.validate_dispatcher(raw_value)
+            return validated_value
+        except UndefinedValueError as e:
+            raise ValueError(self._format_undefined_value_error_message(e, self.by_glob_allowed_values))
+        except ValidationError as e:
+            raise ValueError(self._format_validation_error_message(e, self.by_glob_alias, self.by_glob_allowed_values))
+
     def get_dispatchers_order(self) -> List[EDispatchersTypes]:
         try:
             raw_value: Any = self._config_getter.get_dispatchers_order()
@@ -162,6 +174,22 @@ class TBasicConfigManager:
             raise ValueError(
                 self._format_validation_error_message(
                     e, self.dispatchers_order_alias, self.dispatchers_order_allowed_values
+                )
+            )
+
+    def get_coderunner_tempfile_prefix(self) -> str:
+        try:
+            raw_value: Any = self._config_getter.get_coderunner_tempfile_prefix()
+            validated_value: str = self._config_validator.validate_str(raw_value)
+            return validated_value
+        except UndefinedValueError as e:
+            raise ValueError(
+                self._format_undefined_value_error_message(e, self.coderunner_tempfile_prefix_allowed_values)
+            )
+        except ValidationError as e:
+            raise ValueError(
+                self._format_validation_error_message(
+                    e, self.coderunner_tempfile_prefix_alias, self.coderunner_tempfile_prefix_allowed_values
                 )
             )
 
@@ -202,6 +230,24 @@ class TBasicConfigManager:
             raise ValueError(
                 self._format_validation_error_message(
                     e, self.respect_shebang_alias, self.respect_shebang_allowed_values
+                )
+            )
+
+    def get_remove_coderunner_tempfiles_on_exit(self) -> bool:
+        try:
+            raw_value: Any = self._config_getter.get_remove_coderunner_tempfiles_on_exit()
+            validated_value: bool = self._config_validator.validate_bool(raw_value)
+            return validated_value
+        except UndefinedValueError as e:
+            raise ValueError(
+                self._format_undefined_value_error_message(e, self.remove_coderunner_tempfiles_on_exit_allowed_values)
+            )
+        except ValidationError as e:
+            raise ValueError(
+                self._format_validation_error_message(
+                    e,
+                    self.remove_coderunner_tempfiles_on_exit_alias,
+                    self.remove_coderunner_tempfiles_on_exit_allowed_values,
                 )
             )
 
