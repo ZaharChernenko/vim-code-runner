@@ -10,8 +10,7 @@ class TVimEditor(IEditor):
         return vim.current.buffer.name
 
     def get_selected_text(self) -> Optional[str]:
-        # use echo py3eval to debug
-        return vim.eval("coderunner#GetSelectedText()")
+        return vim.eval("coderunner#GetSelectedText(a:visualmode, a:range, a:first_line, a:last_line)")
 
     def save_all_files(self) -> None:
         vim.command("wa")
