@@ -1,7 +1,7 @@
 [project]
 name = "vim-code-runner"
 version = "0.1.0"
-requires-python = ">=3.5"
+requires-python = ">=3.13"
 dependencies = [
     "isort>=4.3.21",
     "mypy>=0.910",

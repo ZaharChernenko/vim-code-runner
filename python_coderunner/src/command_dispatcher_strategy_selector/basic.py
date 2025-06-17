@@ -55,11 +55,6 @@ class TBasicCommandDispatcherStrategySelector:
 
         for dispatcher in self._config_manager.get_dispatchers_order():
             if (
-                dispatcher == EDispatchersTypes.BY_GLOB
-                and (command_builder := self.dispatch_by_glob(file_path_abs)) is not None
-            ):
-                return command_builder
-            if (
                 dispatcher == EDispatchersTypes.BY_FILE_EXT
                 and (command_builder := self.dispatch_by_file_ext(file_path_abs)) is not None
             ):
@@ -67,6 +62,11 @@ class TBasicCommandDispatcherStrategySelector:
             if (
                 dispatcher == EDispatchersTypes.BY_FILE_TYPE
                 and (command_builder := self.dispatch_by_file_type(file_path_abs)) is not None
+            ):
+                return command_builder
+            if (
+                dispatcher == EDispatchersTypes.BY_GLOB
+                and (command_builder := self.dispatch_by_glob(file_path_abs)) is not None
             ):
                 return command_builder
 
