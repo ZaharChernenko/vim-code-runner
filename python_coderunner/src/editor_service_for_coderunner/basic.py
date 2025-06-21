@@ -58,3 +58,4 @@ class TBasicEditorServiceForCodeRunner:
                 os.unlink(temp_file_abs_path)
             except OSError:
                 pass
+        self._temp_files.clear()

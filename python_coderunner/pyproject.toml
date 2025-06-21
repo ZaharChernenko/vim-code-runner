@@ -1,7 +1,7 @@
 [project]
 name = "vim-code-runner"
 version = "0.1.0"
-requires-python = ">=3.5"
+requires-python = ">=3.13"
 dependencies = [
     "isort>=4.3.21",
     "mypy>=0.910",
@@ -11,6 +11,7 @@ dependencies = [
     "pytest-mock>=3.5.1",
     "pyyaml>=5.4.1",
     "requests>=2.27.1",
+    "ruff>=0.12.0",
 ]
 
 [tool.pytest.ini_options]
