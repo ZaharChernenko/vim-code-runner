@@ -11,9 +11,9 @@ from src.command_builders_dispatcher import TFileExtCommandBuildersDispatcher
     [
         ("/home/script.py", ".py"),
         ("/app.js", ".js"),
-        (".8xp.txt", ".8xp.txt"),
-        ("/home/unknown.x.y.z", ".x.y.z"),
-        ("/home/unknownx.y.z", None),
+        (".8xp.txt", ".txt"),
+        ("/home/unknown.x.y.z", ".z"),
+        ("/home/unknown.unknown", None),
     ],
 )
 def test_file_ext_command_builders_dispatcher(

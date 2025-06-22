@@ -22,7 +22,7 @@ from src.config_manager import (
 )
 from src.editor import TVimEditor
 from src.editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
-from src.file_info_extractor import TBasicFileInfoExtractor
+from src.file_info_extractor import TVimFileInfoExtractor
 from src.message_printer import TVimMessagePrinter
 from src.project_info_extractor import TVimProjectInfoExtractor
 
@@ -33,7 +33,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
         try:
-            file_info_extractor: TBasicFileInfoExtractor = TBasicFileInfoExtractor()
+            file_info_extractor: TVimFileInfoExtractor = TVimFileInfoExtractor()
             project_info_extractor: TVimProjectInfoExtractor = TVimProjectInfoExtractor(file_info_extractor)
 
             editor: TVimEditor = TVimEditor()
@@ -64,7 +64,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
     def _build_command_dispatcher_strategy_selector(
         self,
         config_manager: TVimConfigManager,
-        file_info_extractor: TBasicFileInfoExtractor,
+        file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TBasicCommandDispatcherStrategySelector:
         shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher = TShebangCommandBuildersDispatcher(
@@ -95,7 +95,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
     def _build_file_ext_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
-        file_info_extractor: TBasicFileInfoExtractor,
+        file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TFileExtCommandBuildersDispatcher:
         return TFileExtCommandBuildersDispatcher(
@@ -109,7 +109,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
     def _build_file_type_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
-        file_info_extractor: TBasicFileInfoExtractor,
+        file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TFileTypeCommandBuildersDispatcher:
         return TFileTypeCommandBuildersDispatcher(
@@ -123,7 +123,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
     def _build_glob_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
-        file_info_extractor: TBasicFileInfoExtractor,
+        file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TGlobCommandBuildersDispatcher:
         dict_with_commands: Dict[str, str] = config_manager.get_by_glob()

@@ -59,7 +59,7 @@ from src.config_manager import EDispatchersTypes, TBasicConfigManager
             b"#!/usr/bin/python",
             [EDispatchersTypes.BY_FILE_TYPE, EDispatchersTypes.BY_GLOB, EDispatchersTypes.BY_FILE_EXT],
             False,
-            "Python",
+            "python",
         ),
     ],
 )
