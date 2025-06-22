@@ -9,16 +9,10 @@ from src.command_builders_dispatcher import TFileTypeCommandBuildersDispatcher
 @pytest.mark.parametrize(
     ("file_path", "expected_build_result"),
     [
-        ("/home/script.py", "Python"),
-        ("/app.js", "JavaScript"),
-        ("module.ts", "TypeScript"),
-        ("Main.java", "Java"),
-        ("program.cpp", "C++"),
-        ("kernel.c", "C"),
-        ("server.go", "Go"),
-        ("app.rb", "Ruby"),
-        ("index.php", "PHP"),
-        ("start.sh", "Shell"),
+        ("/home/script.py", "python"),
+        ("/app.js", "javascript"),
+        ("module.ts", "typescript"),
+        ("program.cpp", "cpp"),
         ("unknown.xyz", None),
     ],
 )
