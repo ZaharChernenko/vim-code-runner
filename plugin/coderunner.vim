@@ -12,7 +12,7 @@ if exists('g:loaded_coderunner')
     finish
 elseif !has('python3')
     echohl ErrorMsg
-    echo 'Coderunner unavailable: unable to load python3.'
+    echom 'Coderunner unavailable: unable to load python3.'
     echohl None
     call s:restore_cpo()
     finish
@@ -32,7 +32,7 @@ let g:coderunner_save_file_before_run = get(g:, 'coderunner_save_file_before_run
 let g:coderunner_tempfile_prefix = get(g:, 'coderunner_tempfile_prefix', 'coderunner_tempfile_')
 
 if has('vim_starting')
-    augroup coderunnerStart
+    augroup coderunnerVimEnter
         autocmd!
         autocmd VimEnter * call coderunner#Load()
     augroup END
@@ -40,7 +40,7 @@ else
     call coderunner#Load()
 endif
 
-augroup coderunnerEnd
+augroup coderunnerVimLeave
   autocmd!
   autocmd VimLeave * call coderunner#OnExit()
 augroup END
