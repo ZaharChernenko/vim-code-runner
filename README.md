@@ -15,8 +15,13 @@ https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
     - [`g:coderunner_by_file_type`](#gcoderunner_by_file_type)
     - [`g:coderunner_by_glob`](#gcoderunner_by_glob)
     - [`g:coderunner_executor`](#gcoderunner_executor)
-    - [`g:coderunner_save_all_files_before_run` - if 1, saves all open files before execution, note files are saved only if a runner is found, default `0`.](#gcoderunner_save_all_files_before_run---if-1-saves-all-open-files-before-execution-note-files-are-saved-only-if-a-runner-is-found-default-0)
-    - [`g:coderunner_save_file_before_run` - if 1, saves the current file before execution, default `0`.](#gcoderunner_save_file_before_run---if-1-saves-the-current-file-before-execution-default-0)
+    - [`g:coderunner_ignore_selection`](#gcoderunner_ignore_selection)
+    - [`g:coderunner_remove_coderunner_tempfiles_on_exit`](#gcoderunner_remove_coderunner_tempfiles_on_exit)
+    - [`g:coderunner_respect_shebang`](#gcoderunner_respect_shebang)
+    - [`g:coderunner_runners_order`](#gcoderunner_runners_order)
+    - [`g:coderunner_save_all_files_before_run`](#gcoderunner_save_all_files_before_run)
+    - [`g:coderunner_save_file_before_run`](#gcoderunner_save_file_before_run)
+    - [`g:coderunner_tempfile_prefix`](#gcoderunner_tempfile_prefix)
 
 ## Requirements
 - Vim version 8.0+ with Python3 support. Check with:
@@ -42,7 +47,7 @@ Tries to execute the code if the current file type is defined in the [`g:coderun
 ### `CodeRunnerRunByGlob`
 Tries to execute the code if the full path of the current file corresponds to some glob pattern in [`g:coderunner_by_glob`](#gcoderunner_by_glob), **it is important that this function works only with vim, which has version python3.13+.**
 ### `CodeRunnerRun`
-Tries to execute the code using the fallback strategy defined in g:coderunner_runners_order.
+Tries to execute the code using the fallback strategy defined in [`g:coderunner_runners_order`](#gcoderunner_runners_order).
 ### `coderunner#Load()`
 The function that loads the coderunner module also updates the variables: g:coderunner_by_file_ext, g:coderunner_by_file_type g:coderunner_by_glob.
 ### `coderunner#RemoveCoderunnerTempfiles()`
@@ -52,7 +57,7 @@ The function that cleans up temporary files that were created due to run with se
 ### `g:coderunner_by_file_ext`
 Hash table with mapping of file extensions to commands, default `{}`, example:
 ```vim
-let g:coderunner_by_file_type = {
+let g:coderunner_by_file_ext = {
     \ '.cpp': 'bash -c "cd \"$dir\" && g++ -o cpp_output -std=c++2a *.cpp && ./cpp_output"',
     \ '.py': 'bash -c "cd \"$dir\" && python3 \"$fullFileName\""',
 \ }
@@ -87,5 +92,17 @@ let g:coderunner_executor = "FloatermNew --autoclose=0"
 ```
 
 https://github.com/user-attachments/assets/374e11d4-efd8-42ae-bdce-92b5df0cdb39
-### `g:coderunner_save_all_files_before_run` - if 1, saves all open files before execution, note files are saved only if a runner is found, default `0`.
-### `g:coderunner_save_file_before_run` - if 1, saves the current file before execution, default `0`.
+### `g:coderunner_ignore_selection`
+If 1 ranges do not work, the command is executed for the entire file, default `0`.
+### `g:coderunner_remove_coderunner_tempfiles_on_exit`
+If 1, then when exiting the vim, it calls the [coderunner#RemoveCoderunnerTempfiles()](#coderunnerremovecoderunnertempfiles) command, default `0`.
+### `g:coderunner_respect_shebang`
+if 1, the shebang command is executed, even if there are matches in the hash tables, default `1`.
+### `g:coderunner_runners_order`
+Defines the order of searching for matches when executing the [CodeRunnerRun](#coderunnerrun) command, default `['by_glob', 'by_file_ext', 'by_file_type']`.
+### `g:coderunner_save_all_files_before_run`
+If 1, saves all open files before execution, note files are saved only if a runner is found, default `0`.
+### `g:coderunner_save_file_before_run`
+If 1, saves the current file before execution, default `0`.
+### `g:coderunner_tempfile_prefix`
+The prefix with which files will be saved in the directory of the executable file when executing commands with selection.
