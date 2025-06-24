@@ -22,6 +22,10 @@ https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
     - [`g:coderunner_save_all_files_before_run`](#gcoderunner_save_all_files_before_run)
     - [`g:coderunner_save_file_before_run`](#gcoderunner_save_file_before_run)
     - [`g:coderunner_tempfile_prefix`](#gcoderunner_tempfile_prefix)
+  - [Interpolated variables](#interpolated-variables)
+  - [For developers](#for-developers)
+    - [Setup environment](#setup-environment)
+    - [Plugin architecture](#plugin-architecture)
 
 ## Requirements
 - Vim version 8.0+ with Python3 support. Check with:
@@ -84,7 +88,7 @@ Any vim command that can execute a string is suitable, default `ter`, default be
 
 https://github.com/user-attachments/assets/bea987a0-7269-4dc4-ae01-590a71d9dd5f
 
-It is important to note that a regular terminal does not execute commands related through logical operators, for example `&`, so you need to use `bash -c` with a string.
+It is important to note that a regular terminal does not execute commands related through logical operators, for example `&&`, so you need to use `bash -c` with a string.
 
 But for example, if you have [floaterm](https://github.com/voldikss/vim-floaterm) plugin installed, you can set the following command:
 ```vim
@@ -106,3 +110,224 @@ If 1, saves all open files before execution, note files are saved only if a runn
 If 1, saves the current file before execution, default `0`.
 ### `g:coderunner_tempfile_prefix`
 The prefix with which files will be saved in the directory of the executable file when executing commands with selection.
+
+## Interpolated variables
+Some string sequences starting with $ will be replaced, here is a list of them:
+- $workspaceRoot - `getcwd()`
+- $fullFileName
+- $fileNameWithoutExt
+- $fileName
+- $fileExt
+- $driveLetter
+- $dirWithoutTrailingSlash
+- $dir
+
+Example of the work can be viewed in the [tests](https://github.com/ZaharChernenko/vim-code-runner/blob/main/python_coderunner/tests/unit/command_builder/test_interpolator_command_builder.py).
+
+## For developers
+### Setup environment
+```shell
+cd python_coderunner
+uv sync
+pre-commit install
+```
+### Plugin architecture
+```mermaid
+classDiagram
+TCodeRunner "1" o--> "1" IConfigManager : aggregates
+TCodeRunner "1" o--> "1" ICommandsExecutor : aggregates
+TCodeRunner "1" o--> "1" IMessagePrinter : aggregates
+TCodeRunner "1" o--> "1" TBasicEditorServiceForCodeRunner : aggregates
+TCodeRunner "1" o--> "1" TBasicCommandDispatcherStrategySelector : aggregates
+IConfigManager "1" o--> "1" IConfigGetter : aggregates
+IConfigManager "1" o--> "1" TBasicConfigValidator : aggregates
+TBasicEditorServiceForCodeRunner "1" o--> "1" IEditor : aggregates
+TBasicEditorServiceForCodeRunner "1" o--> "1" IConfigManager : aggregates
+ICommandsExecutor "1" o--> "1" IConfigManager : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" TShebangCommandBuildersDispatcher : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" TGlobCommandBuildersDispatcher : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" TFileExtCommandBuildersDispatcher : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" TFileTypeCommandBuildersDispatcher : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" IConfigManager : aggregates
+TShebangCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
+TShebangCommandBuildersDispatcher "1" o--> "1" IFileInfoExtractor : aggregates
+TGlobCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
+TFileExtCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
+TFileExtCommandBuildersDispatcher "1" o--> "1" IFileInfoExtractor : aggregates
+TFileTypeCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
+TFileTypeCommandBuildersDispatcher "1" o--> "1" IFileInfoExtractor : aggregates
+ICommandBuildersDispatcher ..> ICommandBuilder : returns
+TInterpolatorCommandBuilder ..|> ICommandBuilder : implements
+TInterpolatorCommandBuilder "1" o--> "1" IProjectInfoExtractor : aggregates
+TInterpolatorCommandBuilder "1" o--> "1" IFileInfoExtractor : aggregates
+IProjectInfoExtractor "1" o--> "1" IFileInfoExtractor : aggregates
+
+
+class TCodeRunner {
+	# config_manager: IConfigManager
+	# editor_service: TBasicEditorServiceForCodeRunner
+	# command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector
+	# commands_executor: ICommandsExecutor
+	# message_printer: IMessagePrinter
+	+ run() None
+	+ run_by_glob() None
+	+ run_by_file_ext() None
+	+ run_by_file_type() None
+	+ remove_coderunner_tempfiles() None
+	+ on_exit() None
+}
+
+
+
+class IConfigManager {
+	<<interface>>
+	+ get_dispatchers_order() list[str]
+	+ get_executor() str
+	+ get_ignore_selection() bool
+	+ get_respect_shebang() bool
+	+ get_save_all_files() bool
+	+ get_save_file() bool
+}
+
+
+class IConfigGetter {
+	<<interface>>
+	+ get_dispatchers_order() Any
+	+ get_executor() Any
+	+ get_ignore_selection() Any
+	+ get_respect_shebang() Any
+	+ get_save_all_files() Any
+	+ get_save_file() Any
+}
+
+
+class TBasicConfigValidator {
+	+ validate_bool() bool
+	+ validate_str() str
+	+ validate_dispatcher() Dict[str, str]
+	+ validate_dispatchers_order() List[EDispatchersTypes]
+}
+
+
+class TBasicEditorServiceForCodeRunner {
+	# editor: IEditor
+	# config_manager: IConfigManager
+	// creates context which will delete file if it's temporary
+	+ get_file_for_run() Context[str]
+	// runs save_file or save_all_files if the command_builder is found,
+	// and vars in config are True
+	+ prepare_for_run() None
+	+ remove_coderunner_tempfiles() None
+}
+
+
+class IEditor {
+	<<interface>>
+	+ get_current_file_name() str
+	+ get_selected_text() Optional[str]
+	+ save_all_files() None
+	+ save_file() None
+}
+
+
+class ICommandsExecutor {
+	<<interface>>
+	Сlass for executing a string command only.
+	+ execute(command: str) None
+}
+
+
+class IMessagePrinter {
+	+ info(text: str) None
+	+ error(text: str) None
+}
+
+
+class TBasicCommandDispatcherStrategySelector {
+	# config_manager: IConfigManager
+	# shebang_dispatcher: TShebangCommandBuildersDispatcher
+	# file_type_dispatcher: TFileExtCommandBuildersDispatcher
+	# file_ext_dispatcher: TFileTypeCommandBuildersDispatcher
+	# file_glob_dispatcher: ICommandBuildersDispatcher
+	+ dispatch_by_file_type(file_path_abs: str) Optional[ICommandBuilder]
+	+ dispatch_by_file_ext(file_path_abs: str) Optional[ICommandBuilder]
+	+ dispatch_by_glob(file_path_abs: str) Optional[ICommandBuilder]
+	+ dispatch_by_shebang(file_path_abs: str) Optional[TShebangCommandBuilder]
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder] 
+}
+
+
+class TShebangCommandBuildersDispatcher {
+	# file_info_extractor: IFileInfoExtractor
+	+ dispatch(file_path_abs: str) Optional[TShebangCommandBuilder]
+}
+
+
+class TGlobCommandBuildersDispatcher {
+	# file_info_extractor: IFileInfoExtractor
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
+}
+
+
+class TFileExtCommandBuildersDispatcher {
+	# file_info_extractor: IFileInfoExtractor
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
+}
+
+
+class TFileTypeCommandBuildersDispatcher {
+	# file_info_extractor: IFileInfoExtractor
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
+}
+
+
+class ICommandBuildersDispatcher {
+	<<interface>>
+	Dispatch is optional for fallback strategy
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
+}
+
+
+class TInterpolatorCommandBuilder {
+	# template_string: str
+	# file_info_extractor: IFileInfoExtractor
+	+ TInterpolatorCommandBuilder(template_string: str, file_info_extractor: IFileInfoExtractor)
+	+ build(file_path_abs: str) str
+	# interpolate(file_path_abs: str) str
+}
+
+
+class ICommandBuilder {
+	<<interface>>
+	Build requires absolute file path, because file can be temporary, like
+	file which was generated by run selected.
+	+ build(file_path_abs: str) str
+}
+
+
+class IProjectInfoExtractor {
+	<<interface>>
+	# file_info_extractor: IFileInfoExtractor
+	+ get_workspace_root() str
+	if the workspace is large, then it may be worth doing the operation in another thread
+	or asynchronous, which, however, will not give an increase in speed, but perhaps
+	vim will not lag at this moment
+	+ get_all_files_filter_by_exts(exts: set[str]) Iterable[str]
+	+ get_all_files_filter_by_file_type(file_types: set[str]) Iterable[str]
+}
+
+
+class IFileInfoExtractor {
+	<<interface>>
+	Declares all commands that are directly connected to the file.
+	Accepts only file absolute path.
+	+ get_dir(file_path_abs: str) str
+	+ get_dir_without_trailing_slash(file_path_abs: str) str
+	+ get_file_name(file_path_abs: str) str
+	+ get_file_name_without_ext(file_path_abs: str) str
+	+ get_file_ext(file_path_abs: str) str
+	+ get_file_type(file_path_abs: str) Optional[str]
+	+ get_drive_letter(file_path_abs: str) str
+	+ get_shebang(file_path_abs: str) Optional[str]
+}
+```
