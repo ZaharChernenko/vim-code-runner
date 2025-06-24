@@ -12,7 +12,7 @@ if exists('g:loaded_coderunner')
     finish
 elseif !has('python3')
     echohl ErrorMsg
-    echo 'Coderunner unavailable: unable to load python3.'
+    echom 'Coderunner unavailable: unable to load python3.'
     echohl None
     call s:restore_cpo()
     finish
