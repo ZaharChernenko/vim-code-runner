@@ -76,5 +76,16 @@ let g:coderunner_by_glob = {
 ```
 ### `g:coderunner_executor`
 Any vim command that can execute a string is suitable, default `ter`, default behaviour:
+
+https://github.com/user-attachments/assets/bea987a0-7269-4dc4-ae01-590a71d9dd5f
+
+It is important to note that a regular terminal does not execute commands related through logical operators, for example `&`, so you need to use `bash -c` with a string.
+
+But for example, if you have [floaterm](https://github.com/voldikss/vim-floaterm) plugin installed, you can set the following command:
+```vim
+let g:coderunner_executor = "FloatermNew --autoclose=0"
+```
+
+https://github.com/user-attachments/assets/374e11d4-efd8-42ae-bdce-92b5df0cdb39
 ### `g:coderunner_save_all_files_before_run` - if 1, saves all open files before execution, note files are saved only if a runner is found, default `0`.
 ### `g:coderunner_save_file_before_run` - if 1, saves the current file before execution, default `0`.
