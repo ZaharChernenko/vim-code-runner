@@ -1,31 +1,31 @@
 # Vim Code Runner - run your code the same way as with [vs code runner](https://github.com/formulahendry/vscode-code-runner)
 https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
 - [Vim Code Runner - run your code the same way as with vs code runner](#vim-code-runner---run-your-code-the-same-way-as-with-vs-code-runner)
-  - [Requirements](#requirements)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [`CodeRunnerRunByFileExt`](#coderunnerrunbyfileext)
-    - [`CodeRunnerRunByFileType`](#coderunnerrunbyfiletype)
-    - [`CodeRunnerRunByGlob`](#coderunnerrunbyglob)
-    - [`CodeRunnerRun`](#coderunnerrun)
-    - [`coderunner#Load()`](#coderunnerload)
-    - [`coderunner#RemoveCoderunnerTempfiles()`](#coderunnerremovecoderunnertempfiles)
-  - [Configuration](#configuration)
-    - [`g:coderunner_by_file_ext`](#gcoderunner_by_file_ext)
-    - [`g:coderunner_by_file_type`](#gcoderunner_by_file_type)
-    - [`g:coderunner_by_glob`](#gcoderunner_by_glob)
-    - [`g:coderunner_executor`](#gcoderunner_executor)
-    - [`g:coderunner_ignore_selection`](#gcoderunner_ignore_selection)
-    - [`g:coderunner_remove_coderunner_tempfiles_on_exit`](#gcoderunner_remove_coderunner_tempfiles_on_exit)
-    - [`g:coderunner_respect_shebang`](#gcoderunner_respect_shebang)
-    - [`g:coderunner_runners_order`](#gcoderunner_runners_order)
-    - [`g:coderunner_save_all_files_before_run`](#gcoderunner_save_all_files_before_run)
-    - [`g:coderunner_save_file_before_run`](#gcoderunner_save_file_before_run)
-    - [`g:coderunner_tempfile_prefix`](#gcoderunner_tempfile_prefix)
-  - [Interpolated variables](#interpolated-variables)
-  - [For developers](#for-developers)
-    - [Setup environment](#setup-environment)
-    - [Plugin architecture](#plugin-architecture)
+	- [Requirements](#requirements)
+	- [Installation](#installation)
+	- [Usage](#usage)
+		- [`CodeRunnerRunByFileExt`](#coderunnerrunbyfileext)
+		- [`CodeRunnerRunByFileType`](#coderunnerrunbyfiletype)
+		- [`CodeRunnerRunByGlob`](#coderunnerrunbyglob)
+		- [`CodeRunnerRun`](#coderunnerrun)
+		- [`coderunner#Load()`](#coderunnerload)
+		- [`coderunner#RemoveCoderunnerTempfiles()`](#coderunnerremovecoderunnertempfiles)
+	- [Configuration](#configuration)
+		- [`g:coderunner_by_file_ext`](#gcoderunner_by_file_ext)
+		- [`g:coderunner_by_file_type`](#gcoderunner_by_file_type)
+		- [`g:coderunner_by_glob`](#gcoderunner_by_glob)
+		- [`g:coderunner_executor`](#gcoderunner_executor)
+		- [`g:coderunner_ignore_selection`](#gcoderunner_ignore_selection)
+		- [`g:coderunner_remove_coderunner_tempfiles_on_exit`](#gcoderunner_remove_coderunner_tempfiles_on_exit)
+		- [`g:coderunner_respect_shebang`](#gcoderunner_respect_shebang)
+		- [`g:coderunner_runners_order`](#gcoderunner_runners_order)
+		- [`g:coderunner_save_all_files_before_run`](#gcoderunner_save_all_files_before_run)
+		- [`g:coderunner_save_file_before_run`](#gcoderunner_save_file_before_run)
+		- [`g:coderunner_tempfile_prefix`](#gcoderunner_tempfile_prefix)
+	- [Interpolated variables](#interpolated-variables)
+	- [For developers](#for-developers)
+		- [Setup environment](#setup-environment)
+		- [Plugin architecture](#plugin-architecture)
 
 ## Requirements
 - Vim version 8.0+ with Python3 support. Check with:
@@ -129,6 +129,7 @@ Example of the work can be viewed in the [tests](https://github.com/ZaharChernen
 ```shell
 cd python_coderunner
 uv sync
+source .venv/bin/activate
 pre-commit install
 ```
 ### Plugin architecture
