@@ -16,7 +16,7 @@ class TBasicEditorServiceForCodeRunner:
         self._temp_files: List[str] = []
 
     @contextmanager
-    def get_file_for_run(self) -> Generator[str]:
+    def get_file_for_run(self) -> Generator[str, None, None]:
         file_path_abs: str = self._editor.get_current_file_name()
 
         if (

@@ -132,7 +132,7 @@ def fixture_project_info_extractor(request: pytest.FixtureRequest) -> IProjectIn
 @pytest.fixture
 def fixture_vim_project_info_extractor(
     fixture_file_info_extractor: IFileInfoExtractor,
-) -> Generator[IProjectInfoExtractor]:
+) -> Generator[IProjectInfoExtractor, None, None]:
     with tempfile.TemporaryDirectory() as temp_dir:
         extractor: TVimProjectInfoExtractor = TVimProjectInfoExtractor(fixture_file_info_extractor)
         with unittest.mock.patch.object(
@@ -149,7 +149,7 @@ def fixture_file_info_extractor(request: pytest.FixtureRequest) -> IFileInfoExtr
 
 
 @pytest.fixture
-def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor]:
+def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor, None, None]:
     extractor: TVimFileInfoExtractor = TVimFileInfoExtractor()
     ext_to_lang: Dict[str, str] = {
         ".py": "python",
