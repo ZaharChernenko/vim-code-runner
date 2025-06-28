@@ -213,10 +213,10 @@ class TBasicConfigValidator {
 class TBasicEditorServiceForCodeRunner {
 	# editor: IEditor
 	# config_manager: IConfigManager
-	// creates context which will delete file if it's temporary
+	Creates context which will delete file if it's temporary
 	+ get_file_for_run() Context[str]
-	// runs save_file or save_all_files if the command_builder is found,
-	// and vars in config are True
+	Runs save_file or save_all_files if the command_builder is found,
+	and vars in config are True
 	+ prepare_for_run() None
 	+ remove_coderunner_tempfiles() None
 }
@@ -253,32 +253,28 @@ class TBasicCommandDispatcherStrategySelector {
 	+ dispatch_by_file_type(file_path_abs: str) Optional[ICommandBuilder]
 	+ dispatch_by_file_ext(file_path_abs: str) Optional[ICommandBuilder]
 	+ dispatch_by_glob(file_path_abs: str) Optional[ICommandBuilder]
-	+ dispatch_by_shebang(file_path_abs: str) Optional[TShebangCommandBuilder]
+	+ dispatch_by_shebang(file_path_abs: str) Optional[ICommandBuilder]
 	+ dispatch(file_path_abs: str) Optional[ICommandBuilder] 
 }
 
 
 class TShebangCommandBuildersDispatcher {
 	# file_info_extractor: IFileInfoExtractor
-	+ dispatch(file_path_abs: str) Optional[TShebangCommandBuilder]
 }
 
 
 class TGlobCommandBuildersDispatcher {
 	# file_info_extractor: IFileInfoExtractor
-	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
 }
 
 
 class TFileExtCommandBuildersDispatcher {
 	# file_info_extractor: IFileInfoExtractor
-	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
 }
 
 
 class TFileTypeCommandBuildersDispatcher {
 	# file_info_extractor: IFileInfoExtractor
-	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
 }
 
 
@@ -293,7 +289,6 @@ class TInterpolatorCommandBuilder {
 	# template_string: str
 	# file_info_extractor: IFileInfoExtractor
 	+ TInterpolatorCommandBuilder(template_string: str, file_info_extractor: IFileInfoExtractor)
-	+ build(file_path_abs: str) str
 	# interpolate(file_path_abs: str) str
 }
 
@@ -310,7 +305,7 @@ class IProjectInfoExtractor {
 	<<interface>>
 	# file_info_extractor: IFileInfoExtractor
 	+ get_workspace_root() str
-	if the workspace is large, then it may be worth doing the operation in another thread
+	If the workspace is large, then it may be worth doing the operation in another thread
 	or asynchronous, which, however, will not give an increase in speed, but perhaps
 	vim will not lag at this moment
 	+ get_all_files_filter_by_exts(exts: set[str]) Iterable[str]
