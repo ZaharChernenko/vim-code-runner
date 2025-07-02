@@ -1,2 +1,2 @@
-from src.file_info_extractor.interface import IFileInfoExtractor
-from src.file_info_extractor.vim_file_info_extractor import TVimFileInfoExtractor
+from .interface import IFileInfoExtractor
+from .vim_file_info_extractor import TVimFileInfoExtractor

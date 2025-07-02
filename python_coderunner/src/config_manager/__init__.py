@@ -1,4 +1,4 @@
-from src.config_manager.basic import (
+from .basic import (
     EDispatchersTypes,
     IConfigGetter,
     TBasicConfigManager,
@@ -6,4 +6,4 @@ from src.config_manager.basic import (
     UndefinedValueError,
     ValidationError,
 )
-from src.config_manager.vim_config_manager import TVimConfigGetter, TVimConfigManager
+from .vim_config_manager import TVimConfigGetter, TVimConfigManager

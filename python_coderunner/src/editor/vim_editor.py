@@ -2,7 +2,7 @@ from typing import Optional
 
 import vim
 
-from src.editor.interface import IEditor
+from .interface import IEditor
 
 
 class TVimEditor(IEditor):

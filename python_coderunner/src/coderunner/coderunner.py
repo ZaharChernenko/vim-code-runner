@@ -1,13 +1,13 @@
 from typing import Callable, Optional
 
-from src.command_builder import ICommandBuilder
-from src.command_dispatcher_strategy_selector import (
+from ..command_builder import ICommandBuilder
+from ..command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
-from src.commands_executor import ICommandsExecutor
-from src.config_manager import TBasicConfigManager
-from src.editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
-from src.message_printer import IMessagePrinter
+from ..commands_executor import ICommandsExecutor
+from ..config_manager import TBasicConfigManager
+from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
+from ..message_printer import IMessagePrinter
 
 
 class TCodeRunner:

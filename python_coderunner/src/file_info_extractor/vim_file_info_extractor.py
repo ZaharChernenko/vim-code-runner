@@ -2,7 +2,7 @@ from typing import Optional
 
 import vim
 
-from src.file_info_extractor.interface import IFileInfoExtractor
+from .interface import IFileInfoExtractor
 
 
 class TVimFileInfoExtractor(IFileInfoExtractor):

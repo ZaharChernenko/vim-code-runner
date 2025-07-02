@@ -1,9 +1,9 @@
 import re
 from typing import ClassVar
 
-from src.command_builder.interface import ICommandBuilder
-from src.file_info_extractor import IFileInfoExtractor
-from src.project_info_extractor import IProjectInfoExtractor
+from ..file_info_extractor import IFileInfoExtractor
+from ..project_info_extractor import IProjectInfoExtractor
+from .interface import ICommandBuilder
 
 
 class TInterpolatorCommandBuilder(ICommandBuilder):

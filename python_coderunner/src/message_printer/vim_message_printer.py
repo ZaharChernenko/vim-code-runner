@@ -1,6 +1,6 @@
 import vim
 
-from src.message_printer.interface import IMessagePrinter
+from .interface import IMessagePrinter
 
 
 class TVimMessagePrinter(IMessagePrinter):

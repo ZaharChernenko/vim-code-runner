@@ -1,4 +1,4 @@
-from src.command_builder.interface import ICommandBuilder
+from .interface import ICommandBuilder
 
 
 class TConcatenatorCommandBuilder(ICommandBuilder):

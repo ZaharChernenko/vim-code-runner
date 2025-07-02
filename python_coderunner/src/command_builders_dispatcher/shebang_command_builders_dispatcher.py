@@ -1,8 +1,8 @@
 from typing import Optional
 
-from src.command_builder import ICommandBuilder, TConcatenatorCommandBuilder
-from src.command_builders_dispatcher.interface import ICommandBuildersDispatcher
-from src.file_info_extractor import IFileInfoExtractor
+from ..command_builder import ICommandBuilder, TConcatenatorCommandBuilder
+from ..file_info_extractor import IFileInfoExtractor
+from .interface import ICommandBuildersDispatcher
 
 
 class TShebangCommandBuildersDispatcher(ICommandBuildersDispatcher):

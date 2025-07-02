@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from src.coderunner import TCodeRunner
+from ..coderunner import TCodeRunner
 
 
 class ICodeRunnerBuilder(ABC):

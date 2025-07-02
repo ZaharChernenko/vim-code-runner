@@ -1,6 +1,6 @@
 import vim
 
-from src.project_info_extractor.interface import IProjectInfoExtractor
+from .interface import IProjectInfoExtractor
 
 
 class TVimProjectInfoExtractor(IProjectInfoExtractor):

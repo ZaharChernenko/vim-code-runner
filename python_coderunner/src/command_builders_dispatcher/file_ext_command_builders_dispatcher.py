@@ -1,8 +1,8 @@
 from typing import Dict, Final, Optional
 
-from src.command_builder import ICommandBuilder
-from src.command_builders_dispatcher.interface import ICommandBuildersDispatcher
-from src.file_info_extractor import IFileInfoExtractor
+from ..command_builder import ICommandBuilder
+from ..file_info_extractor import IFileInfoExtractor
+from .interface import ICommandBuildersDispatcher
 
 
 class TFileExtCommandBuildersDispatcher(ICommandBuildersDispatcher):

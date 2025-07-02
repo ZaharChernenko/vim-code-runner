@@ -61,12 +61,10 @@ def coderunner_on_exit():
     coderunner.on_exit()
 
 
-root_folder_path: str = os.path.dirname(vim.eval("s:script_folder_path"))
-sys.path[0:0] = [os.path.join(root_folder_path, "python_coderunner")]
+sys.path.insert(0, os.path.dirname(vim.eval("s:script_folder_path")))
 try:
-    from src.coderunner import TCodeRunner
-    from src.coderunner_builder import TVimCodeRunnerBuilder
-    coderunner: TCodeRunner = TVimCodeRunnerBuilder().build()
+    import python_coderunner
+    coderunner: python_coderunner.coderunner.TCodeRunner = python_coderunner.coderunner_builder.TVimCodeRunnerBuilder().build()
 except Exception as error:
     vim.command("redraw | echohl ErrorMsg")
     for line in traceback.format_exc().splitlines():

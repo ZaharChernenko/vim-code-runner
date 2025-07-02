@@ -1,13 +1,13 @@
 from typing import Optional
 
-from src.command_builder import ICommandBuilder
-from src.command_builders_dispatcher import (
+from ..command_builder import ICommandBuilder
+from ..command_builders_dispatcher import (
     TFileExtCommandBuildersDispatcher,
     TFileTypeCommandBuildersDispatcher,
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from src.config_manager import EDispatchersTypes, TBasicConfigManager
+from ..config_manager import EDispatchersTypes, TBasicConfigManager
 
 
 class TBasicCommandDispatcherStrategySelector:

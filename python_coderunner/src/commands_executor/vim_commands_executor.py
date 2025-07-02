@@ -1,7 +1,7 @@
 import vim
 
-from src.commands_executor.inteface import ICommandsExecutor
-from src.config_manager import TBasicConfigManager
+from ..config_manager import TBasicConfigManager
+from .inteface import ICommandsExecutor
 
 
 class TVimCommandsExecutor(ICommandsExecutor):
