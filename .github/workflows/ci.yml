@@ -28,7 +28,8 @@ jobs:
 
       - name: Install deps
         run: |
-          uv pip install --system --requirements python_coderunner/pyproject.toml
+          cd python_coderunner
+          uv pip install --system --group dev --requirements=pyproject.toml
 
       - name: Run pre-commit
         run: |
@@ -53,7 +54,8 @@ jobs:
 
       - name: Install deps
         run: |
-          uv pip install --system --requirements python_coderunner/pyproject.toml
+          cd python_coderunner
+          uv pip install --system --group dev --requirements=pyproject.toml
 
       - name: Run tests
         run: |

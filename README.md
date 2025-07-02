@@ -39,8 +39,8 @@ https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
 
 ## Installation
 Install the Vim plugin with your favorite plugin manager, e.g. vim-plug:
-```vim  
-Plug 'ZaharChernenko/vim-code-runner'  
+```vim
+Plug 'ZaharChernenko/vim-code-runner'
 ```
 
 ## Usage
@@ -81,7 +81,7 @@ Hash table with mapping glob patterns into commands, given that the hash table i
 let g:coderunner_by_glob = {
     \ '**/*.cpp': 'bash -c "cd \"$dir\" && g++ -o cpp_output -std=c++2a *.cpp && ./cpp_output"',
     \ '**/*.py': 'bash -c "cd \"$dir\" && python3 \"$fullFileName\""',
-\ } 
+\ }
 ```
 ### `g:coderunner_executor`
 Any vim command that can execute a string is suitable, default `ter`, default behaviour:
@@ -128,7 +128,7 @@ Example of the work can be viewed in the [tests](https://github.com/ZaharChernen
 ### Setup environment
 ```shell
 cd python_coderunner
-uv sync
+uv sync --group dev
 source .venv/bin/activate
 pre-commit install
 ```
@@ -254,7 +254,7 @@ class TBasicCommandDispatcherStrategySelector {
 	+ dispatch_by_file_ext(file_path_abs: str) Optional[ICommandBuilder]
 	+ dispatch_by_glob(file_path_abs: str) Optional[ICommandBuilder]
 	+ dispatch_by_shebang(file_path_abs: str) Optional[ICommandBuilder]
-	+ dispatch(file_path_abs: str) Optional[ICommandBuilder] 
+	+ dispatch(file_path_abs: str) Optional[ICommandBuilder]
 }
 
 
