@@ -1,3 +1,3 @@
-from src.command_builder.concatenator_command_builder import TConcatenatorCommandBuilder
-from src.command_builder.interface import ICommandBuilder
-from src.command_builder.interpolator_command_builder import TInterpolatorCommandBuilder
+from .concatenator_command_builder import TConcatenatorCommandBuilder
+from .interface import ICommandBuilder
+from .interpolator_command_builder import TInterpolatorCommandBuilder

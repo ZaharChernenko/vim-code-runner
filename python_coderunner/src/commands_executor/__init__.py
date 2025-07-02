@@ -1,2 +1,2 @@
-from src.commands_executor.inteface import ICommandsExecutor
-from src.commands_executor.vim_commands_executor import TVimCommandsExecutor
+from .inteface import ICommandsExecutor
+from .vim_commands_executor import TVimCommandsExecutor

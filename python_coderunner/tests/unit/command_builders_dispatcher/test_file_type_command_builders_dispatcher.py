@@ -3,7 +3,9 @@ from typing import Optional
 import pytest
 
 from src.command_builder import ICommandBuilder
-from src.command_builders_dispatcher import TFileTypeCommandBuildersDispatcher
+from src.command_builders_dispatcher import (
+    TFileTypeCommandBuildersDispatcher,
+)
 
 
 @pytest.mark.parametrize(

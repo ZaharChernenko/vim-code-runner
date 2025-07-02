@@ -1,1 +1,1 @@
-from src.coderunner.coderunner import TCodeRunner
+from .coderunner import TCodeRunner

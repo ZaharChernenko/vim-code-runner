@@ -2,7 +2,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Iterable, Set
 
-from src.file_info_extractor import IFileInfoExtractor
+from ..file_info_extractor import IFileInfoExtractor
 
 
 class IProjectInfoExtractor(ABC):

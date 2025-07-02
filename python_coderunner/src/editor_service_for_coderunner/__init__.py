@@ -1,1 +1,1 @@
-from src.editor_service_for_coderunner.basic import TBasicEditorServiceForCodeRunner
+from .basic import TBasicEditorServiceForCodeRunner

@@ -2,29 +2,29 @@ import glob
 import re
 from typing import Dict, Optional
 
-from src.coderunner import TCodeRunner
-from src.coderunner_builder.interface import ICodeRunnerBuilder
-from src.command_builder import TInterpolatorCommandBuilder
-from src.command_builders_dispatcher import (
+from ..coderunner import TCodeRunner
+from ..command_builder import TInterpolatorCommandBuilder
+from ..command_builders_dispatcher import (
     TFileExtCommandBuildersDispatcher,
     TFileTypeCommandBuildersDispatcher,
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from src.command_dispatcher_strategy_selector import (
+from ..command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
-from src.commands_executor import TVimCommandsExecutor
-from src.config_manager import (
+from ..commands_executor import TVimCommandsExecutor
+from ..config_manager import (
     TBasicConfigValidator,
     TVimConfigGetter,
     TVimConfigManager,
 )
-from src.editor import TVimEditor
-from src.editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
-from src.file_info_extractor import TVimFileInfoExtractor
-from src.message_printer import TVimMessagePrinter
-from src.project_info_extractor import TVimProjectInfoExtractor
+from ..editor import TVimEditor
+from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
+from ..file_info_extractor import TVimFileInfoExtractor
+from ..message_printer import TVimMessagePrinter
+from ..project_info_extractor import TVimProjectInfoExtractor
+from .interface import ICodeRunnerBuilder
 
 
 class TVimCodeRunnerBuilder(ICodeRunnerBuilder):

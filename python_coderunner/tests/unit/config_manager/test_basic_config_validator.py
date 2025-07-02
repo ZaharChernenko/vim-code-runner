@@ -2,7 +2,11 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-from src.config_manager import EDispatchersTypes, TBasicConfigValidator, ValidationError
+from src.config_manager import (
+    EDispatchersTypes,
+    TBasicConfigValidator,
+    ValidationError,
+)
 
 
 class TestConfigValidator:

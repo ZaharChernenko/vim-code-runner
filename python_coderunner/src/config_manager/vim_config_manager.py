@@ -2,7 +2,7 @@ from typing import Any, ClassVar
 
 import vim
 
-from src.config_manager.basic import (
+from .basic import (
     IConfigGetter,
     TBasicConfigManager,
     UndefinedValueError,

@@ -3,9 +3,9 @@ from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 from typing import Generator, List
 
-from src.config_manager import TBasicConfigManager
-from src.editor import IEditor
-from src.file_info_extractor import IFileInfoExtractor
+from ..config_manager import TBasicConfigManager
+from ..editor import IEditor
+from ..file_info_extractor import IFileInfoExtractor
 
 
 class TBasicEditorServiceForCodeRunner:

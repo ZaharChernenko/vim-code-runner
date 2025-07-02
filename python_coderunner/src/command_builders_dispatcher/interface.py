@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from src.command_builder import ICommandBuilder
+from ..command_builder import ICommandBuilder
 
 
 class ICommandBuildersDispatcher(ABC):

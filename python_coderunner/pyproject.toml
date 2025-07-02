@@ -48,7 +48,7 @@ quote-style = "double"
 
 [tool.pylint]
 [tool.pylint.main]
-ignore-paths = ["^tests/unit/",]
+ignore-paths = ["^tests/unit/", "^.venv/"]
 init-hook = """
 import os, sys
 cur_dir = os.getcwd()

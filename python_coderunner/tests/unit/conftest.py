@@ -24,8 +24,14 @@ from src.config_manager import (
     TVimConfigGetter,
     TVimConfigManager,
 )
-from src.file_info_extractor import IFileInfoExtractor, TVimFileInfoExtractor
-from src.project_info_extractor import IProjectInfoExtractor, TVimProjectInfoExtractor
+from src.file_info_extractor import (
+    IFileInfoExtractor,
+    TVimFileInfoExtractor,
+)
+from src.project_info_extractor import (
+    IProjectInfoExtractor,
+    TVimProjectInfoExtractor,
+)
 
 
 @pytest.fixture(params=(lazy_fixture("fixture_vim_config_manager"),))

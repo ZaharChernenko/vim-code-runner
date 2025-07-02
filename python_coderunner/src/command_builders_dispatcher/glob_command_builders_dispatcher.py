@@ -1,8 +1,8 @@
 import re
 from typing import Final, Optional, Tuple
 
-from src.command_builder import ICommandBuilder
-from src.command_builders_dispatcher.interface import ICommandBuildersDispatcher
+from ..command_builder import ICommandBuilder
+from .interface import ICommandBuildersDispatcher
 
 
 class TGlobCommandBuildersDispatcher(ICommandBuildersDispatcher):
