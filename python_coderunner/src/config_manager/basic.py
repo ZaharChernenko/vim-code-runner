@@ -90,7 +90,7 @@ class TBasicConfigValidator:
         if not isinstance(value, list):
             raise ValidationError(f"Invalid dispatcher order container type: {type(value)}.")
 
-        if invalid_items := [v for v in value if v not in EDispatchersTypes]:
+        if invalid_items := [v for v in value if v not in set(EDispatchersTypes)]:
             raise ValidationError(f"Invalid dispatcher types values: {', '.join(map(str, invalid_items))}.")
         return value
 
