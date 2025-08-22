@@ -6,6 +6,8 @@ repos:
         entry: bash -c "cd python_coderunner && ruff check ."
         language: system
         types: [python]
+        stages: [pre-commit]
+        verbose: true
 
       - id: ruff_format
         name: ruff_format
@@ -13,21 +15,37 @@ repos:
         entry: bash -c "cd python_coderunner && ruff format --quiet ."
         language: system
         types: [python]
+        stages: [pre-commit]
+        verbose: true
 
       - id: isort
         name: isort
         entry: bash -c "cd python_coderunner && isort ."
         language: system
         types: [python]
+        stages: [pre-commit]
+        verbose: true
 
       - id: mypy
         name: mypy
         entry: bash -c "cd python_coderunner && mypy ."
         language: system
         types: [python]
+        stages: [pre-commit]
+        verbose: true
 
       - id: pylint
         name: pylint
         entry: bash -c "cd python_coderunner && pylint ."
         language: system
         types: [python]
+        stages: [pre-commit]
+        verbose: true
+
+      - id: commitlint
+        name: commitlint
+        entry: commitlint
+        args: [--file]
+        language: system
+        stages: [commit-msg]
+        verbose: true
