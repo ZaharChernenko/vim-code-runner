@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # get all branches
+          fetch-depth: 0
+
+      - name: Lint commit messages
+        uses: wagoid/commitlint-github-action@v5
 
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
@@ -29,11 +35,10 @@ jobs:
       - name: Install deps
         run: |
           cd python_coderunner
-          uv pip install --system --group dev --requirements=pyproject.toml
+          uv pip install --system --group pre-commit --requirements pyproject.toml
 
       - name: Run pre-commit
         run: |
-          pre-commit install
           pre-commit run --all-files
 
   tests:
@@ -55,7 +60,7 @@ jobs:
       - name: Install deps
         run: |
           cd python_coderunner
-          uv pip install --system --group dev --requirements=pyproject.toml
+          uv pip install --system --group test --requirements pyproject.toml
 
       - name: Run tests
         run: |
