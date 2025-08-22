@@ -423,6 +423,18 @@ dev = [
     { name = "pytest-mock" },
     { name = "ruff" },
 ]
+pre-commit = [
+    { name = "isort" },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pylint" },
+    { name = "ruff" },
+]
+test = [
+    { name = "pytest" },
+    { name = "pytest-lazy-fixture" },
+    { name = "pytest-mock" },
+]
 
 [package.metadata]
 
@@ -437,6 +449,18 @@ dev = [
     { name = "pytest-lazy-fixture", specifier = ">=0.6.3" },
     { name = "pytest-mock", specifier = ">=3.5.1" },
     { name = "ruff", specifier = ">=0.12.0" },
+]
+pre-commit = [
+    { name = "isort", specifier = ">=4.3.21" },
+    { name = "mypy", specifier = ">=0.910" },
+    { name = "pre-commit", specifier = ">=1.21.0" },
+    { name = "pylint", specifier = ">=2.6.2" },
+    { name = "ruff", specifier = ">=0.12.0" },
+]
+test = [
+    { name = "pytest", specifier = ">=6.1.2,<8.0.0" },
+    { name = "pytest-lazy-fixture", specifier = ">=0.6.3" },
+    { name = "pytest-mock", specifier = ">=3.5.1" },
 ]
 
 [[package]]

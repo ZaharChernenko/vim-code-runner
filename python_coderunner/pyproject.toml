@@ -18,6 +18,18 @@ dev = [
     "pytest-mock>=3.5.1",
     "ruff>=0.12.0",
 ]
+pre-commit = [
+    "isort>=4.3.21",
+    "mypy>=0.910",
+    "pre-commit>=1.21.0",
+    "pylint>=2.6.2",
+    "ruff>=0.12.0",
+]
+test = [
+    "pytest>=6.1.2,<8.0.0",
+    "pytest-lazy-fixture>=0.6.3",
+    "pytest-mock>=3.5.1",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path

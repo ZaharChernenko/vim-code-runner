@@ -20,6 +20,9 @@ jobs:
           # get all branches
           fetch-depth: 0
 
+      - name: Lint commit messages
+        uses: wagoid/commitlint-github-action@v5
+
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         with:
@@ -32,11 +35,10 @@ jobs:
       - name: Install deps
         run: |
           cd python_coderunner
-          uv pip install --system --group dev --requirements=pyproject.toml
+          uv pip install --system --group pre-commit --requirements pyproject.toml
 
       - name: Run pre-commit
         run: |
-          commitlint --from origin/${{ github.base_ref }} --to HEAD
           pre-commit run --all-files
 
   tests:
@@ -58,7 +60,7 @@ jobs:
       - name: Install deps
         run: |
           cd python_coderunner
-          uv pip install --system --group dev --requirements=pyproject.toml
+          uv pip install --system --group test --requirements pyproject.toml
 
       - name: Run tests
         run: |
