@@ -36,7 +36,7 @@ jobs:
 
       - name: Run pre-commit
         run: |
-          commitlint --from origin/${{ github.event.pull_request.base.ref }} --to HEAD
+          commitlint --from origin/${{ github.base_ref }} --to HEAD
           pre-commit run --all-files
 
   tests:
