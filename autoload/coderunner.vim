@@ -61,10 +61,9 @@ def coderunner_on_exit():
     coderunner.on_exit()
 
 
-sys.path.insert(0, os.path.join(os.path.dirname(vim.eval("s:script_folder_path")), "python_coderunner"))
+sys.path.insert(0, os.path.dirname(vim.eval("s:script_folder_path")))
 try:
-    from src.coderunner import TCodeRunner
-    from src.coderunner_builder import TVimCodeRunnerBuilder
+    from python_coderunner import TCodeRunner, TVimCodeRunnerBuilder
 
 
     coderunner: TCodeRunner = TVimCodeRunnerBuilder().build()
