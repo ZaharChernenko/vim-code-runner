@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, TypeVar
+from typing import Dict, List, TypeVar
 
 from .config_field import TConfigField
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
@@ -43,7 +43,7 @@ class TBasicConfig(IConfig):
         self._save_all_files_before_run = save_all_files_before_run_field
         self._save_file_before_run = save_file_before_run_field
 
-    def _get_field_value(self, field: TConfigField[ValueType]) -> Any[ValueType]:
+    def _get_field_value(self, field: TConfigField[ValueType]) -> ValueType:
         """
         Get field value, converting ConfigField exceptions to ValueError.
         Preserves exception chain with 'raise from'.
