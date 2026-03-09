@@ -23,10 +23,10 @@ class TConfigField(Generic[ValueType]):
         validator: IValidator[ValueType],
         allowed_values_description: str,
     ):
-        self._name = name
-        self._getter = getter
-        self._validator = validator
-        self._allowed_values_description = allowed_values_description
+        self._name: str = name
+        self._getter: Callable[[], Any] = getter
+        self._validator: IValidator[ValueType] = validator
+        self._allowed_values_description: str = allowed_values_description
 
     def get(self) -> ValueType:
         try:

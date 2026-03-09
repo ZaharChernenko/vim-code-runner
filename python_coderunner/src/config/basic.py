@@ -1,8 +1,11 @@
-from typing import Dict, List
+from typing import Any, Dict, List, TypeVar
 
 from ..command_dispatcher_strategy_selector import EDispatchersTypes
 from .config_field import TConfigField
+from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
 from .interface import IConfig
+
+ValueType = TypeVar("ValueType")
 
 
 class TBasicConfig(IConfig):
@@ -41,35 +44,45 @@ class TBasicConfig(IConfig):
         self._save_all_files_before_run = save_all_files_before_run_field
         self._save_file_before_run = save_file_before_run_field
 
+    def _get_field_value(self, field: TConfigField[ValueType]) -> Any[ValueType]:
+        """
+        Get field value, converting ConfigField exceptions to ValueError.
+        Preserves exception chain with 'raise from'.
+        """
+        try:
+            return field.get()
+        except (ConfigFieldNotFoundError, ConfigFieldValidationError) as e:
+            raise ValueError(str(e)) from e
+
     def get_by_file_ext(self) -> Dict[str, str]:
-        return self._by_file_ext.get()
+        return self._get_field_value(self._by_file_ext)
 
     def get_by_file_type(self) -> Dict[str, str]:
-        return self._by_file_type.get()
+        return self._get_field_value(self._by_file_type)
 
     def get_by_glob(self) -> Dict[str, str]:
-        return self._by_glob.get()
+        return self._get_field_value(self._by_glob)
 
     def get_dispatchers_order(self) -> List[EDispatchersTypes]:
-        return self._dispatchers_order.get()
+        return self._get_field_value(self._dispatchers_order)
 
     def get_coderunner_tempfile_prefix(self) -> str:
-        return self._coderunner_tempfile_prefix.get()
+        return self._get_field_value(self._coderunner_tempfile_prefix)
 
     def get_executor(self) -> str:
-        return self._executor.get()
+        return self._get_field_value(self._executor)
 
     def get_ignore_selection(self) -> bool:
-        return self._ignore_selection.get()
+        return self._get_field_value(self._ignore_selection)
 
     def get_respect_shebang(self) -> bool:
-        return self._respect_shebang.get()
+        return self._get_field_value(self._respect_shebang)
 
     def get_remove_coderunner_tempfiles_on_exit(self) -> bool:
-        return self._remove_coderunner_tempfiles_on_exit.get()
+        return self._get_field_value(self._remove_coderunner_tempfiles_on_exit)
 
     def get_save_all_files_before_run(self) -> bool:
-        return self._save_all_files_before_run.get()
+        return self._get_field_value(self._save_all_files_before_run)
 
     def get_save_file_before_run(self) -> bool:
-        return self._save_file_before_run.get()
+        return self._get_field_value(self._save_file_before_run)
