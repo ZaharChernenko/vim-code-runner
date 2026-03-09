@@ -1,4 +1,4 @@
-from typing import Any, Callable, Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
 from .getter import IConfigValueGetter, UndefinedValueError
@@ -24,7 +24,7 @@ class TConfigField(Generic[ValueType]):
         allowed_values_description: str,
     ):
         self._name: str = name
-        self._getter: Callable[[], Any] = getter
+        self._getter: IConfigValueGetter = getter
         self._validator: IValidator[ValueType] = validator
         self._allowed_values_description: str = allowed_values_description
 
