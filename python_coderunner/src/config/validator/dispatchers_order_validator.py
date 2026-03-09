@@ -1,15 +1,15 @@
-from typing import Any, List, Set
+from typing import Any
 
 from ..interface import EDispatchersTypes
 from .exceptions import ValidationError
 from .interface import IValidator
 
 
-class TDispatchersOrderValidator(IValidator[List[EDispatchersTypes]]):
+class TDispatchersOrderValidator(IValidator[list[EDispatchersTypes]]):
     def __init__(self) -> None:
-        self.allowed_dispatcher_types: Set[EDispatchersTypes] = set(EDispatchersTypes)
+        self.allowed_dispatcher_types: set[EDispatchersTypes] = set(EDispatchersTypes)
 
-    def __call__(self, value: Any) -> List[EDispatchersTypes]:
+    def __call__(self, value: Any) -> list[EDispatchersTypes]:
         if not isinstance(value, list):
             raise ValidationError(f"Invalid dispatcher order container type: {type(value)}.")
 

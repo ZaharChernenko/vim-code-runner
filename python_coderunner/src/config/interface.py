@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from enum import StrEnum
-from typing import Dict, List
 
 
 class EDispatchersTypes(StrEnum):
@@ -13,22 +12,22 @@ class IConfig(ABC):
     """Configuration interface"""
 
     @abstractmethod
-    def get_by_file_ext(self) -> Dict[str, str]:
+    def get_by_file_ext(self) -> dict[str, str]:
         """Gets config for file extension-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
-    def get_by_file_type(self) -> Dict[str, str]:
+    def get_by_file_type(self) -> dict[str, str]:
         """Gets config for file type-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
-    def get_by_glob(self) -> Dict[str, str]:
+    def get_by_glob(self) -> dict[str, str]:
         """Gets config for glob pattern-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
-    def get_dispatchers_order(self) -> List[EDispatchersTypes]:
+    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
         """Gets the priority order of dispatchers"""
         raise NotImplementedError
 

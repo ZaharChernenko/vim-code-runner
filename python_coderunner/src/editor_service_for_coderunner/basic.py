@@ -1,7 +1,7 @@
 import os
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
-from typing import Generator, List
+from typing import Generator
 
 from ..config import IConfig
 from ..editor import IEditor
@@ -13,7 +13,7 @@ class TBasicEditorServiceForCodeRunner:
         self._config: IConfig = config
         self._editor: IEditor = editor
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
-        self._temp_files: List[str] = []
+        self._temp_files: list[str] = []
 
     @contextmanager
     def get_file_for_run(self) -> Generator[str, None, None]:

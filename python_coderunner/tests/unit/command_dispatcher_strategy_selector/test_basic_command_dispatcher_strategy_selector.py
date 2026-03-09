@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import List, Optional
 from unittest.mock import MagicMock
 
 import pytest
@@ -71,9 +70,9 @@ def test_basic_command_dispatcher_strategy_selector(
     fixture_file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     file_path: str,
     content: bytes,
-    order: List[EDispatchersTypes],
+    order: list[EDispatchersTypes],
     respect_shebang: bool,
-    expected: Optional[str],
+    expected: str | None,
     tmp_path: Path,
 ) -> None:
     file_path_abs = tmp_path / file_path
@@ -88,7 +87,7 @@ def test_basic_command_dispatcher_strategy_selector(
         file_type_command_builders_dispatcher=fixture_file_type_command_builders_dispatcher,
         config=config,
     )
-    dispatch_result: Optional[ICommandBuilder] = selector.dispatch(str(file_path_abs))
+    dispatch_result: ICommandBuilder | None = selector.dispatch(str(file_path_abs))
 
     if expected is None:
         assert dispatch_result is None

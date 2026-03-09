@@ -1,4 +1,4 @@
-from typing import Dict, List, TypeVar
+from typing import TypeVar
 
 from .config_field import TConfigField
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
@@ -10,10 +10,10 @@ ValueType = TypeVar("ValueType")
 class TBasicConfig(IConfig):
     def __init__(
         self,
-        by_file_ext_field: TConfigField[Dict[str, str]],
-        by_file_type_field: TConfigField[Dict[str, str]],
-        by_glob_field: TConfigField[Dict[str, str]],
-        dispatchers_order_field: TConfigField[List[EDispatchersTypes]],
+        by_file_ext_field: TConfigField[dict[str, str]],
+        by_file_type_field: TConfigField[dict[str, str]],
+        by_glob_field: TConfigField[dict[str, str]],
+        dispatchers_order_field: TConfigField[list[EDispatchersTypes]],
         coderunner_tempfile_prefix_field: TConfigField[str],
         executor_field: TConfigField[str],
         ignore_selection_field: TConfigField[bool],
@@ -22,10 +22,10 @@ class TBasicConfig(IConfig):
         save_all_files_before_run_field: TConfigField[bool],
         save_file_before_run_field: TConfigField[bool],
     ):
-        self._by_file_ext_field: TConfigField[Dict[str, str]] = by_file_ext_field
-        self._by_file_type_field: TConfigField[Dict[str, str]] = by_file_type_field
-        self._by_glob_field: TConfigField[Dict[str, str]] = by_glob_field
-        self._dispatchers_order_field: TConfigField[List[EDispatchersTypes]] = dispatchers_order_field
+        self._by_file_ext_field: TConfigField[dict[str, str]] = by_file_ext_field
+        self._by_file_type_field: TConfigField[dict[str, str]] = by_file_type_field
+        self._by_glob_field: TConfigField[dict[str, str]] = by_glob_field
+        self._dispatchers_order_field: TConfigField[list[EDispatchersTypes]] = dispatchers_order_field
         self._coderunner_tempfile_prefix_field: TConfigField[str] = coderunner_tempfile_prefix_field
         self._executor_field: TConfigField[str] = executor_field
         self._ignore_selection_field: TConfigField[bool] = ignore_selection_field
@@ -44,16 +44,16 @@ class TBasicConfig(IConfig):
         except (ConfigFieldNotFoundError, ConfigFieldValidationError) as e:
             raise ValueError(str(e)) from e
 
-    def get_by_file_ext(self) -> Dict[str, str]:
+    def get_by_file_ext(self) -> dict[str, str]:
         return self._get_field_value(self._by_file_ext_field)
 
-    def get_by_file_type(self) -> Dict[str, str]:
+    def get_by_file_type(self) -> dict[str, str]:
         return self._get_field_value(self._by_file_type_field)
 
-    def get_by_glob(self) -> Dict[str, str]:
+    def get_by_glob(self) -> dict[str, str]:
         return self._get_field_value(self._by_glob_field)
 
-    def get_dispatchers_order(self) -> List[EDispatchersTypes]:
+    def get_dispatchers_order(self) -> list[EDispatchersTypes]:
         return self._get_field_value(self._dispatchers_order_field)
 
     def get_coderunner_tempfile_prefix(self) -> str:

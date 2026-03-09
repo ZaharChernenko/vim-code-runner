@@ -1,11 +1,11 @@
-from typing import Any, Dict
+from typing import Any
 
 from .exceptions import ValidationError
 from .interface import IValidator
 
 
-class TDispatchersValidator(IValidator[Dict[str, str]]):
-    def __call__(self, value: Any) -> Dict[str, str]:
+class TDispatchersValidator(IValidator[dict[str, str]]):
+    def __call__(self, value: Any) -> dict[str, str]:
         if not isinstance(value, dict):
             raise ValidationError(f"Invalid dispatcher container type: {type(value)}.")
         for key, val in value.items():

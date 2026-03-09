@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 
 class IFileInfoExtractor(ABC):
@@ -33,9 +32,9 @@ class IFileInfoExtractor(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_file_type(self, file_path_abs: str) -> Optional[str]:
+    def get_file_type(self, file_path_abs: str) -> str | None:
         raise NotImplementedError
 
     @abstractmethod
-    def get_shebang(self, file_path_abs: str) -> Optional[str]:
+    def get_shebang(self, file_path_abs: str) -> str | None:
         raise NotImplementedError
