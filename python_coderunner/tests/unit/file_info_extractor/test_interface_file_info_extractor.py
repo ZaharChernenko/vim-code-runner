@@ -81,7 +81,7 @@ class TestFileInfoExtractorInterface:
 
         with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
             temp_file.write(content)
-            file_path = temp_file.name
+            file_path: str = temp_file.name
         try:
             assert fixture_file_info_extractor.get_shebang(file_path) == expected
         finally:

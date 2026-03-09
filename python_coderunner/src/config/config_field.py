@@ -1,7 +1,7 @@
 from typing import Any, Callable, Generic, TypeVar
 
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
-from .getter import UndefinedValueError
+from .getter import IConfigValueGetter, UndefinedValueError
 from .validator import IValidator, ValidationError
 
 ValueType = TypeVar("ValueType")
@@ -19,7 +19,7 @@ class TConfigField(Generic[ValueType]):
     def __init__(
         self,
         name: str,
-        getter: Callable[[], Any],
+        getter: IConfigValueGetter,
         validator: IValidator[ValueType],
         allowed_values_description: str,
     ):

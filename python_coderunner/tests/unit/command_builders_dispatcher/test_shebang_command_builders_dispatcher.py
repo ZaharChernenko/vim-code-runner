@@ -29,7 +29,7 @@ def test_shebang_command_builders_dispatcher(
     expected_result: Optional[str],
     tmp_path: Path,
 ) -> None:
-    file_path_abs = tmp_path / "test_file"
+    file_path_abs: Path = tmp_path / "test_file"
 
     if content is None:
         assert fixture_shebang_command_builders_dispatcher.dispatch(str(file_path_abs)) is None

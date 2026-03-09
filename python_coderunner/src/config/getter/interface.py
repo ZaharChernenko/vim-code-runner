@@ -1,3 +1,3 @@
-from typing import Any, Callable
+from typing import Any, Callable, TypeAlias
 
-IConfigValueGetter = Callable[[], Any]
+IConfigValueGetter: TypeAlias = Callable[[], Any]

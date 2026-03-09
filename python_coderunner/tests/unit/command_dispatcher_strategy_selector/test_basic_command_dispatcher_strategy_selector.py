@@ -81,7 +81,7 @@ def test_basic_command_dispatcher_strategy_selector(
     config: TBasicConfig = MagicMock(
         get_dispatchers_order=MagicMock(return_value=order), get_respect_shebang=MagicMock(return_value=respect_shebang)
     )
-    selector = TBasicCommandDispatcherStrategySelector(
+    selector: TBasicCommandDispatcherStrategySelector = TBasicCommandDispatcherStrategySelector(
         shebang_command_builders_dispatcher=fixture_shebang_command_builders_dispatcher,
         glob_command_builders_dispatcher=fixture_glob_command_builders_dispatcher,
         file_ext_command_builders_dispatcher=fixture_file_ext_command_builders_dispatcher,
