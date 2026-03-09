@@ -1,2 +1,2 @@
-from .interface import ICodeRunnerBuilder
-from .vim_coderunner_builder import TVimCodeRunnerBuilder
+from .interface import ICodeRunnerFactory
+from .vim_coderunner_builder import TVimCodeRunnerFactory

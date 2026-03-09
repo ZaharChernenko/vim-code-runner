@@ -24,11 +24,11 @@ from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
 from ..file_info_extractor import TVimFileInfoExtractor
 from ..message_printer import TVimMessagePrinter
 from ..project_info_extractor import TVimProjectInfoExtractor
-from .interface import ICodeRunnerBuilder
+from .interface import ICodeRunnerFactory
 
 
-class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
-    def build(self) -> Optional[TCodeRunner]:
+class TVimCodeRunnerFactory(ICodeRunnerFactory):
+    def create(self) -> Optional[TCodeRunner]:
         config_manager: TVimConfigManager = TVimConfigManager(TVimConfigGetter(), TBasicConfigValidator())
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
@@ -42,7 +42,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             )
 
             command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector = (
-                self._build_command_dispatcher_strategy_selector(
+                self._create_command_dispatcher_strategy_selector(
                     config_manager, file_info_extractor, project_info_extractor
                 )
             )
@@ -61,7 +61,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
 
         return None
 
-    def _build_command_dispatcher_strategy_selector(
+    def _create_command_dispatcher_strategy_selector(
         self,
         config_manager: TVimConfigManager,
         file_info_extractor: TVimFileInfoExtractor,
@@ -71,17 +71,17 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             file_info_extractor
         )
         file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher = (
-            self._build_file_ext_command_builders_dispatcher(
+            self._create_file_ext_command_builders_dispatcher(
                 config_manager, file_info_extractor, project_info_extractor
             )
         )
         file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher = (
-            self._build_file_type_command_builders_dispatcher(
+            self._create_file_type_command_builders_dispatcher(
                 config_manager, file_info_extractor, project_info_extractor
             )
         )
-        glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher = self._build_glob_command_builders_dispatcher(
-            config_manager, file_info_extractor, project_info_extractor
+        glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher = (
+            self._create_glob_command_builders_dispatcher(config_manager, file_info_extractor, project_info_extractor)
         )
 
         return TBasicCommandDispatcherStrategySelector(
@@ -92,7 +92,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             config_manager=config_manager,
         )
 
-    def _build_file_ext_command_builders_dispatcher(
+    def _create_file_ext_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
         file_info_extractor: TVimFileInfoExtractor,
@@ -106,7 +106,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             file_info_extractor,
         )
 
-    def _build_file_type_command_builders_dispatcher(
+    def _create_file_type_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
         file_info_extractor: TVimFileInfoExtractor,
@@ -120,7 +120,7 @@ class TVimCodeRunnerBuilder(ICodeRunnerBuilder):
             file_info_extractor,
         )
 
-    def _build_glob_command_builders_dispatcher(
+    def _create_glob_command_builders_dispatcher(
         self,
         config_manager: TVimConfigManager,
         file_info_extractor: TVimFileInfoExtractor,

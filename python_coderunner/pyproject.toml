@@ -3,13 +3,12 @@ name = "vim-code-runner"
 authors = [
   {name = "Zahar Chernenko", email = "zaharchernenko35@gmail.com"},
 ]
-version = "1.0.0"
+version = "1.0.1"
 requires-python = ">=3.10"
 
 [dependency-groups]
 dev = [
     "commitlint>=1.3.0",
-    "isort>=4.3.21",
     "mypy>=0.910",
     "pre-commit>=1.21.0",
     "pylint>=2.6.2",
@@ -19,7 +18,6 @@ dev = [
     "ruff>=0.12.0",
 ]
 pre-commit = [
-    "isort>=4.3.21",
     "mypy>=0.910",
     "pre-commit>=1.21.0",
     "pylint>=2.6.2",
@@ -35,9 +33,6 @@ test = [
 pythonpath = ["."]  # to run without python -m, otherwise there will be no src in the path
 testpaths = ["tests"]
 
-[tool.isort]
-profile = "black"
-
 [tool.mypy]
 check_untyped_defs = true
 explicit_package_bases = true  # without this, mypy complains about duplicate packages.
@@ -52,6 +47,10 @@ disable_error_code = [
 line-length = 120
 [tool.ruff.format]
 quote-style = "double"
+[tool.ruff.lint]
+extend-select = ["I", "F401"]
+extend-unsafe-fixes = ["F401"]
+ignore = ["W292"]
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = [
     "F401", # ignore unused imports
@@ -91,10 +90,11 @@ argument-naming-style = "snake_case"
 attr-naming-style = "snake_case"
 class-attribute-naming-style = "any"
 class-const-naming-style = "UPPER_CASE"
-class-rgx="^(((I|T|E|Supports)[A-Z][a-zA-Z0-9]*)|[A-Z][a-zA-Z0-9]*Error)$"
+class-rgx="^(((I|T|E)[A-Z][a-zA-Z0-9]*)|([A-Z][a-zA-Z0-9]*(Error|Protocol)))$"
 const-naming-style= "any"
 function-naming-style = "snake_case"
-typevar="^T[A-Z][a-zA-Z0-9]*$"
+typealias-rgx="^(((I|T|E)[A-Z][a-zA-Z0-9]*)|([A-Z][a-zA-Z0-9]*(Error|Protocol)))$"
+typevar-rgx="^[A-Z][a-zA-Z0-9]*Type$"
 variable-naming-style = "snake_case"
 module-naming-style = "snake_case"
 inlinevar-naming-style = "any"

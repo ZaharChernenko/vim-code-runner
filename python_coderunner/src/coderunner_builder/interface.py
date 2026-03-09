@@ -4,7 +4,7 @@ from typing import Optional
 from ..coderunner import TCodeRunner
 
 
-class ICodeRunnerBuilder(ABC):
+class ICodeRunnerFactory(ABC):
     @abstractmethod
-    def build(self) -> Optional[TCodeRunner]:
+    def create(self) -> Optional[TCodeRunner]:
         raise NotImplementedError
