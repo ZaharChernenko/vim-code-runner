@@ -8,14 +8,6 @@ ValueType = TypeVar("ValueType")
 
 
 class TBasicConfig(IConfig):
-    """
-    Aggregates TConfigField objects, each of which encapsulates:
-    - Value retrieval
-    - Validation
-    - Field metadata
-    - Error handling
-    """
-
     def __init__(
         self,
         by_file_ext_field: TConfigField[Dict[str, str]],
@@ -30,17 +22,17 @@ class TBasicConfig(IConfig):
         save_all_files_before_run_field: TConfigField[bool],
         save_file_before_run_field: TConfigField[bool],
     ):
-        self._by_file_ext = by_file_ext_field
-        self._by_file_type = by_file_type_field
-        self._by_glob = by_glob_field
-        self._dispatchers_order = dispatchers_order_field
-        self._coderunner_tempfile_prefix = coderunner_tempfile_prefix_field
-        self._executor = executor_field
-        self._ignore_selection = ignore_selection_field
-        self._respect_shebang = respect_shebang_field
-        self._remove_coderunner_tempfiles_on_exit = remove_coderunner_tempfiles_on_exit_field
-        self._save_all_files_before_run = save_all_files_before_run_field
-        self._save_file_before_run = save_file_before_run_field
+        self._by_file_ext_field: TConfigField[Dict[str, str]] = by_file_ext_field
+        self._by_file_type_field: TConfigField[Dict[str, str]] = by_file_type_field
+        self._by_glob_field: TConfigField[Dict[str, str]] = by_glob_field
+        self._dispatchers_order_field: TConfigField[List[EDispatchersTypes]] = dispatchers_order_field
+        self._coderunner_tempfile_prefix_field: TConfigField[str] = coderunner_tempfile_prefix_field
+        self._executor_field: TConfigField[str] = executor_field
+        self._ignore_selection_field: TConfigField[bool] = ignore_selection_field
+        self._respect_shebang_field: TConfigField[bool] = respect_shebang_field
+        self._remove_coderunner_tempfiles_on_exit_field: TConfigField[bool] = remove_coderunner_tempfiles_on_exit_field
+        self._save_all_files_before_run_field: TConfigField[bool] = save_all_files_before_run_field
+        self._save_file_before_run_field: TConfigField[bool] = save_file_before_run_field
 
     def _get_field_value(self, field: TConfigField[ValueType]) -> ValueType:
         """
@@ -53,34 +45,34 @@ class TBasicConfig(IConfig):
             raise ValueError(str(e)) from e
 
     def get_by_file_ext(self) -> Dict[str, str]:
-        return self._get_field_value(self._by_file_ext)
+        return self._get_field_value(self._by_file_ext_field)
 
     def get_by_file_type(self) -> Dict[str, str]:
-        return self._get_field_value(self._by_file_type)
+        return self._get_field_value(self._by_file_type_field)
 
     def get_by_glob(self) -> Dict[str, str]:
-        return self._get_field_value(self._by_glob)
+        return self._get_field_value(self._by_glob_field)
 
     def get_dispatchers_order(self) -> List[EDispatchersTypes]:
-        return self._get_field_value(self._dispatchers_order)
+        return self._get_field_value(self._dispatchers_order_field)
 
     def get_coderunner_tempfile_prefix(self) -> str:
-        return self._get_field_value(self._coderunner_tempfile_prefix)
+        return self._get_field_value(self._coderunner_tempfile_prefix_field)
 
     def get_executor(self) -> str:
-        return self._get_field_value(self._executor)
+        return self._get_field_value(self._executor_field)
 
     def get_ignore_selection(self) -> bool:
-        return self._get_field_value(self._ignore_selection)
+        return self._get_field_value(self._ignore_selection_field)
 
     def get_respect_shebang(self) -> bool:
-        return self._get_field_value(self._respect_shebang)
+        return self._get_field_value(self._respect_shebang_field)
 
     def get_remove_coderunner_tempfiles_on_exit(self) -> bool:
-        return self._get_field_value(self._remove_coderunner_tempfiles_on_exit)
+        return self._get_field_value(self._remove_coderunner_tempfiles_on_exit_field)
 
     def get_save_all_files_before_run(self) -> bool:
-        return self._get_field_value(self._save_all_files_before_run)
+        return self._get_field_value(self._save_all_files_before_run_field)
 
     def get_save_file_before_run(self) -> bool:
-        return self._get_field_value(self._save_file_before_run)
+        return self._get_field_value(self._save_file_before_run_field)

@@ -44,7 +44,7 @@ from .interface import ICodeRunnerFactory
 
 class TVimCodeRunnerFactory(ICodeRunnerFactory):
     def create(self) -> Optional[TCodeRunner]:
-        config = self._create_config()
+        config: TVimConfig = self._create_config()
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
         try:
@@ -75,7 +75,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
         return None
 
     def _create_config(self) -> TVimConfig:
-        config = TVimConfig(
+        return TVimConfig(
             by_file_ext_field=TConfigField(
                 name="g:coderunner_by_file_ext",
                 getter=TVimByFileExtConfigValueGetter(),
@@ -143,7 +143,6 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
                 allowed_values_description="0 or 1",
             ),
         )
-        return config
 
     def _create_command_dispatcher_strategy_selector(
         self,
@@ -165,11 +164,11 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
         )
 
         return TBasicCommandDispatcherStrategySelector(
+            config=config,
             shebang_command_builders_dispatcher=shebang_command_builders_dispatcher,
             glob_command_builders_dispatcher=glob_command_builders_dispatcher,
             file_ext_command_builders_dispatcher=file_ext_command_builders_dispatcher,
             file_type_command_builders_dispatcher=file_type_command_builders_dispatcher,
-            config=config,
         )
 
     def _create_file_ext_command_builders_dispatcher(
