@@ -135,21 +135,23 @@ pre-commit install
 ### Plugin architecture
 ```mermaid
 classDiagram
-TCodeRunner "1" o--> "1" IConfigManager : aggregates
+TCodeRunner "1" o--> "1" IConfig : aggregates
 TCodeRunner "1" o--> "1" ICommandsExecutor : aggregates
 TCodeRunner "1" o--> "1" IMessagePrinter : aggregates
 TCodeRunner "1" o--> "1" TBasicEditorServiceForCodeRunner : aggregates
 TCodeRunner "1" o--> "1" TBasicCommandDispatcherStrategySelector : aggregates
-IConfigManager "1" o--> "1" IConfigGetter : aggregates
-IConfigManager "1" o--> "1" TBasicConfigValidator : aggregates
+TBasicConfig ..|> IConfig : implements
+TBasicConfig "1" o--> "n" TConfigField : aggregates
+TConfigField "1" o--> "1" IConfigValueGetter : aggregates
+TConfigField "1" o--> "1" IValidator : aggregates
 TBasicEditorServiceForCodeRunner "1" o--> "1" IEditor : aggregates
-TBasicEditorServiceForCodeRunner "1" o--> "1" IConfigManager : aggregates
-ICommandsExecutor "1" o--> "1" IConfigManager : aggregates
+TBasicEditorServiceForCodeRunner "1" o--> "1" IConfig : aggregates
+ICommandsExecutor "1" o--> "1" IConfig : aggregates
 TBasicCommandDispatcherStrategySelector "1" o--> "1" TShebangCommandBuildersDispatcher : aggregates
 TBasicCommandDispatcherStrategySelector "1" o--> "1" TGlobCommandBuildersDispatcher : aggregates
 TBasicCommandDispatcherStrategySelector "1" o--> "1" TFileExtCommandBuildersDispatcher : aggregates
 TBasicCommandDispatcherStrategySelector "1" o--> "1" TFileTypeCommandBuildersDispatcher : aggregates
-TBasicCommandDispatcherStrategySelector "1" o--> "1" IConfigManager : aggregates
+TBasicCommandDispatcherStrategySelector "1" o--> "1" IConfig : aggregates
 TShebangCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
 TShebangCommandBuildersDispatcher "1" o--> "1" IFileInfoExtractor : aggregates
 TGlobCommandBuildersDispatcher ..|> ICommandBuildersDispatcher : implements
@@ -166,7 +168,7 @@ TBaseFileInfoExtractor ..|> IFileInfoExtractor : implements
 
 
 class TCodeRunner {
-	# config_manager: IConfigManager
+	# config: IConfig
 	# editor_service: TBasicEditorServiceForCodeRunner
 	# command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector
 	# commands_executor: ICommandsExecutor
@@ -180,40 +182,48 @@ class TCodeRunner {
 }
 
 
-
-class IConfigManager {
+class IConfig {
 	<<interface>>
-	+ get_dispatchers_order() list[str]
+	+ get_by_file_ext() Dict[str, str]
+	+ get_by_file_type() Dict[str, str]
+	+ get_by_glob() Dict[str, str]
+	+ get_dispatchers_order() List[EDispatchersTypes]
+	+ get_coderunner_tempfile_prefix() str
 	+ get_executor() str
 	+ get_ignore_selection() bool
 	+ get_respect_shebang() bool
-	+ get_save_all_files() bool
-	+ get_save_file() bool
+	+ get_remove_coderunner_tempfiles_on_exit() bool
+	+ get_save_all_files_before_run() bool
+	+ get_save_file_before_run() bool
 }
 
 
-class IConfigGetter {
-	<<interface>>
-	+ get_dispatchers_order() Any
-	+ get_executor() Any
-	+ get_ignore_selection() Any
-	+ get_respect_shebang() Any
-	+ get_save_all_files() Any
-	+ get_save_file() Any
+class TConfigField {
+	# name: str
+	# getter: IConfigValueGetter
+	# validator: IValidator
+	# allowed_values_description: str
+	+ get() ValueType
 }
 
 
-class TBasicConfigValidator {
-	+ validate_bool() bool
-	+ validate_str() str
-	+ validate_dispatcher() Dict[str, str]
-	+ validate_dispatchers_order() List[EDispatchersTypes]
+class IConfigValueGetter {
+    <<interface>>
+    + __call__() Any
+}
+
+
+class IValidator {
+    <<interface>>
+    + __call__(value: Any) ValueType
+
 }
 
 
 class TBasicEditorServiceForCodeRunner {
 	# editor: IEditor
-	# config_manager: IConfigManager
+	# config:IConfig
+    # file_info_extractor: IFileInfoExtractor
 	Creates context which will delete file if it's temporary
 	+ get_file_for_run() Context[str]
 	Runs save_file or save_all_files if the command_builder is found,
@@ -240,13 +250,14 @@ class ICommandsExecutor {
 
 
 class IMessagePrinter {
+    <<interface>>
 	+ info(text: str) None
 	+ error(text: str) None
 }
 
 
 class TBasicCommandDispatcherStrategySelector {
-	# config_manager: IConfigManager
+	# config: IConfig
 	# shebang_dispatcher: TShebangCommandBuildersDispatcher
 	# file_type_dispatcher: TFileExtCommandBuildersDispatcher
 	# file_ext_dispatcher: TFileTypeCommandBuildersDispatcher

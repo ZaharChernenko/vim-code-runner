@@ -1,15 +1,19 @@
 from contextlib import nullcontext as does_not_raise
+from typing import Any, ContextManager
 
 import pytest
 
-from src.config_manager import (
-    EDispatchersTypes,
-    TBasicConfigValidator,
+from src.config import EDispatchersTypes
+from src.config.validator import (
+    TBoolValidator,
+    TDispatchersOrderValidator,
+    TDispatchersValidator,
+    TStrValidator,
     ValidationError,
 )
 
 
-class TestConfigValidator:
+class TestBoolValidator:
     @pytest.mark.parametrize(
         ("content", "expected", "expectation"),
         (
@@ -25,16 +29,18 @@ class TestConfigValidator:
     )
     def test_validate_bool(
         self,
-        fixture_config_validator: TBasicConfigValidator,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
+        validator = TBoolValidator()
         with expectation:
-            result = fixture_config_validator.validate_bool(content)
-        if expected is not None:
-            assert result == expected
+            result = validator(content)
+            if expected is not None:
+                assert result == expected
 
+
+class TestStrValidator:
     @pytest.mark.parametrize(
         ("content", "expected", "expectation"),
         (
@@ -50,16 +56,19 @@ class TestConfigValidator:
     )
     def test_validate_str(
         self,
-        fixture_config_validator: TBasicConfigValidator,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
+        """Test string validation with various inputs."""
+        validator = TStrValidator()
         with expectation:
-            result = fixture_config_validator.validate_str(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
 
+
+class TestDispatchersValidator:
     @pytest.mark.parametrize(
         ("content", "expected", "expectation"),
         (
@@ -78,16 +87,18 @@ class TestConfigValidator:
     )
     def test_validate_dispatcher(
         self,
-        fixture_config_validator: TBasicConfigValidator,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
+        validator = TDispatchersValidator()
         with expectation:
-            result = fixture_config_validator.validate_dispatcher(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
 
+
+class TestDispatchersOrderValidator:
     @pytest.mark.parametrize(
         ("content", "expected", "expectation"),
         (
@@ -104,12 +115,12 @@ class TestConfigValidator:
     )
     def test_validate_dispatchers_order(
         self,
-        fixture_config_validator: TBasicConfigValidator,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
+        validator = TDispatchersOrderValidator()
         with expectation:
-            result: list[EDispatchersTypes] = fixture_config_validator.validate_dispatchers_order(content)
-        if expected is not None:
-            assert result == expected
+            result = validator(content)
+            if expected is not None:
+                assert result == expected

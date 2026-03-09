@@ -7,7 +7,7 @@ from ..file_info_extractor import IFileInfoExtractor
 
 class IProjectInfoExtractor(ABC):
     def __init__(self, file_info_extractor: IFileInfoExtractor):
-        self._file_info_extractor = file_info_extractor
+        self._file_info_extractor: IFileInfoExtractor = file_info_extractor
 
     @abstractmethod
     def get_workspace_root(self) -> str:

@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 from typing import Dict, Generator, Tuple
+from unittest import mock
 from unittest.mock import MagicMock
 
 import pytest
@@ -17,13 +18,27 @@ from src.command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from src.config_manager import (
-    IConfigGetter,
-    TBasicConfigManager,
-    TBasicConfigValidator,
-    TVimConfigGetter,
-    TVimConfigManager,
+from src.config import (
+    EDispatchersTypes,
+    IConfig,
+    TConfigField,
+    TVimConfig,
 )
+from src.config.getter import (
+    IConfigValueGetter,
+    TVimByFileExtConfigValueGetter,
+    TVimByFileTypeConfigValueGetter,
+    TVimByGlobConfigValueGetter,
+    TVimCoderunnerTempfilePrefixConfigValueGetter,
+    TVimDispatchersOrderConfigValueGetter,
+    TVimExecutorConfigValueGetter,
+    TVimIgnoreSelectionConfigValueGetter,
+    TVimRemoveCoderunnerTempfilesOnExitConfigValueGetter,
+    TVimRespectShebangConfigValueGetter,
+    TVimSaveAllFilesBeforeRunConfigValueGetter,
+    TVimSaveFileBeforeRunConfigValueGetter,
+)
+from src.config.validator import TBoolValidator, TDispatchersOrderValidator, TDispatchersValidator, TStrValidator
 from src.file_info_extractor import (
     IFileInfoExtractor,
     TVimFileInfoExtractor,
@@ -34,36 +49,81 @@ from src.project_info_extractor import (
 )
 
 
-@pytest.fixture(params=(lazy_fixture("fixture_vim_config_manager"),))
-def fixture_config_manager(request: pytest.FixtureRequest) -> TBasicConfigManager:
+@pytest.fixture(params=(lazy_fixture("fixture_vim_config"),))
+def fixture_config(request: pytest.FixtureRequest) -> IConfig:
     return request.param
 
 
 @pytest.fixture
-def fixture_vim_config_manager(
-    fixture_config_getter: IConfigGetter, fixture_config_validator: TBasicConfigValidator
-) -> TBasicConfigManager:
-    return TVimConfigManager(fixture_config_getter, fixture_config_validator)
-
-
-@pytest.fixture(params=(lazy_fixture("fixture_vim_config_getter"),))
-def fixture_config_getter(request: pytest.FixtureRequest) -> IConfigGetter:
-    return request.param
-
-
-@pytest.fixture
-def fixture_vim_config_getter() -> IConfigGetter:
-    return TVimConfigGetter()
-
-
-@pytest.fixture(params=(lazy_fixture("fixture_basic_config_validator"),))
-def fixture_config_validator(request: pytest.FixtureRequest) -> TBasicConfigValidator:
-    return request.param
-
-
-@pytest.fixture
-def fixture_basic_config_validator() -> TBasicConfigValidator:
-    return TBasicConfigValidator()
+def fixture_vim_config() -> IConfig:
+    return TVimConfig(
+        by_file_ext_field=TConfigField(
+            name="g:coderunner_by_file_ext",
+            getter=TVimByFileExtConfigValueGetter(),
+            validator=TDispatchersValidator(),
+            allowed_values_description="Dict[str, str] value",
+        ),
+        by_file_type_field=TConfigField(
+            name="g:coderunner_by_file_type",
+            getter=TVimByFileTypeConfigValueGetter(),
+            validator=TDispatchersValidator(),
+            allowed_values_description="Dict[str, str] value",
+        ),
+        by_glob_field=TConfigField(
+            name="g:coderunner_by_glob",
+            getter=TVimByGlobConfigValueGetter(),
+            validator=TDispatchersValidator(),
+            allowed_values_description="Dict[str, str] value",
+        ),
+        dispatchers_order_field=TConfigField(
+            name="g:coderunner_runners_order",
+            getter=TVimDispatchersOrderConfigValueGetter(),
+            validator=TDispatchersOrderValidator(),
+            allowed_values_description=", ".join(dispatcher_type.value for dispatcher_type in EDispatchersTypes),
+        ),
+        coderunner_tempfile_prefix_field=TConfigField(
+            name="g:coderunner_tempfile_prefix",
+            getter=TVimCoderunnerTempfilePrefixConfigValueGetter(),
+            validator=TStrValidator(),
+            allowed_values_description="str value",
+        ),
+        executor_field=TConfigField(
+            name="g:coderunner_executor",
+            getter=TVimExecutorConfigValueGetter(),
+            validator=TStrValidator(),
+            allowed_values_description="str value",
+        ),
+        ignore_selection_field=TConfigField(
+            name="g:coderunner_ignore_selection",
+            getter=TVimIgnoreSelectionConfigValueGetter(),
+            validator=TBoolValidator(),
+            allowed_values_description="0 or 1",
+        ),
+        respect_shebang_field=TConfigField(
+            name="g:coderunner_respect_shebang",
+            getter=TVimRespectShebangConfigValueGetter(),
+            validator=TBoolValidator(),
+            allowed_values_description="0 or 1",
+        ),
+        remove_coderunner_tempfiles_on_exit_field=TConfigField(
+            name="g:coderunner_remove_coderunner_tempfiles_on_exit",
+            getter=TVimRemoveCoderunnerTempfilesOnExitConfigValueGetter(),
+            validator=TBoolValidator(),
+            allowed_values_description="0 or 1",
+        ),
+        save_all_files_before_run_field=TConfigField(
+            name="g:coderunner_save_all_files_before_run",
+            getter=TVimSaveAllFilesBeforeRunConfigValueGetter(),
+            validator=TBoolValidator(),
+            allowed_values_description="0 or 1",
+        ),
+        save_file_before_run_field=TConfigField(
+            name="g:coderunner_save_file_before_run",
+            getter=TVimSaveFileBeforeRunConfigValueGetter(),
+            validator=TBoolValidator(),
+            allowed_values_description="0 or 1",
+        ),
+    )
 
 
 @pytest.fixture
@@ -141,7 +201,7 @@ def fixture_vim_project_info_extractor(
 ) -> Generator[IProjectInfoExtractor, None, None]:
     with tempfile.TemporaryDirectory() as temp_dir:
         extractor: TVimProjectInfoExtractor = TVimProjectInfoExtractor(fixture_file_info_extractor)
-        with unittest.mock.patch.object(
+        with mock.patch.object(
             extractor,
             "get_workspace_root",
             return_value=temp_dir,
@@ -164,7 +224,7 @@ def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor, None, Non
         ".ts": "typescript",
         ".js": "javascript",
     }
-    with unittest.mock.patch.object(
+    with mock.patch.object(
         extractor,
         "get_file_type",
         side_effect=lambda file_path_abs: ext_to_lang.get(extractor.get_file_ext(file_path_abs)),

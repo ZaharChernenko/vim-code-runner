@@ -1,8 +1,10 @@
+from pathlib import Path
 from typing import Optional
 
 import pytest
 
-from src.command_builder import TConcatenatorCommandBuilder
+from src.command_builder import ICommandBuilder
+from src.command_builders_dispatcher import TShebangCommandBuildersDispatcher
 
 
 @pytest.mark.parametrize(
@@ -22,17 +24,20 @@ from src.command_builder import TConcatenatorCommandBuilder
     ],
 )
 def test_shebang_command_builders_dispatcher(
-    fixture_shebang_command_builders_dispatcher, content, expected_result, tmp_path
-):
-    file_path_abs = tmp_path / "test_file"
+    fixture_shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
+    content: Optional[bytes],
+    expected_result: Optional[str],
+    tmp_path: Path,
+) -> None:
+    file_path_abs: Path = tmp_path / "test_file"
 
     if content is None:
         assert fixture_shebang_command_builders_dispatcher.dispatch(str(file_path_abs)) is None
         return
 
     file_path_abs.write_bytes(content)
-    dispatch_result: Optional[TConcatenatorCommandBuilder] = fixture_shebang_command_builders_dispatcher.dispatch(
-        file_path_abs
+    dispatch_result: Optional[ICommandBuilder] = fixture_shebang_command_builders_dispatcher.dispatch(
+        str(file_path_abs)
     )
 
     if expected_result is None:

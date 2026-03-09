@@ -25,7 +25,7 @@ def test_glob_command_builders_dispatcher(
     fixture_glob_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     file_path: str,
     expected_build_result: Optional[str],
-):
+) -> None:
     dispatch_result: Optional[ICommandBuilder] = fixture_glob_command_builders_dispatcher.dispatch(file_path)
 
     if expected_build_result is not None:
