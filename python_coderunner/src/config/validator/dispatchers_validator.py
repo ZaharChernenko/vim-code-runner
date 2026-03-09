@@ -13,4 +13,5 @@ class TDispatchersValidator(IValidator[Dict[str, str]]):
                 raise ValidationError(f"Invalid type in dispatcher dict key: {type(key)}.")
             if not isinstance(val, str):
                 raise ValidationError(f"Invalid type in dispatcher dict value: {type(val)}.")
+
         return value

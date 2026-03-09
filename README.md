@@ -250,6 +250,7 @@ class ICommandsExecutor {
 
 
 class IMessagePrinter {
+    <<interface>>
 	+ info(text: str) None
 	+ error(text: str) None
 }
