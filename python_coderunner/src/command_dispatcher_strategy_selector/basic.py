@@ -7,20 +7,21 @@ from ..command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from ..config_manager import EDispatchersTypes, TBasicConfigManager
+from ..config_manager import IConfigManager
+from .types import EDispatchersTypes
 
 
 class TBasicCommandDispatcherStrategySelector:
     def __init__(
         self,
         *,
-        config_manager: TBasicConfigManager,
+        config_manager: IConfigManager,
         shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
         glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher,
         file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher,
         file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     ):
-        self._config_manager: TBasicConfigManager = config_manager
+        self._config_manager: IConfigManager = config_manager
         self._shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher = (
             shebang_command_builders_dispatcher
         )
