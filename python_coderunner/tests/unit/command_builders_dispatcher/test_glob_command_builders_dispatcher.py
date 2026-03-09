@@ -3,9 +3,7 @@ from typing import Optional
 import pytest
 
 from src.command_builder import ICommandBuilder
-from src.command_builders_dispatcher import (
-    TFileTypeCommandBuildersDispatcher,
-)
+from src.command_builders_dispatcher import TGlobCommandBuildersDispatcher
 
 
 @pytest.mark.parametrize(
@@ -22,7 +20,7 @@ from src.command_builders_dispatcher import (
     ],
 )
 def test_glob_command_builders_dispatcher(
-    fixture_glob_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
+    fixture_glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher,
     file_path: str,
     expected_build_result: Optional[str],
 ) -> None:
