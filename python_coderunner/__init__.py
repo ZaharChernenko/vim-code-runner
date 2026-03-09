@@ -1,2 +1,2 @@
 from .src.coderunner import TCodeRunner
-from .src.coderunner_builder import TVimCodeRunnerFactory
+from .src.coderunner_factory import TVimCodeRunnerFactory
