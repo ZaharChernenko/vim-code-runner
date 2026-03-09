@@ -8,6 +8,7 @@ repos:
         types: [python]
         stages: [pre-commit]
         verbose: true
+        pass_filenames: false
 
       - id: ruff_format
         name: ruff_format
@@ -17,14 +18,7 @@ repos:
         types: [python]
         stages: [pre-commit]
         verbose: true
-
-      - id: isort
-        name: isort
-        entry: bash -c "cd python_coderunner && isort ."
-        language: system
-        types: [python]
-        stages: [pre-commit]
-        verbose: true
+        pass_filenames: false
 
       - id: mypy
         name: mypy
@@ -33,6 +27,7 @@ repos:
         types: [python]
         stages: [pre-commit]
         verbose: true
+        pass_filenames: false
 
       - id: pylint
         name: pylint
@@ -41,6 +36,7 @@ repos:
         types: [python]
         stages: [pre-commit]
         verbose: true
+        pass_filenames: false
 
       - id: commitlint
         name: commitlint

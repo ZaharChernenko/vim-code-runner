@@ -162,6 +162,7 @@ TInterpolatorCommandBuilder ..|> ICommandBuilder : implements
 TInterpolatorCommandBuilder "1" o--> "1" IProjectInfoExtractor : aggregates
 TInterpolatorCommandBuilder "1" o--> "1" IFileInfoExtractor : aggregates
 IProjectInfoExtractor "1" o--> "1" IFileInfoExtractor : aggregates
+TBaseFileInfoExtractor ..|> IFileInfoExtractor : implements
 
 
 class TCodeRunner {
@@ -311,7 +312,6 @@ class IProjectInfoExtractor {
 	+ get_all_files_filter_by_exts(exts: set[str]) Iterable[str]
 	+ get_all_files_filter_by_file_type(file_types: set[str]) Iterable[str]
 }
-
 
 class IFileInfoExtractor {
 	<<interface>>
