@@ -1,7 +1,7 @@
-from typing import Any, Self
+from typing import Self
 
-from ..validators import ValidationError
 from .getter import UndefinedValueError
+from .validator import ValidationError
 
 
 class ConfigFieldNotFoundError(UndefinedValueError):

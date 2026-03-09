@@ -11,14 +11,10 @@ from ..command_builders_dispatcher import (
     TShebangCommandBuildersDispatcher,
 )
 from ..command_dispatcher_strategy_selector import (
-    EDispatchersTypes,
     TBasicCommandDispatcherStrategySelector,
 )
 from ..commands_executor import TVimCommandsExecutor
-from ..config import (
-    TConfigField,
-    TVimConfig,
-)
+from ..config import EDispatchersTypes, TConfigField, TVimConfig
 from ..config.getter import (
     TVimByFileExtConfigValueGetter,
     TVimByFileTypeConfigValueGetter,
@@ -31,19 +27,18 @@ from ..config.getter import (
     TVimRespectShebangConfigValueGetter,
     TVimSaveAllFilesBeforeRunConfigValueGetter,
     TVimSaveFileBeforeRunConfigValueGetter,
-    UndefinedValueError,
+)
+from ..config.validator import (
+    TBoolValidator,
+    TDispatchersOrderValidator,
+    TDispatchersValidator,
+    TStrValidator,
 )
 from ..editor import TVimEditor
 from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
 from ..file_info_extractor import TVimFileInfoExtractor
 from ..message_printer import TVimMessagePrinter
 from ..project_info_extractor import TVimProjectInfoExtractor
-from ..validators import (
-    TBoolValidator,
-    TDispatchersOrderValidator,
-    TDispatchersValidator,
-    TStrValidator,
-)
 from .interface import ICodeRunnerFactory
 
 
@@ -74,7 +69,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
                 message_printer=message_printer,
             )
 
-        except (ValueError, UndefinedValueError) as e:
+        except ValueError as e:
             message_printer.error(str(e))
 
         return None
@@ -83,67 +78,67 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
         """Creates TVimConfig with ConfigField objects"""
         config = TVimConfig(
             by_file_ext_field=TConfigField(
-                name="by_file_ext",
+                name="g:by_file_ext",
                 getter=TVimByFileExtConfigValueGetter(),
                 validator=TDispatchersValidator(),
                 allowed_values_description="Dict[str, str] value",
             ),
             by_file_type_field=TConfigField(
-                name="by_file_type",
+                name="g:by_file_type",
                 getter=TVimByFileTypeConfigValueGetter(),
                 validator=TDispatchersValidator(),
                 allowed_values_description="Dict[str, str] value",
             ),
             by_glob_field=TConfigField(
-                name="by_glob",
+                name="g:by_glob",
                 getter=TVimByGlobConfigValueGetter(),
                 validator=TDispatchersValidator(),
                 allowed_values_description="Dict[str, str] value",
             ),
             dispatchers_order_field=TConfigField(
-                name="runners_order",
+                name="g:runners_order",
                 getter=TVimDispatchersOrderConfigValueGetter(),
                 validator=TDispatchersOrderValidator(),
                 allowed_values_description=", ".join(dispatcher_type.value for dispatcher_type in EDispatchersTypes),
             ),
             coderunner_tempfile_prefix_field=TConfigField(
-                name="coderunner_tempfile_prefix",
+                name="g:coderunner_tempfile_prefix",
                 getter=TVimCoderunnerTempfilePrefixConfigValueGetter(),
                 validator=TStrValidator(),
                 allowed_values_description="str value",
             ),
             executor_field=TConfigField(
-                name="executor",
+                name="g:executor",
                 getter=TVimExecutorConfigValueGetter(),
                 validator=TStrValidator(),
                 allowed_values_description="str value",
             ),
             ignore_selection_field=TConfigField(
-                name="ignore_selection",
+                name="g:ignore_selection",
                 getter=TVimIgnoreSelectionConfigValueGetter(),
                 validator=TBoolValidator(),
                 allowed_values_description="0 or 1",
             ),
             respect_shebang_field=TConfigField(
-                name="respect_shebang",
+                name="g:respect_shebang",
                 getter=TVimRespectShebangConfigValueGetter(),
                 validator=TBoolValidator(),
                 allowed_values_description="0 or 1",
             ),
             remove_coderunner_tempfiles_on_exit_field=TConfigField(
-                name="coderunner_remove_coderunner_tempfiles_on_exit",
+                name="g:coderunner_remove_coderunner_tempfiles_on_exit",
                 getter=TVimRemoveCoderunnerTempfilesOnExitConfigValueGetter(),
                 validator=TBoolValidator(),
                 allowed_values_description="0 or 1",
             ),
             save_all_files_before_run_field=TConfigField(
-                name="save_all_files_before_run",
+                name="g:save_all_files_before_run",
                 getter=TVimSaveAllFilesBeforeRunConfigValueGetter(),
                 validator=TBoolValidator(),
                 allowed_values_description="0 or 1",
             ),
             save_file_before_run_field=TConfigField(
-                name="save_file_before_run",
+                name="g:save_file_before_run",
                 getter=TVimSaveFileBeforeRunConfigValueGetter(),
                 validator=TBoolValidator(),
                 allowed_values_description="0 or 1",

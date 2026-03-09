@@ -1,6 +1,6 @@
 from typing import Any, List, Set
 
-from ..command_dispatcher_strategy_selector import EDispatchersTypes
+from ..interface import EDispatchersTypes
 from .exceptions import ValidationError
 from .interface import IValidator
 

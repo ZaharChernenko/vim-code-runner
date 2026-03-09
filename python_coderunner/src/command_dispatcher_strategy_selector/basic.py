@@ -7,8 +7,7 @@ from ..command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from ..config import IConfig
-from .types import EDispatchersTypes
+from ..config import EDispatchersTypes, IConfig
 
 
 class TBasicCommandDispatcherStrategySelector:

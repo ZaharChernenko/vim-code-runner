@@ -18,9 +18,9 @@ from src.command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from src.command_dispatcher_strategy_selector import EDispatchersTypes
 from src.config import (
     ConfigField,
+    EDispatchersTypes,
     IConfig,
     IConfigValueGetter,
     TVimByFileExtConfigValueGetter,
@@ -36,6 +36,7 @@ from src.config import (
     TVimSaveAllFilesBeforeRunConfigValueGetter,
     TVimSaveFileBeforeRunConfigValueGetter,
 )
+from src.config.validator import TBoolValidator, TDispatchersOrderValidator, TDispatchersValidator, TStrValidator
 from src.file_info_extractor import (
     IFileInfoExtractor,
     TVimFileInfoExtractor,
@@ -44,7 +45,6 @@ from src.project_info_extractor import (
     IProjectInfoExtractor,
     TVimProjectInfoExtractor,
 )
-from src.validators import TBoolValidator, TDispatchersOrderValidator, TDispatchersValidator, TStrValidator
 
 
 @pytest.fixture(params=(lazy_fixture("fixture_vim_config"),))

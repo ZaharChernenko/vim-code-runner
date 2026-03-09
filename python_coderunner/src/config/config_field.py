@@ -1,8 +1,8 @@
 from typing import Any, Callable, Generic, TypeVar
 
-from ..validators import IValidator, ValidationError
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
 from .getter import UndefinedValueError
+from .validator import IValidator, ValidationError
 
 ValueType = TypeVar("ValueType")
 

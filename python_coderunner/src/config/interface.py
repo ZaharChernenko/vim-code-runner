@@ -1,7 +1,12 @@
 from abc import ABC, abstractmethod
+from enum import StrEnum
 from typing import Dict, List
 
-from ..command_dispatcher_strategy_selector import EDispatchersTypes
+
+class EDispatchersTypes(StrEnum):
+    BY_FILE_EXT = "by_file_ext"
+    BY_FILE_TYPE = "by_file_type"
+    BY_GLOB = "by_glob"
 
 
 class IConfig(ABC):

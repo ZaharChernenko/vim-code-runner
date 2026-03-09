@@ -1,9 +1,8 @@
 from typing import Any, Dict, List, TypeVar
 
-from ..command_dispatcher_strategy_selector import EDispatchersTypes
 from .config_field import TConfigField
 from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
-from .interface import IConfig
+from .interface import EDispatchersTypes, IConfig
 
 ValueType = TypeVar("ValueType")
 
