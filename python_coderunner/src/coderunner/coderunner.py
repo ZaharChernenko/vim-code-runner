@@ -5,7 +5,7 @@ from ..command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
 from ..commands_executor import ICommandsExecutor
-from ..config_manager import IConfigManager
+from ..config_manager import IConfig
 from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
 from ..message_printer import IMessagePrinter
 
@@ -14,13 +14,13 @@ class TCodeRunner:
     def __init__(
         self,
         *,
-        config_manager: IConfigManager,
+        config_manager: IConfig,
         editor_service: TBasicEditorServiceForCodeRunner,
         command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector,
         commands_executor: ICommandsExecutor,
         message_printer: IMessagePrinter,
     ):
-        self._config_manager: IConfigManager = config_manager
+        self._config_manager: IConfig = config_manager
         self._editor_service: TBasicEditorServiceForCodeRunner = editor_service
         self._command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector = (
             command_dispatcher_strategy_selector

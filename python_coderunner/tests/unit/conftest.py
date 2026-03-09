@@ -18,11 +18,11 @@ from src.command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
+from src.command_dispatcher_strategy_selector import EDispatchersTypes
 from src.config_manager import (
     ConfigField,
-    EDispatchersTypes,
+    IConfig,
     IConfigGetter,
-    IConfigManager,
     TVimConfigGetter,
     TVimConfigManager,
 )
@@ -38,12 +38,12 @@ from src.validators import TBoolValidator, TDispatchersOrderValidator, TDispatch
 
 
 @pytest.fixture(params=(lazy_fixture("fixture_vim_config_manager"),))
-def fixture_config_manager(request: pytest.FixtureRequest) -> IConfigManager:
+def fixture_config_manager(request: pytest.FixtureRequest) -> IConfig:
     return request.param
 
 
 @pytest.fixture
-def fixture_vim_config_manager(fixture_config_getter: IConfigGetter) -> IConfigManager:
+def fixture_vim_config_manager(fixture_config_getter: IConfigGetter) -> IConfig:
     """Create TVimConfigManager with all ConfigField objects"""
     return TVimConfigManager(
         by_file_ext_field=ConfigField(

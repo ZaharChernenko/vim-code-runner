@@ -11,9 +11,10 @@ from src.command_builders_dispatcher import (
     TShebangCommandBuildersDispatcher,
 )
 from src.command_dispatcher_strategy_selector import (
+    EDispatchersTypes,
     TBasicCommandDispatcherStrategySelector,
 )
-from src.config_manager import EDispatchersTypes, TBasicConfigManager
+from src.config_manager import TBasicConfigManager
 
 
 @pytest.mark.parametrize(

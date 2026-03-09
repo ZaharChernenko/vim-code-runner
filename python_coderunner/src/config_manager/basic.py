@@ -1,16 +1,8 @@
 from abc import ABC, abstractmethod
-from enum import StrEnum
 from typing import Any, Dict, List
 
 from .config_field import TConfigField
-from .interface import IConfigManager
-
-
-# Kept for compatibility (exported from __init__.py)
-class EDispatchersTypes(StrEnum):
-    BY_FILE_EXT = "by_file_ext"
-    BY_FILE_TYPE = "by_file_type"
-    BY_GLOB = "by_glob"
+from .interface import IConfig
 
 
 class UndefinedValueError(ValueError):
@@ -65,7 +57,7 @@ class IConfigGetter(ABC):
         raise NotImplementedError
 
 
-class TBasicConfigManager(IConfigManager):
+class TBasicConfigManager(IConfig):
     """
     Configuration manager.
     Aggregates TConfigField objects, each of which encapsulates:

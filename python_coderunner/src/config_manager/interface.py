@@ -2,60 +2,60 @@ from abc import ABC, abstractmethod
 from typing import Dict, List
 
 
-class IConfigManager(ABC):
-    """Интерфейс менеджера конфигурации"""
+class IConfig(ABC):
+    """Configuration manager interface"""
 
     @abstractmethod
     def get_by_file_ext(self) -> Dict[str, str]:
-        """Получает конфиг для диспетчеризации по расширению файла"""
+        """Gets config for file extension-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
     def get_by_file_type(self) -> Dict[str, str]:
-        """Получает конфиг для диспетчеризации по типу файла"""
+        """Gets config for file type-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
     def get_by_glob(self) -> Dict[str, str]:
-        """Получает конфиг для диспетчеризации по glob паттернам"""
+        """Gets config for glob pattern-based dispatching"""
         raise NotImplementedError
 
     @abstractmethod
     def get_dispatchers_order(self) -> List:
-        """Получает порядок приоритета диспетчеров"""
+        """Gets the priority order of dispatchers"""
         raise NotImplementedError
 
     @abstractmethod
     def get_coderunner_tempfile_prefix(self) -> str:
-        """Получает префикс для временных файлов кодраннера"""
+        """Gets the prefix for coderunner temporary files"""
         raise NotImplementedError
 
     @abstractmethod
     def get_executor(self) -> str:
-        """Получает исполнитель команд"""
+        """Gets the command executor"""
         raise NotImplementedError
 
     @abstractmethod
     def get_ignore_selection(self) -> bool:
-        """Получает флаг игнорирования выделения"""
+        """Gets the flag for ignoring selection"""
         raise NotImplementedError
 
     @abstractmethod
     def get_respect_shebang(self) -> bool:
-        """Получает флаг уважения shebang"""
+        """Gets the flag for respecting shebang"""
         raise NotImplementedError
 
     @abstractmethod
     def get_remove_coderunner_tempfiles_on_exit(self) -> bool:
-        """Получает флаг удаления временных файлов при выходе"""
+        """Gets the flag for removing temporary files on exit"""
         raise NotImplementedError
 
     @abstractmethod
     def get_save_all_files_before_run(self) -> bool:
-        """Получает флаг сохранения всех файлов перед запуском"""
+        """Gets the flag for saving all files before run"""
         raise NotImplementedError
 
     @abstractmethod
     def get_save_file_before_run(self) -> bool:
-        """Получает флаг сохранения текущего файла перед запуском"""
+        """Gets the flag for saving current file before run"""
         raise NotImplementedError

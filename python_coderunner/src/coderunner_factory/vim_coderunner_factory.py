@@ -11,12 +11,12 @@ from ..command_builders_dispatcher import (
     TShebangCommandBuildersDispatcher,
 )
 from ..command_dispatcher_strategy_selector import (
+    EDispatchersTypes,
     TBasicCommandDispatcherStrategySelector,
 )
 from ..commands_executor import TVimCommandsExecutor
 from ..config_manager import (
     ConfigField,
-    EDispatchersTypes,
     TVimConfigGetter,
     TVimConfigManager,
     UndefinedValueError,

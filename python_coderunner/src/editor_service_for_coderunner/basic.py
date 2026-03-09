@@ -3,14 +3,14 @@ from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 from typing import Generator, List
 
-from ..config_manager import IConfigManager
+from ..config_manager import IConfig
 from ..editor import IEditor
 from ..file_info_extractor import IFileInfoExtractor
 
 
 class TBasicEditorServiceForCodeRunner:
-    def __init__(self, config_manager: IConfigManager, editor: IEditor, file_info_extractor: IFileInfoExtractor):
-        self._config_manager: IConfigManager = config_manager
+    def __init__(self, config_manager: IConfig, editor: IEditor, file_info_extractor: IFileInfoExtractor):
+        self._config_manager: IConfig = config_manager
         self._editor: IEditor = editor
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
         self._temp_files: List[str] = []

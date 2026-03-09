@@ -2,7 +2,7 @@ from typing import Any
 
 
 class ConfigFieldNotFoundError(Exception):
-    """Поле конфига не найдено"""
+    """Config field not found"""
 
     def __init__(self, field_name: str, allowed_values: str):
         self.field_name = field_name
@@ -11,7 +11,7 @@ class ConfigFieldNotFoundError(Exception):
 
 
 class ConfigFieldValidationError(Exception):
-    """Значение поля конфига некорректно"""
+    """Config field value is invalid"""
 
     def __init__(self, field_name: str, value: Any, reason: str, allowed_values: str):
         self.field_name = field_name
