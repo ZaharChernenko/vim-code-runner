@@ -9,7 +9,7 @@ class TDispatchersOrderValidator(IValidator[List[EDispatchersTypes]]):
     def __init__(self) -> None:
         self.allowed_dispatcher_types: Set[EDispatchersTypes] = set(EDispatchersTypes)
 
-    def validate(self, value: Any) -> List[EDispatchersTypes]:
+    def __call__(self, value: Any) -> List[EDispatchersTypes]:
         if not isinstance(value, list):
             raise ValidationError(f"Invalid dispatcher order container type: {type(value)}.")
 

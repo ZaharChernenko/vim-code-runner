@@ -5,7 +5,7 @@ from .interface import IValidator
 
 
 class TDispatchersValidator(IValidator[Dict[str, str]]):
-    def validate(self, value: Any) -> Dict[str, str]:
+    def __call__(self, value: Any) -> Dict[str, str]:
         if not isinstance(value, dict):
             raise ValidationError(f"Invalid dispatcher container type: {type(value)}.")
         for key, val in value.items():

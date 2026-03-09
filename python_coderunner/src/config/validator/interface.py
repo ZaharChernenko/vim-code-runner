@@ -8,7 +8,7 @@ class IValidator(ABC, Generic[ValueType]):
     """Base interface for all validators"""
 
     @abstractmethod
-    def validate(self, value: Any) -> ValueType:
+    def __call__(self, value: Any) -> ValueType:
         """
         Validates value and returns typed result.
         Raises ValidationError on validation failure.

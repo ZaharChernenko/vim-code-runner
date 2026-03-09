@@ -5,7 +5,7 @@ from .interface import IValidator
 
 
 class TBoolValidator(IValidator[bool]):
-    def validate(self, value: Any) -> bool:
+    def __call__(self, value: Any) -> bool:
         if isinstance(value, bool):
             return value
         if str(value).strip() in ("0", "1"):

@@ -35,6 +35,6 @@ class TConfigField(Generic[ValueType]):
             raise ConfigFieldNotFoundError.from_undefined_value_error(e, self._allowed_values_description)
 
         try:
-            return self._validator.validate(raw_value)
+            return self._validator(raw_value)
         except ValidationError as e:
             raise ConfigFieldValidationError.from_validation_error(e, self._name, self._allowed_values_description)

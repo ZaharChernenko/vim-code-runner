@@ -35,7 +35,7 @@ class TestBoolValidator:
     ) -> None:
         validator = TBoolValidator()
         with expectation:
-            result = validator.validate(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
 
@@ -63,7 +63,7 @@ class TestStrValidator:
         """Test string validation with various inputs."""
         validator = TStrValidator()
         with expectation:
-            result = validator.validate(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
 
@@ -93,7 +93,7 @@ class TestDispatchersValidator:
     ) -> None:
         validator = TDispatchersValidator()
         with expectation:
-            result = validator.validate(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
 
@@ -121,6 +121,6 @@ class TestDispatchersOrderValidator:
     ) -> None:
         validator = TDispatchersOrderValidator()
         with expectation:
-            result = validator.validate(content)
+            result = validator(content)
             if expected is not None:
                 assert result == expected
