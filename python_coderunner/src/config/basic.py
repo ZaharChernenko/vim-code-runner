@@ -9,7 +9,6 @@ ValueType = TypeVar("ValueType")
 
 class TBasicConfig(IConfig):
     """
-    Configuration manager.
     Aggregates TConfigField objects, each of which encapsulates:
     - Value retrieval
     - Validation

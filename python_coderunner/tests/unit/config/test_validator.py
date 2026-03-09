@@ -1,6 +1,5 @@
-"""Tests for config validators."""
-
 from contextlib import nullcontext as does_not_raise
+from typing import Any, ContextManager
 
 import pytest
 
@@ -30,10 +29,10 @@ class TestBoolValidator:
     )
     def test_validate_bool(
         self,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
         validator = TBoolValidator()
         with expectation:
             result = validator.validate(content)
@@ -57,10 +56,10 @@ class TestStrValidator:
     )
     def test_validate_str(
         self,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
         """Test string validation with various inputs."""
         validator = TStrValidator()
         with expectation:
@@ -88,10 +87,10 @@ class TestDispatchersValidator:
     )
     def test_validate_dispatcher(
         self,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
         validator = TDispatchersValidator()
         with expectation:
             result = validator.validate(content)
@@ -116,10 +115,10 @@ class TestDispatchersOrderValidator:
     )
     def test_validate_dispatchers_order(
         self,
-        content,
-        expected,
-        expectation,
-    ):
+        content: Any,
+        expected: Any,
+        expectation: ContextManager[Any],
+    ) -> None:
         validator = TDispatchersOrderValidator()
         with expectation:
             result = validator.validate(content)
