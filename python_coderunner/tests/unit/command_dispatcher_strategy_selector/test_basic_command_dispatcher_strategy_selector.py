@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List, Optional
 from unittest.mock import MagicMock
 
@@ -73,8 +74,8 @@ def test_basic_command_dispatcher_strategy_selector(
     order: List[EDispatchersTypes],
     respect_shebang: bool,
     expected: Optional[str],
-    tmp_path,
-):
+    tmp_path: Path,
+) -> None:
     file_path_abs = tmp_path / file_path
     file_path_abs.write_bytes(content)
     config: TBasicConfig = MagicMock(

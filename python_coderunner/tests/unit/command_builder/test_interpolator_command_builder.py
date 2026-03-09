@@ -6,7 +6,7 @@ from src.project_info_extractor import IProjectInfoExtractor
 class TestInterpolatorCommandBuilder:
     def test_build(
         self, fixture_project_info_extractor: IProjectInfoExtractor, fixture_file_info_extractor: IFileInfoExtractor
-    ):
+    ) -> None:
         comparator: TestInterpolatorCommandBuilder.TComparator = TestInterpolatorCommandBuilder.TComparator(
             fixture_project_info_extractor, fixture_file_info_extractor
         )
@@ -30,7 +30,7 @@ class TestInterpolatorCommandBuilder:
             self._project_info_extractor: IProjectInfoExtractor = project_info_extractor
             self._file_info_extractor: IFileInfoExtractor = file_info_extractor
 
-        def __call__(self, pattern: str, file_path_abs: str, expected_result: str):
+        def __call__(self, pattern: str, file_path_abs: str, expected_result: str) -> None:
             builder: TInterpolatorCommandBuilder = TInterpolatorCommandBuilder(
                 pattern, self._project_info_extractor, self._file_info_extractor
             )

@@ -7,14 +7,14 @@ from .interface import ICommandBuilder
 
 
 class TInterpolatorCommandBuilder(ICommandBuilder):
-    WORKSPACE_ROOT_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$workspaceRoot")
-    FULL_FILE_NAME_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$fullFileName")
-    FILE_NAME_WITHOUT_EXT_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$fileNameWithoutExt")
-    FILE_NAME_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$fileName")
-    FILE_EXT: ClassVar[re.Pattern] = re.compile(r"\$fileExt")
-    DRIVE_LETTER_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$driveLetter")
-    DIR_WITHOUT_TRAILING_SLASH_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$dirWithoutTrailingSlash")
-    DIR_PATTERN: ClassVar[re.Pattern] = re.compile(r"\$dir")
+    WORKSPACE_ROOT_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$workspaceRoot")
+    FULL_FILE_NAME_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$fullFileName")
+    FILE_NAME_WITHOUT_EXT_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$fileNameWithoutExt")
+    FILE_NAME_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$fileName")
+    FILE_EXT: ClassVar[re.Pattern[str]] = re.compile(r"\$fileExt")
+    DRIVE_LETTER_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$driveLetter")
+    DIR_WITHOUT_TRAILING_SLASH_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$dirWithoutTrailingSlash")
+    DIR_PATTERN: ClassVar[re.Pattern[str]] = re.compile(r"\$dir")
 
     def __init__(
         self,

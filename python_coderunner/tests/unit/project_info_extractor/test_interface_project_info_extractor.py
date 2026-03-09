@@ -5,7 +5,7 @@ from src.project_info_extractor import IProjectInfoExtractor
 
 
 class TestProjectInfoExtractorInterface:
-    def test_get_all_files_filter_by_exts(self, fixture_project_info_extractor: IProjectInfoExtractor):
+    def test_get_all_files_filter_by_exts(self, fixture_project_info_extractor: IProjectInfoExtractor) -> None:
         workspace_root = Path(fixture_project_info_extractor.get_workspace_root())
 
         test_files = (
@@ -29,7 +29,7 @@ class TestProjectInfoExtractorInterface:
             workspace_root / "dir_0" / "py.py",
         }
 
-    def test_get_all_files_filter_by_file_type(self, fixture_project_info_extractor: IProjectInfoExtractor):
+    def test_get_all_files_filter_by_file_type(self, fixture_project_info_extractor: IProjectInfoExtractor) -> None:
         workspace_root = Path(fixture_project_info_extractor.get_workspace_root())
 
         test_files = (

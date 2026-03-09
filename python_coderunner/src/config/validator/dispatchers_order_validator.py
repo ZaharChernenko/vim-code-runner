@@ -6,7 +6,7 @@ from .interface import IValidator
 
 
 class TDispatchersOrderValidator(IValidator[List[EDispatchersTypes]]):
-    def __init__(self):
+    def __init__(self) -> None:
         self.allowed_dispatcher_types: Set[EDispatchersTypes] = set(EDispatchersTypes)
 
     def validate(self, value: Any) -> List[EDispatchersTypes]:
