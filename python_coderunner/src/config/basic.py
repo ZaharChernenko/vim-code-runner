@@ -1,63 +1,11 @@
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Dict, List
 
+from ..command_dispatcher_strategy_selector import EDispatchersTypes
 from .config_field import TConfigField
 from .interface import IConfig
 
 
-class UndefinedValueError(ValueError):
-    """Config value is not defined (raised by IConfigGetter)"""
-
-
-class IConfigGetter(ABC):
-    """Interface for getting raw config values"""
-
-    @abstractmethod
-    def get_by_file_ext(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_by_file_type(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_by_glob(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_coderunner_tempfile_prefix(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_dispatchers_order(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_executor(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_ignore_selection(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_respect_shebang(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_remove_coderunner_tempfiles_on_exit(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_save_all_files_before_run(self) -> Any:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_save_file_before_run(self) -> Any:
-        raise NotImplementedError
-
-
-class TBasicConfigManager(IConfig):
+class TBasicConfig(IConfig):
     """
     Configuration manager.
     Aggregates TConfigField objects, each of which encapsulates:
@@ -72,7 +20,7 @@ class TBasicConfigManager(IConfig):
         by_file_ext_field: TConfigField[Dict[str, str]],
         by_file_type_field: TConfigField[Dict[str, str]],
         by_glob_field: TConfigField[Dict[str, str]],
-        dispatchers_order_field: TConfigField[List],
+        dispatchers_order_field: TConfigField[List[EDispatchersTypes]],
         coderunner_tempfile_prefix_field: TConfigField[str],
         executor_field: TConfigField[str],
         ignore_selection_field: TConfigField[bool],
@@ -102,7 +50,7 @@ class TBasicConfigManager(IConfig):
     def get_by_glob(self) -> Dict[str, str]:
         return self._by_glob.get()
 
-    def get_dispatchers_order(self) -> List:
+    def get_dispatchers_order(self) -> List[EDispatchersTypes]:
         return self._dispatchers_order.get()
 
     def get_coderunner_tempfile_prefix(self) -> str:

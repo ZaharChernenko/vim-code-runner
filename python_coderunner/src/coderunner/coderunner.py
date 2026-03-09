@@ -5,7 +5,7 @@ from ..command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
 from ..commands_executor import ICommandsExecutor
-from ..config_manager import IConfig
+from ..config import IConfig
 from ..editor_service_for_coderunner import TBasicEditorServiceForCodeRunner
 from ..message_printer import IMessagePrinter
 
@@ -14,13 +14,13 @@ class TCodeRunner:
     def __init__(
         self,
         *,
-        config_manager: IConfig,
+        config: IConfig,
         editor_service: TBasicEditorServiceForCodeRunner,
         command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector,
         commands_executor: ICommandsExecutor,
         message_printer: IMessagePrinter,
     ):
-        self._config_manager: IConfig = config_manager
+        self._config: IConfig = config
         self._editor_service: TBasicEditorServiceForCodeRunner = editor_service
         self._command_dispatcher_strategy_selector: TBasicCommandDispatcherStrategySelector = (
             command_dispatcher_strategy_selector
@@ -53,5 +53,5 @@ class TCodeRunner:
         self._editor_service.remove_coderunner_tempfiles()
 
     def on_exit(self) -> None:
-        if self._config_manager.get_remove_coderunner_tempfiles_on_exit():
+        if self._config.get_remove_coderunner_tempfiles_on_exit():
             self.remove_coderunner_tempfiles()

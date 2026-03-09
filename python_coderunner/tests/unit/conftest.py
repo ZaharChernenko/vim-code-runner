@@ -19,12 +19,22 @@ from src.command_builders_dispatcher import (
     TShebangCommandBuildersDispatcher,
 )
 from src.command_dispatcher_strategy_selector import EDispatchersTypes
-from src.config_manager import (
+from src.config import (
     ConfigField,
     IConfig,
-    IConfigGetter,
-    TVimConfigGetter,
-    TVimConfigManager,
+    IConfigValueGetter,
+    TVimByFileExtConfigValueGetter,
+    TVimByFileTypeConfigValueGetter,
+    TVimByGlobConfigValueGetter,
+    TVimCoderunnerTempfilePrefixConfigValueGetter,
+    TVimConfig,
+    TVimDispatchersOrderConfigValueGetter,
+    TVimExecutorConfigValueGetter,
+    TVimIgnoreSelectionConfigValueGetter,
+    TVimRemoveCoderunnerTempfilesOnExitConfigValueGetter,
+    TVimRespectShebangConfigValueGetter,
+    TVimSaveAllFilesBeforeRunConfigValueGetter,
+    TVimSaveFileBeforeRunConfigValueGetter,
 )
 from src.file_info_extractor import (
     IFileInfoExtractor,
@@ -37,92 +47,82 @@ from src.project_info_extractor import (
 from src.validators import TBoolValidator, TDispatchersOrderValidator, TDispatchersValidator, TStrValidator
 
 
-@pytest.fixture(params=(lazy_fixture("fixture_vim_config_manager"),))
-def fixture_config_manager(request: pytest.FixtureRequest) -> IConfig:
+@pytest.fixture(params=(lazy_fixture("fixture_vim_config"),))
+def fixture_config(request: pytest.FixtureRequest) -> IConfig:
     return request.param
 
 
 @pytest.fixture
-def fixture_vim_config_manager(fixture_config_getter: IConfigGetter) -> IConfig:
-    """Create TVimConfigManager with all ConfigField objects"""
-    return TVimConfigManager(
+def fixture_vim_config() -> IConfig:
+    """Create TVimConfig with all ConfigField objects"""
+    return TVimConfig(
         by_file_ext_field=ConfigField(
             name="by_file_ext",
-            getter=fixture_config_getter.get_by_file_ext,
+            getter=TVimByFileExtConfigValueGetter(),
             validator=TDispatchersValidator(),
             allowed_values_description="Dict[str, str] value",
         ),
         by_file_type_field=ConfigField(
             name="by_file_type",
-            getter=fixture_config_getter.get_by_file_type,
+            getter=TVimByFileTypeConfigValueGetter(),
             validator=TDispatchersValidator(),
             allowed_values_description="Dict[str, str] value",
         ),
         by_glob_field=ConfigField(
             name="by_glob",
-            getter=fixture_config_getter.get_by_glob,
+            getter=TVimByGlobConfigValueGetter(),
             validator=TDispatchersValidator(),
             allowed_values_description="Dict[str, str] value",
         ),
         dispatchers_order_field=ConfigField(
             name="runners_order",
-            getter=fixture_config_getter.get_dispatchers_order,
-            validator=TDispatchersOrderValidator(set(EDispatchersTypes)),
+            getter=TVimDispatchersOrderConfigValueGetter(),
+            validator=TDispatchersOrderValidator(),
             allowed_values_description=", ".join(dispatcher_type.value for dispatcher_type in EDispatchersTypes),
         ),
         coderunner_tempfile_prefix_field=ConfigField(
             name="coderunner_tempfile_prefix",
-            getter=fixture_config_getter.get_coderunner_tempfile_prefix,
+            getter=TVimCoderunnerTempfilePrefixConfigValueGetter(),
             validator=TStrValidator(),
             allowed_values_description="str value",
         ),
         executor_field=ConfigField(
             name="executor",
-            getter=fixture_config_getter.get_executor,
+            getter=TVimExecutorConfigValueGetter(),
             validator=TStrValidator(),
             allowed_values_description="str value",
         ),
         ignore_selection_field=ConfigField(
             name="ignore_selection",
-            getter=fixture_config_getter.get_ignore_selection,
+            getter=TVimIgnoreSelectionConfigValueGetter(),
             validator=TBoolValidator(),
             allowed_values_description="0 or 1",
         ),
         respect_shebang_field=ConfigField(
             name="respect_shebang",
-            getter=fixture_config_getter.get_respect_shebang,
+            getter=TVimRespectShebangConfigValueGetter(),
             validator=TBoolValidator(),
             allowed_values_description="0 or 1",
         ),
         remove_coderunner_tempfiles_on_exit_field=ConfigField(
             name="coderunner_remove_coderunner_tempfiles_on_exit",
-            getter=fixture_config_getter.get_remove_coderunner_tempfiles_on_exit,
+            getter=TVimRemoveCoderunnerTempfilesOnExitConfigValueGetter(),
             validator=TBoolValidator(),
             allowed_values_description="0 or 1",
         ),
         save_all_files_before_run_field=ConfigField(
             name="save_all_files_before_run",
-            getter=fixture_config_getter.get_save_all_files_before_run,
+            getter=TVimSaveAllFilesBeforeRunConfigValueGetter(),
             validator=TBoolValidator(),
             allowed_values_description="0 or 1",
         ),
         save_file_before_run_field=ConfigField(
             name="save_file_before_run",
-            getter=fixture_config_getter.get_save_file_before_run,
+            getter=TVimSaveFileBeforeRunConfigValueGetter(),
             validator=TBoolValidator(),
             allowed_values_description="0 or 1",
         ),
     )
-
-
-@pytest.fixture(params=(lazy_fixture("fixture_vim_config_getter"),))
-def fixture_config_getter(request: pytest.FixtureRequest) -> IConfigGetter:
-    return request.param
-
-
-@pytest.fixture
-def fixture_vim_config_getter() -> IConfigGetter:
-    return TVimConfigGetter()
 
 
 @pytest.fixture

@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
+from ..command_dispatcher_strategy_selector import EDispatchersTypes
+
 
 class IConfig(ABC):
-    """Configuration manager interface"""
+    """Configuration interface"""
 
     @abstractmethod
     def get_by_file_ext(self) -> Dict[str, str]:
@@ -21,7 +23,7 @@ class IConfig(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_dispatchers_order(self) -> List:
+    def get_dispatchers_order(self) -> List[EDispatchersTypes]:
         """Gets the priority order of dispatchers"""
         raise NotImplementedError
 

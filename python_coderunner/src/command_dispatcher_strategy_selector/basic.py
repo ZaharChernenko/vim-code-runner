@@ -7,7 +7,7 @@ from ..command_builders_dispatcher import (
     TGlobCommandBuildersDispatcher,
     TShebangCommandBuildersDispatcher,
 )
-from ..config_manager import IConfig
+from ..config import IConfig
 from .types import EDispatchersTypes
 
 
@@ -15,13 +15,13 @@ class TBasicCommandDispatcherStrategySelector:
     def __init__(
         self,
         *,
-        config_manager: IConfig,
+        config: IConfig,
         shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
         glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher,
         file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher,
         file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     ):
-        self._config_manager: IConfig = config_manager
+        self._config: IConfig = config
         self._shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher = (
             shebang_command_builders_dispatcher
         )
@@ -49,12 +49,12 @@ class TBasicCommandDispatcherStrategySelector:
         command_builder: Optional[ICommandBuilder] = None
 
         if (
-            self._config_manager.get_respect_shebang()
+            self._config.get_respect_shebang()
             and (command_builder := self.dispatch_by_shebang(file_path_abs)) is not None
         ):
             return command_builder
 
-        for dispatcher in self._config_manager.get_dispatchers_order():
+        for dispatcher in self._config.get_dispatchers_order():
             if (
                 dispatcher == EDispatchersTypes.BY_FILE_EXT
                 and (command_builder := self.dispatch_by_file_ext(file_path_abs)) is not None

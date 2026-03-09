@@ -14,7 +14,7 @@ from src.command_dispatcher_strategy_selector import (
     EDispatchersTypes,
     TBasicCommandDispatcherStrategySelector,
 )
-from src.config_manager import TBasicConfigManager
+from src.config import TBasicConfig
 
 
 @pytest.mark.parametrize(
@@ -78,7 +78,7 @@ def test_basic_command_dispatcher_strategy_selector(
 ):
     file_path_abs = tmp_path / file_path
     file_path_abs.write_bytes(content)
-    config_manager: TBasicConfigManager = MagicMock(
+    config: TBasicConfig = MagicMock(
         get_dispatchers_order=MagicMock(return_value=order), get_respect_shebang=MagicMock(return_value=respect_shebang)
     )
     selector = TBasicCommandDispatcherStrategySelector(
@@ -86,7 +86,7 @@ def test_basic_command_dispatcher_strategy_selector(
         glob_command_builders_dispatcher=fixture_glob_command_builders_dispatcher,
         file_ext_command_builders_dispatcher=fixture_file_ext_command_builders_dispatcher,
         file_type_command_builders_dispatcher=fixture_file_type_command_builders_dispatcher,
-        config_manager=config_manager,
+        config=config,
     )
     dispatch_result: Optional[ICommandBuilder] = selector.dispatch(str(file_path_abs))
 

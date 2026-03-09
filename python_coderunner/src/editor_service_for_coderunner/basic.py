@@ -3,14 +3,14 @@ from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 from typing import Generator, List
 
-from ..config_manager import IConfig
+from ..config import IConfig
 from ..editor import IEditor
 from ..file_info_extractor import IFileInfoExtractor
 
 
 class TBasicEditorServiceForCodeRunner:
-    def __init__(self, config_manager: IConfig, editor: IEditor, file_info_extractor: IFileInfoExtractor):
-        self._config_manager: IConfig = config_manager
+    def __init__(self, config: IConfig, editor: IEditor, file_info_extractor: IFileInfoExtractor):
+        self._config: IConfig = config
         self._editor: IEditor = editor
         self._file_info_extractor: IFileInfoExtractor = file_info_extractor
         self._temp_files: List[str] = []
@@ -19,15 +19,12 @@ class TBasicEditorServiceForCodeRunner:
     def get_file_for_run(self) -> Generator[str, None, None]:
         file_path_abs: str = self._editor.get_current_file_name()
 
-        if (
-            not self._config_manager.get_ignore_selection()
-            and (selected_text := self._editor.get_selected_text()) is not None
-        ):
+        if not self._config.get_ignore_selection() and (selected_text := self._editor.get_selected_text()) is not None:
             with NamedTemporaryFile(
                 "w",
                 encoding="utf-8",
                 dir=self._file_info_extractor.get_dir(file_path_abs),
-                prefix=self._config_manager.get_coderunner_tempfile_prefix(),
+                prefix=self._config.get_coderunner_tempfile_prefix(),
                 suffix=self._file_info_extractor.get_file_ext(file_path_abs),
                 delete=False,
             ) as temp_file:
@@ -45,10 +42,10 @@ class TBasicEditorServiceForCodeRunner:
             yield file_path_abs
 
     def prepare_for_run(self) -> None:
-        if self._config_manager.get_save_all_files_before_run():
+        if self._config.get_save_all_files_before_run():
             self._editor.save_all_files()
             return
-        if self._config_manager.get_save_file_before_run():
+        if self._config.get_save_file_before_run():
             self._editor.save_file()
             return
 
