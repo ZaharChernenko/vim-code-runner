@@ -1,6 +1,5 @@
 import glob
 import re
-from typing import Dict, Optional
 
 from ..coderunner import TCodeRunner
 from ..command_builder import TInterpolatorCommandBuilder
@@ -43,7 +42,7 @@ from .interface import ICodeRunnerFactory
 
 
 class TVimCodeRunnerFactory(ICodeRunnerFactory):
-    def create(self) -> Optional[TCodeRunner]:
+    def create(self) -> TCodeRunner | None:
         config: TVimConfig = self._create_config()
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
@@ -205,7 +204,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
         file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TGlobCommandBuildersDispatcher:
-        dict_with_commands: Dict[str, str] = config.get_by_glob()
+        dict_with_commands: dict[str, str] = config.get_by_glob()
         return TGlobCommandBuildersDispatcher(
             tuple(
                 (

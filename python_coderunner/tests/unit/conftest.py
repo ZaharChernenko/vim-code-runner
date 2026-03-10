@@ -3,7 +3,7 @@ import re
 import sys
 import tempfile
 import unittest
-from typing import Dict, Generator, Tuple
+from typing import Generator
 from unittest import mock
 from unittest.mock import MagicMock
 
@@ -137,8 +137,8 @@ def fixture_shebang_command_builders_dispatcher(
 def fixture_file_ext_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileExtCommandBuildersDispatcher:
-    extensions: Tuple[str, ...] = (".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rb", ".txt", ".z")
-    file_ext_to_builder: Dict[str, ICommandBuilder] = {
+    extensions: tuple[str, ...] = (".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rb", ".txt", ".z")
+    file_ext_to_builder: dict[str, ICommandBuilder] = {
         ext: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=ext)) for ext in extensions
     }
 
@@ -151,13 +151,13 @@ def fixture_file_ext_command_builders_dispatcher(
 def fixture_file_type_command_builders_dispatcher(
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> TFileTypeCommandBuildersDispatcher:
-    languages: Tuple[str, ...] = (
+    languages: tuple[str, ...] = (
         "python",
         "javascript",
         "typescript",
         "cpp",
     )
-    file_type_to_builder: Dict[str, ICommandBuilder] = {
+    file_type_to_builder: dict[str, ICommandBuilder] = {
         lang: MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=lang)) for lang in languages
     }
 
@@ -168,7 +168,7 @@ def fixture_file_type_command_builders_dispatcher(
 
 @pytest.fixture
 def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher:
-    glob_patterns: Tuple[str, ...] = (
+    glob_patterns: tuple[str, ...] = (
         "**/*.py",
         "**/test.py",
         "*.js",
@@ -179,7 +179,7 @@ def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher
         "**/*.log",
         "**/*.*.*",
     )
-    glob_to_builder: Tuple[Tuple[re.Pattern, ICommandBuilder], ...] = tuple(
+    glob_to_builder: tuple[tuple[re.Pattern, ICommandBuilder], ...] = tuple(
         (
             re.compile(glob.translate(pattern, recursive=True, include_hidden=True)),
             MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=pattern)),
@@ -217,7 +217,7 @@ def fixture_file_info_extractor(request: pytest.FixtureRequest) -> IFileInfoExtr
 @pytest.fixture
 def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor, None, None]:
     extractor: TVimFileInfoExtractor = TVimFileInfoExtractor()
-    ext_to_lang: Dict[str, str] = {
+    ext_to_lang: dict[str, str] = {
         ".py": "python",
         ".cpp": "cpp",
         ".rs": "rust",

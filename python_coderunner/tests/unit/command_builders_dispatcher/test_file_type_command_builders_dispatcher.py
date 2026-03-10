@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 
 from src.command_builder import ICommandBuilder
@@ -21,9 +19,9 @@ from src.command_builders_dispatcher import (
 def test_file_type_command_builders_dispatcher(
     fixture_file_type_command_builders_dispatcher: TFileTypeCommandBuildersDispatcher,
     file_path: str,
-    expected_build_result: Optional[str],
+    expected_build_result: str | None,
 ) -> None:
-    dispatch_result: Optional[ICommandBuilder] = fixture_file_type_command_builders_dispatcher.dispatch(file_path)
+    dispatch_result: ICommandBuilder | None = fixture_file_type_command_builders_dispatcher.dispatch(file_path)
 
     if expected_build_result is not None:
         assert dispatch_result is not None

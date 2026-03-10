@@ -1,5 +1,3 @@
-from typing import Optional
-
 from ..command_builder import ICommandBuilder
 from ..command_builders_dispatcher import (
     TFileExtCommandBuildersDispatcher,
@@ -32,20 +30,20 @@ class TBasicCommandDispatcherStrategySelector:
             file_type_command_builders_dispatcher
         )
 
-    def dispatch_by_shebang(self, file_path_abs: str) -> Optional[ICommandBuilder]:
+    def dispatch_by_shebang(self, file_path_abs: str) -> ICommandBuilder | None:
         return self._shebang_command_builders_dispatcher.dispatch(file_path_abs)
 
-    def dispatch_by_glob(self, file_path_abs: str) -> Optional[ICommandBuilder]:
+    def dispatch_by_glob(self, file_path_abs: str) -> ICommandBuilder | None:
         return self._glob_command_builders_dispatcher.dispatch(file_path_abs)
 
-    def dispatch_by_file_ext(self, file_path_abs: str) -> Optional[ICommandBuilder]:
+    def dispatch_by_file_ext(self, file_path_abs: str) -> ICommandBuilder | None:
         return self._file_ext_command_builders_dispatcher.dispatch(file_path_abs)
 
-    def dispatch_by_file_type(self, file_path_abs: str) -> Optional[ICommandBuilder]:
+    def dispatch_by_file_type(self, file_path_abs: str) -> ICommandBuilder | None:
         return self._file_type_command_builders_dispatcher.dispatch(file_path_abs)
 
-    def dispatch(self, file_path_abs: str) -> Optional[ICommandBuilder]:
-        command_builder: Optional[ICommandBuilder] = None
+    def dispatch(self, file_path_abs: str) -> ICommandBuilder | None:
+        command_builder: ICommandBuilder | None = None
 
         if (
             self._config.get_respect_shebang()

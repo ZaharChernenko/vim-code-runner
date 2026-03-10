@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Set
 
 from src.project_info_extractor import IProjectInfoExtractor
 
@@ -20,8 +19,8 @@ class TestProjectInfoExtractorInterface:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             file_path.touch(exist_ok=True)
 
-        exts: Set[str] = {".py", ".md"}
-        result: Set[Path] = {Path(p) for p in fixture_project_info_extractor.get_all_files_filter_by_exts(exts)}
+        exts: set[str] = {".py", ".md"}
+        result: set[Path] = {Path(p) for p in fixture_project_info_extractor.get_all_files_filter_by_exts(exts)}
         assert result == {
             workspace_root / "file_0.py",
             workspace_root / "file_1.py",
@@ -45,8 +44,8 @@ class TestProjectInfoExtractorInterface:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             file_path.touch(exist_ok=True)
 
-        file_types: Set[str] = {"python", "cpp", "cobol"}
-        result: Set[Path] = {
+        file_types: set[str] = {"python", "cpp", "cobol"}
+        result: set[Path] = {
             Path(p) for p in fixture_project_info_extractor.get_all_files_filter_by_file_type(file_types)
         }
         assert result == {

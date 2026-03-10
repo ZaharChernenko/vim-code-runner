@@ -1,6 +1,5 @@
 import os
 from abc import abstractmethod
-from typing import Optional
 
 from .interface import IFileInfoExtractor
 
@@ -33,10 +32,10 @@ class TBaseFileInfoExtractor(IFileInfoExtractor):
         return base[:dot_pos] if dot_pos != -1 else base
 
     @abstractmethod
-    def get_file_type(self, file_path_abs: str) -> Optional[str]:
+    def get_file_type(self, file_path_abs: str) -> str | None:
         raise NotImplementedError
 
-    def get_shebang(self, file_path_abs: str) -> Optional[str]:
+    def get_shebang(self, file_path_abs: str) -> str | None:
         if not os.path.exists(file_path_abs):
             return None
 

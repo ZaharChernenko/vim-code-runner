@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 
 class IEditor(ABC):
@@ -8,7 +7,7 @@ class IEditor(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_selected_text(self) -> Optional[str]:
+    def get_selected_text(self) -> str | None:
         raise NotImplementedError
 
     @abstractmethod

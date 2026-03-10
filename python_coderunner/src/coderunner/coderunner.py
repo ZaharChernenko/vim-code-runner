@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable
 
 from ..command_builder import ICommandBuilder
 from ..command_dispatcher_strategy_selector import (
@@ -40,7 +40,7 @@ class TCodeRunner:
     def run_by_file_type(self) -> None:
         self._run(self._command_dispatcher_strategy_selector.dispatch_by_file_type)
 
-    def _run(self, strategy: Callable[[str], Optional[ICommandBuilder]]) -> None:
+    def _run(self, strategy: Callable[[str], ICommandBuilder | None]) -> None:
         try:
             with self._editor_service.get_file_for_run() as file_path_abs:
                 if (command_builder := strategy(file_path_abs)) is not None:

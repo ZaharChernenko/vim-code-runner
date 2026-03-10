@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional
 
 import pytest
 
@@ -25,8 +24,8 @@ from src.command_builders_dispatcher import TShebangCommandBuildersDispatcher
 )
 def test_shebang_command_builders_dispatcher(
     fixture_shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
-    content: Optional[bytes],
-    expected_result: Optional[str],
+    content: bytes | None,
+    expected_result: str | None,
     tmp_path: Path,
 ) -> None:
     file_path_abs: Path = tmp_path / "test_file"
@@ -36,9 +35,7 @@ def test_shebang_command_builders_dispatcher(
         return
 
     file_path_abs.write_bytes(content)
-    dispatch_result: Optional[ICommandBuilder] = fixture_shebang_command_builders_dispatcher.dispatch(
-        str(file_path_abs)
-    )
+    dispatch_result: ICommandBuilder | None = fixture_shebang_command_builders_dispatcher.dispatch(str(file_path_abs))
 
     if expected_result is None:
         assert dispatch_result is None

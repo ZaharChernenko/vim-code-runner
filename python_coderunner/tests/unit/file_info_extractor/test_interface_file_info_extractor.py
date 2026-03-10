@@ -1,6 +1,5 @@
 import os
 import tempfile
-from typing import Optional
 from unittest.mock import patch
 
 import pytest
@@ -73,7 +72,7 @@ class TestFileInfoExtractorInterface:
         ],
     )
     def test_get_shebang(
-        self, fixture_file_info_extractor: IFileInfoExtractor, content: Optional[str], expected: Optional[str]
+        self, fixture_file_info_extractor: IFileInfoExtractor, content: str | None, expected: str | None
     ) -> None:
         if content is None:
             assert fixture_file_info_extractor.get_shebang("/bad/path") is expected
