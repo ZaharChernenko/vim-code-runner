@@ -9,8 +9,6 @@ class EDispatchersTypes(StrEnum):
 
 
 class IConfig(ABC):
-    """Configuration interface"""
-
     @abstractmethod
     def get_by_file_ext(self) -> dict[str, str]:
         """Gets config for file extension-based dispatching"""
