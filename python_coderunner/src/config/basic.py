@@ -1,7 +1,7 @@
 from typing import TypeVar
 
 from .config_field import TConfigField
-from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
+from .exceptions import ConfigFieldUndefinedValueError, ConfigFieldValidationError
 from .interface import EDispatchersTypes, IConfig
 
 ValueType = TypeVar("ValueType")
@@ -41,7 +41,7 @@ class TBasicConfig(IConfig):
         """
         try:
             return field.get()
-        except (ConfigFieldNotFoundError, ConfigFieldValidationError) as e:
+        except (ConfigFieldUndefinedValueError, ConfigFieldValidationError) as e:
             raise ValueError(str(e)) from e
 
     def get_by_file_ext(self) -> dict[str, str]:

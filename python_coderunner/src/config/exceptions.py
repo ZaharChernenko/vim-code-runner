@@ -4,7 +4,7 @@ from .getter import UndefinedValueError
 from .validator import ValidationError
 
 
-class ConfigFieldNotFoundError(UndefinedValueError):
+class ConfigFieldUndefinedValueError(UndefinedValueError):
     @classmethod
     def from_undefined_value_error(cls, e: UndefinedValueError, allowed_values: str) -> Self:
         return cls(f"{e} Allowed values: {allowed_values}.")

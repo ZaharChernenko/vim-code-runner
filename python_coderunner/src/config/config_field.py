@@ -1,6 +1,6 @@
 from typing import Any, Generic, TypeVar
 
-from .exceptions import ConfigFieldNotFoundError, ConfigFieldValidationError
+from .exceptions import ConfigFieldUndefinedValueError, ConfigFieldValidationError
 from .getter import IConfigValueGetter, UndefinedValueError
 from .validator import IValidator, ValidationError
 
@@ -32,7 +32,7 @@ class TConfigField(Generic[ValueType]):
         try:
             raw_value: Any = self._getter()
         except UndefinedValueError as e:
-            raise ConfigFieldNotFoundError.from_undefined_value_error(e, self._allowed_values_description)
+            raise ConfigFieldUndefinedValueError.from_undefined_value_error(e, self._allowed_values_description)
 
         try:
             return self._validator(raw_value)
