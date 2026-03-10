@@ -3,9 +3,10 @@ from typing import Any
 import vim
 
 from .exceptions import UndefinedValueError
+from .interface import IConfigValueGetter
 
 
-class TBaseVimConfigValueGetter:
+class TBaseVimConfigValueGetter(IConfigValueGetter):
     """Base class for getting Vim config values"""
 
     def _get_vim_var(self, var_name: str) -> Any:

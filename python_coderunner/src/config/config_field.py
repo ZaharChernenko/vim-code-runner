@@ -32,9 +32,11 @@ class TConfigField(Generic[ValueType]):
         try:
             raw_value: Any = self._getter()
         except UndefinedValueError as e:
-            raise ConfigFieldUndefinedValueError.from_undefined_value_error(e, self._allowed_values_description)
+            raise ConfigFieldUndefinedValueError.from_undefined_value_error(e, self._allowed_values_description) from e
 
         try:
             return self._validator(raw_value)
         except ValidationError as e:
-            raise ConfigFieldValidationError.from_validation_error(e, self._name, self._allowed_values_description)
+            raise ConfigFieldValidationError.from_validation_error(
+                e, self._name, self._allowed_values_description
+            ) from e

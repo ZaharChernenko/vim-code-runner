@@ -9,6 +9,8 @@ class IValidator(ABC, Generic[ValueType]):
     def __call__(self, value: Any) -> ValueType:
         """
         Validates value and returns typed result.
-        Raises ValidationError on validation failure.
+
+        Raises:
+            ValidationError on validation failure.
         """
         raise NotImplementedError
