@@ -79,19 +79,19 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
                 name="g:coderunner_by_file_ext",
                 getter=TVimByFileExtConfigValueGetter(),
                 validator=TDispatchersValidator(),
-                allowed_values_description="Dict[str, str] value",
+                allowed_values_description="dict[str, str]",
             ),
             by_file_type_field=TConfigField(
                 name="g:coderunner_by_file_type",
                 getter=TVimByFileTypeConfigValueGetter(),
                 validator=TDispatchersValidator(),
-                allowed_values_description="Dict[str, str] value",
+                allowed_values_description="dict[str, str]",
             ),
             by_glob_field=TConfigField(
                 name="g:coderunner_by_glob",
                 getter=TVimByGlobConfigValueGetter(),
                 validator=TDispatchersValidator(),
-                allowed_values_description="Dict[str, str] value",
+                allowed_values_description="dict[str, str]",
             ),
             dispatchers_order_field=TConfigField(
                 name="g:coderunner_runners_order",
