@@ -13,7 +13,7 @@ from ..command_dispatcher_strategy_selector import (
     TBasicCommandDispatcherStrategySelector,
 )
 from ..commands_executor import TVimCommandsExecutor
-from ..config import EDispatchersTypes, TConfigField, TVimConfig
+from ..config import EDispatchersTypes, TBasicConfig, TConfigField
 from ..config.getter import (
     TVimByFileExtConfigValueGetter,
     TVimByFileTypeConfigValueGetter,
@@ -43,7 +43,7 @@ from .interface import ICodeRunnerFactory
 
 class TVimCodeRunnerFactory(ICodeRunnerFactory):
     def create(self) -> TCodeRunner | None:
-        config: TVimConfig = self._create_config()
+        config: TBasicConfig = self._create_config()
         message_printer: TVimMessagePrinter = TVimMessagePrinter()
 
         try:
@@ -73,8 +73,8 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
 
         return None
 
-    def _create_config(self) -> TVimConfig:
-        return TVimConfig(
+    def _create_config(self) -> TBasicConfig:
+        return TBasicConfig(
             by_file_ext_field=TConfigField(
                 name="g:coderunner_by_file_ext",
                 getter=TVimByFileExtConfigValueGetter(),
@@ -145,7 +145,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
 
     def _create_command_dispatcher_strategy_selector(
         self,
-        config: TVimConfig,
+        config: TBasicConfig,
         file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TBasicCommandDispatcherStrategySelector:
@@ -172,7 +172,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
 
     def _create_file_ext_command_builders_dispatcher(
         self,
-        config: TVimConfig,
+        config: TBasicConfig,
         file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TFileExtCommandBuildersDispatcher:
@@ -186,7 +186,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
 
     def _create_file_type_command_builders_dispatcher(
         self,
-        config: TVimConfig,
+        config: TBasicConfig,
         file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TFileTypeCommandBuildersDispatcher:
@@ -200,7 +200,7 @@ class TVimCodeRunnerFactory(ICodeRunnerFactory):
 
     def _create_glob_command_builders_dispatcher(
         self,
-        config: TVimConfig,
+        config: TBasicConfig,
         file_info_extractor: TVimFileInfoExtractor,
         project_info_extractor: TVimProjectInfoExtractor,
     ) -> TGlobCommandBuildersDispatcher:
