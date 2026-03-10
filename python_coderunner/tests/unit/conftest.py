@@ -21,8 +21,8 @@ from src.command_builders_dispatcher import (
 from src.config import (
     EDispatchersTypes,
     IConfig,
+    TBasicConfig,
     TConfigField,
-    TVimConfig,
 )
 from src.config.getter import (
     IConfigValueGetter,
@@ -56,7 +56,7 @@ def fixture_config(request: pytest.FixtureRequest) -> IConfig:
 
 @pytest.fixture
 def fixture_vim_config() -> IConfig:
-    return TVimConfig(
+    return TBasicConfig(
         by_file_ext_field=TConfigField(
             name="g:coderunner_by_file_ext",
             getter=TVimByFileExtConfigValueGetter(),

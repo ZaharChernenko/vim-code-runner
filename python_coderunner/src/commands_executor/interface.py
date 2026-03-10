@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class ICommandsExecutor(ABC):
     """
-    Сlass for executing a string command only.
+    Class for executing a string command only.
     """
 
     @abstractmethod
