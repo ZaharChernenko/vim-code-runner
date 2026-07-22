@@ -11,6 +11,7 @@ class TestInterpolatorCommandBuilder:
             fixture_project_info_extractor, fixture_file_info_extractor
         )
         workspace_root: str = fixture_project_info_extractor.get_workspace_root()
+
         comparator("$dir", "/home/user/file.txt", "/home/user/")
         comparator("$dirWithoutTrailingSlash", "/home/user/file.txt", "/home/user")
         comparator("$dirWithoutTrailingSlash$dir", "/home/user/file.txt", "/home/user/home/user/")
@@ -24,6 +25,9 @@ class TestInterpolatorCommandBuilder:
         comparator("$workspaceRoot", "/home/user/file", workspace_root)
         comparator("$workspaceRoot/$fileName", "/home/user/file.txt", f"{workspace_root}/file.txt")
         comparator("$workspaceRoot/$fileNameWithoutExt", "/home/user/file", f"{workspace_root}/file")
+
+        # Windows path containing \u (users) and \t (test) to trigger the re.sub bug
+        comparator("$fullFileName", r"C:\users\test\app.py", r"C:\users\test\app.py")
 
     class TComparator:
         def __init__(self, project_info_extractor: IProjectInfoExtractor, file_info_extractor: IFileInfoExtractor):
