@@ -34,10 +34,10 @@ let g:coderunner_tempfile_prefix = get(g:, 'coderunner_tempfile_prefix', 'coderu
 if has('vim_starting')
     augroup coderunnerVimEnter
         autocmd!
-        autocmd VimEnter * call coderunner#Load()
+        autocmd VimEnter * call coderunner#Start()
     augroup END
 else
-    call coderunner#Load()
+    call coderunner#Start()
 endif
 
 augroup coderunnerVimLeave
