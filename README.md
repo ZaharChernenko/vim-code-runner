@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
     - [`CodeRunnerRunByFileType`](#coderunnerrunbyfiletype)
     - [`CodeRunnerRunByGlob`](#coderunnerrunbyglob)
     - [`CodeRunnerRun`](#coderunnerrun)
-    - [`coderunner#Load()`](#coderunnerload)
+    - [`CodeRunnerRestart`](#coderunnerrestart)
     - [`coderunner#RemoveCoderunnerTempfiles()`](#coderunnerremovecoderunnertempfiles)
   - [Configuration](#configuration)
     - [`g:coderunner_by_file_ext`](#gcoderunner_by_file_ext)
@@ -35,9 +35,9 @@ https://github.com/user-attachments/assets/63109233-1e5d-4d54-b890-30eb07dab826
   ```vim
   :echo has('python3') " should return 1
   ```
-- To use `CodeRunnerRunByGlob` python version must be above 3.10. Check with:
+- Python 3.11+ for all features except `CodeRunnerRunByGlob`. For `CodeRunnerRunByGlob` Python 3.13+ is required. Check with:
   ```vim
-  :py3 import sys;print(sys.version) " should return >= 3.10
+  :py3 import sys;print(sys.version)
   ```
 
 ## Installation
@@ -66,9 +66,9 @@ Tries to execute the code if the full path of the current file corresponds to so
 
 Tries to execute the code using the fallback strategy defined in [`g:coderunner_runners_order`](#gcoderunner_runners_order).
 
-### `coderunner#Load()`
+### `CodeRunnerRestart`
 
-The function that loads the coderunner module also updates the variables: g:coderunner_by_file_ext, g:coderunner_by_file_type, g:coderunner_by_glob.
+Reloads the coderunner module. Useful during development or after changing configuration variables at runtime.
 
 ### `coderunner#RemoveCoderunnerTempfiles()`
 

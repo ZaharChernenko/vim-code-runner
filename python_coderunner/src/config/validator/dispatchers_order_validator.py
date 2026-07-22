@@ -15,4 +15,4 @@ class TDispatchersOrderValidator(IValidator[list[EDispatchersTypes]]):
         if invalid_items := [v for v in value if v not in self._ALLOWED_DISPATCHER_TYPES]:
             raise ValidationError(f"Invalid dispatcher types values: {', '.join(map(str, invalid_items))}.")
 
-        return value
+        return [EDispatchersTypes(v) for v in value]
