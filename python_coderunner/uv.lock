@@ -450,7 +450,7 @@ wheels = [
 
 [[package]]
 name = "vim-code-runner"
-version = "1.0.0"
+version = "1.0.3"
 source = { virtual = "." }
 
 [package.dev-dependencies]
