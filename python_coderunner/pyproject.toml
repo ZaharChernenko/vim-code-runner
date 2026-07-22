@@ -35,10 +35,13 @@ testpaths = ["tests"]
 
 [tool.pyright]
 typeCheckingMode = "basic"
+reportMissingModuleSource = false
 reportMissingParameterType = true
 reportMissingTypeArgument = true
-reportMissingModuleSource = false
 stubPath = "typings"
+[[tool.pyright.executionEnvironments]]
+root = "tests"
+reportMissingImports = false
 
 [tool.ruff]
 line-length = 120
