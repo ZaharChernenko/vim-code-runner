@@ -1,2 +1,2 @@
 class ValidationError(Exception):
-    """Raised when value validation fails"""
+    """Raised when value validation fails."""

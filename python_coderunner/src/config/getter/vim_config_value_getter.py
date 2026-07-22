@@ -7,7 +7,7 @@ from .interface import IConfigValueGetter
 
 
 class TBaseVimConfigValueGetter(IConfigValueGetter):
-    """Base class for getting Vim config values"""
+    """Base class for getting Vim config values."""
 
     def _get_vim_var(self, var_name: str) -> Any:
         try:

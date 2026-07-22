@@ -3,40 +3,40 @@ repos:
     hooks:
       - id: ruff
         name: ruff
-        entry: bash -c "cd python_coderunner && ruff check ."
+        entry: bash -c "cd python_coderunner && exec ruff check --fix ."
         language: system
+        pass_filenames: false
         types: [python]
         stages: [pre-commit]
         verbose: true
-        pass_filenames: false
 
       - id: ruff_format
         name: ruff_format
         # not in args, because entry is bash
-        entry: bash -c "cd python_coderunner && ruff format --quiet ."
+        entry: bash -c "cd python_coderunner && exec ruff format --quiet ."
         language: system
+        pass_filenames: false
         types: [python]
         stages: [pre-commit]
         verbose: true
-        pass_filenames: false
 
-      - id: mypy
-        name: mypy
-        entry: bash -c "cd python_coderunner && mypy ."
+      - id: pyright
+        name: pyright
+        entry: bash -c "cd python_coderunner && exec pyright ."
         language: system
+        pass_filenames: false
         types: [python]
         stages: [pre-commit]
         verbose: true
-        pass_filenames: false
 
       - id: pylint
         name: pylint
-        entry: bash -c "cd python_coderunner && pylint ."
+        entry: bash -c "cd python_coderunner && exec pylint ."
         language: system
+        pass_filenames: false
         types: [python]
         stages: [pre-commit]
         verbose: true
-        pass_filenames: false
 
       - id: commitlint
         name: commitlint

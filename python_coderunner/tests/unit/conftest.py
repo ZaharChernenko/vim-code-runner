@@ -4,11 +4,11 @@ import sys
 import tempfile
 import unittest
 from typing import Generator
-from unittest import mock
 from unittest.mock import MagicMock
 
 import pytest
 from pytest_lazyfixture import lazy_fixture
+from pytest_mock import MockerFixture
 
 sys.modules["vim"] = MagicMock()
 from src.command_builder import ICommandBuilder
@@ -179,7 +179,7 @@ def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher
         "**/*.log",
         "**/*.*.*",
     )
-    glob_to_builder: tuple[tuple[re.Pattern, ICommandBuilder], ...] = tuple(
+    glob_to_builder: tuple[tuple[re.Pattern[str], ICommandBuilder], ...] = tuple(
         (
             re.compile(glob.translate(pattern, recursive=True, include_hidden=True)),
             MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=pattern)),
@@ -197,16 +197,17 @@ def fixture_project_info_extractor(request: pytest.FixtureRequest) -> IProjectIn
 
 @pytest.fixture
 def fixture_vim_project_info_extractor(
+    mocker: MockerFixture,
     fixture_file_info_extractor: IFileInfoExtractor,
 ) -> Generator[IProjectInfoExtractor, None, None]:
     with tempfile.TemporaryDirectory() as temp_dir:
         extractor: TVimProjectInfoExtractor = TVimProjectInfoExtractor(fixture_file_info_extractor)
-        with mock.patch.object(
+        mocker.patch.object(
             extractor,
             "get_workspace_root",
             return_value=temp_dir,
-        ):
-            yield extractor
+        )
+        yield extractor
 
 
 @pytest.fixture(params=(lazy_fixture("fixture_vim_file_info_extractor"),))
@@ -215,7 +216,7 @@ def fixture_file_info_extractor(request: pytest.FixtureRequest) -> IFileInfoExtr
 
 
 @pytest.fixture
-def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor, None, None]:
+def fixture_vim_file_info_extractor(mocker: MockerFixture) -> IFileInfoExtractor:
     extractor: TVimFileInfoExtractor = TVimFileInfoExtractor()
     ext_to_lang: dict[str, str] = {
         ".py": "python",
@@ -224,9 +225,9 @@ def fixture_vim_file_info_extractor() -> Generator[IFileInfoExtractor, None, Non
         ".ts": "typescript",
         ".js": "javascript",
     }
-    with mock.patch.object(
+    mocker.patch.object(
         extractor,
         "get_file_type",
         side_effect=lambda file_path_abs: ext_to_lang.get(extractor.get_file_ext(file_path_abs)),
-    ):
-        yield extractor
+    )
+    return extractor
