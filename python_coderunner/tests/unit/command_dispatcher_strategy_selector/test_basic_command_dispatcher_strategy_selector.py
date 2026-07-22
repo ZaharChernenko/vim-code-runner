@@ -1,7 +1,7 @@
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
+from pytest_mock import MockerFixture
 
 from src.command_builder import ICommandBuilder
 from src.command_builders_dispatcher import (
@@ -64,6 +64,7 @@ from src.config import EDispatchersTypes, TBasicConfig
     ],
 )
 def test_basic_command_dispatcher_strategy_selector(
+    mocker: MockerFixture,
     fixture_shebang_command_builders_dispatcher: TShebangCommandBuildersDispatcher,
     fixture_glob_command_builders_dispatcher: TGlobCommandBuildersDispatcher,
     fixture_file_ext_command_builders_dispatcher: TFileExtCommandBuildersDispatcher,
@@ -77,8 +78,9 @@ def test_basic_command_dispatcher_strategy_selector(
 ) -> None:
     file_path_abs = tmp_path / file_path
     file_path_abs.write_bytes(content)
-    config: TBasicConfig = MagicMock(
-        get_dispatchers_order=MagicMock(return_value=order), get_respect_shebang=MagicMock(return_value=respect_shebang)
+    config: TBasicConfig = mocker.MagicMock(
+        get_dispatchers_order=mocker.MagicMock(return_value=order),
+        get_respect_shebang=mocker.MagicMock(return_value=respect_shebang),
     )
     selector: TBasicCommandDispatcherStrategySelector = TBasicCommandDispatcherStrategySelector(
         shebang_command_builders_dispatcher=fixture_shebang_command_builders_dispatcher,

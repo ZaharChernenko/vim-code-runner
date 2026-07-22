@@ -1,8 +1,8 @@
 import os
 import tempfile
-from unittest.mock import patch
 
 import pytest
+from pytest_mock import MockerFixture
 
 from src.file_info_extractor import IFileInfoExtractor
 
@@ -86,10 +86,14 @@ class TestFileInfoExtractorInterface:
         finally:
             os.unlink(file_path)
 
-    def test_get_shebang_io_error_handling(self, fixture_file_info_extractor: IFileInfoExtractor) -> None:
-        with patch("builtins.open", side_effect=IOError("Permission denied")):
-            assert fixture_file_info_extractor.get_shebang("/some/file") is None
+    def test_get_shebang_io_error_handling(
+        self, mocker: MockerFixture, fixture_file_info_extractor: IFileInfoExtractor
+    ) -> None:
+        mocker.patch("builtins.open", side_effect=IOError("Permission denied"))
+        assert fixture_file_info_extractor.get_shebang("/some/file") is None
 
-    def test_get_shebang_unicode_decode_error_handling(self, fixture_file_info_extractor: IFileInfoExtractor) -> None:
-        with patch("builtins.open", side_effect=UnicodeDecodeError("utf-8", b"", 0, 1, "Invalid byte")):
-            assert fixture_file_info_extractor.get_shebang("/some/file") is None
+    def test_get_shebang_unicode_decode_error_handling(
+        self, mocker: MockerFixture, fixture_file_info_extractor: IFileInfoExtractor
+    ) -> None:
+        mocker.patch("builtins.open", side_effect=UnicodeDecodeError("utf-8", b"", 0, 1, "Invalid byte"))
+        assert fixture_file_info_extractor.get_shebang("/some/file") is None
