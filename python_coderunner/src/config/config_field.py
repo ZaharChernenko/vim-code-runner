@@ -13,7 +13,7 @@ class TConfigField(Generic[ValueType]):
     - Getting value (getter)
     - Validating value (validator)
     - Field metadata (name, allowed_values)
-    - Error handling
+    - Error handling.
     """
 
     def __init__(

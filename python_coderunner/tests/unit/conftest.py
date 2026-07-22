@@ -179,7 +179,7 @@ def fixture_glob_command_builders_dispatcher() -> TGlobCommandBuildersDispatcher
         "**/*.log",
         "**/*.*.*",
     )
-    glob_to_builder: tuple[tuple[re.Pattern, ICommandBuilder], ...] = tuple(
+    glob_to_builder: tuple[tuple[re.Pattern[str], ICommandBuilder], ...] = tuple(
         (
             re.compile(glob.translate(pattern, recursive=True, include_hidden=True)),
             MagicMock(spec=ICommandBuilder, build=MagicMock(return_value=pattern)),
